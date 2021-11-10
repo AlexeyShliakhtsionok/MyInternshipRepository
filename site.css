@@ -1,0 +1,233 @@
+/*-------------------------------------------------------------Styles resetting */
+*,
+::before,
+::after {
+  padding: 0;
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+}
+
+a {
+  text-decoration: none;
+}
+
+ul,
+ol,
+li {
+  list-style: none;
+}
+
+img {
+  vertical-align: top;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: inherit;
+  font-size: inherit;
+}
+
+html,
+body {
+  height: 100%;
+  line-height: 1;
+  font-size: 16px;
+  color: #000;
+  background-image: url("images/background.png");
+}
+/*-------------------------------------------------------------Fonts*/
+@font-face {
+
+  font-family: "SourceSansPro-Regular"; 
+ 
+  src: url("fonts/SourceSansPro-Regular.otf") format("truetype"); 
+  font-style: normal; 
+  font-weight: normal; 
+  }
+
+  @font-face {
+
+    font-family: "SourceSansPro-Light"; 
+   
+    src: url("fonts/SourceSansPro-Light.otf") format("truetype"); 
+    font-style: normal; 
+    font-weight: normal; 
+    }
+
+@font-face {
+
+  font-family: "SourceSansPro-Black"; 
+ 
+  src: url("fonts/SourceSansPro-Black.otf") format("truetype"); 
+  font-style: normal; 
+  font-weight: normal; 
+  }
+
+  @font-face {
+
+    font-family: "Lato-Black"; 
+   
+    src: url("fonts/Lato-Black.ttf") format("truetype"); 
+    font-style: normal; 
+    font-weight: normal; 
+    }
+    
+    @font-face {
+
+      font-family: "Lato-Regular"; 
+     
+      src: url("fonts/Lato-Regular.ttf") format("truetype"); 
+      font-style: normal; 
+      font-weight: normal; 
+      }
+/*-------------------------------------------------------------Media */
+/* @media (max-width: 767px){
+
+} */
+
+/*-------------------------------------------------------------Common styles */
+._container {
+  max-width: 1170px;
+  margin: 0px auto;
+}
+
+.wrapper {
+  min-height: 100%;
+  overflow: hidden;
+}
+
+a {
+  color: grey;
+}
+/*-------------------------------------------------------------Document header */
+.header {
+  position: relative;
+  margin-top: 101px;
+  align-items: center;
+}
+    .header__top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      min-height: 99px;
+      min-width: 768px;
+      border-radius: 5px 5px 0px 0px;
+      background-color: #ffffff;
+    }
+
+      .header__logotype {
+        display: flex;
+      }
+
+      .logotype-image {
+        margin-left: 29px;
+        margin-right: 15px;
+      }
+
+      .logotype-text{
+        font-family: "Lato-Regular";
+        width: 106px;
+        height: 18px;
+        color: #f77462;
+        font-size: 24px;
+        font-weight: 400;
+        font-style: normal;
+        letter-spacing: normal;
+        line-height: 23.11px;
+        text-align: left;
+      }
+      .separated-text {
+        color: #2c5e68;
+        font-family: "Lato-Black";
+      }
+      .regular-text {
+        font-family: "Lato-Regular";
+        width: 114px;
+        color: #929292;
+        font-size: 14px;
+      }
+      .header__menu {
+        height: 15px;
+      }
+      .menu__list{
+        list-style: none;
+        margin-right: 32px;
+        display: flex;
+        height: 11px;
+        justify-content: space-between;
+      }
+
+        .menu__item {
+          font-size: 16px;
+          width: 112px;
+          height: 15px;
+          font-family: "SourceSansPro-Black";
+          text-align: center;
+          border-right: 1px solid #787878;
+        }
+
+        .menu__item:last-child { border: 0px; }
+
+        .active {
+          color: #6dc5dd;
+        }
+
+.header__bottom {
+  display: flex;
+  flex-direction: row;
+  min-height: 400px;
+  min-width: 768px;
+  background-color: #ffffff;
+  background-image: linear-gradient(to top, #ffffff 0%, #e7e7e7 100%);
+}
+  .header__image {
+    margin-left: 100px;
+    margin-top: 52px;
+    height: 348px;
+    width: 380px;
+  }
+
+  .header__banner {
+    display: flex;
+    flex-direction: column;
+    color: #003d48;
+    font-family: "SourceSansPro-Regular";
+  }
+    .banner__item-1 {
+      font-family: "SourceSansPro-Light";
+      font-size: 29px;
+      color: #003d48;
+      margin:  93px 0px 39px 105px;
+    }
+    .item-1__text {
+      font-family: "SourceSansPro-Black";
+      font-size: 43px;
+      text-transform: uppercase;
+    }
+
+    .banner__item-2 {
+      margin-left: 105px;
+      width: 422px;
+      height: 39px;
+      color: #a0a0a0;
+      font-family: "SourceSansPro-Regular";
+      font-size: 18px;
+      margin-bottom: 36px;
+    }
+
+    .banner__button {
+      background-color: #f77462;
+      color: white;
+      border-radius: 3px;
+      margin-left: 105px;
+      width: 129px;
+      height: 44px;
+      text-align: center;
+      font-family: "SourceSansPro-Regular";
+      font-size: 18px;
+    }
