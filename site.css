@@ -231,3 +231,66 @@ a {
       font-family: "SourceSansPro-Regular";
       font-size: 18px;
     }
+
+    /*-------------------------------------------------------------Document main */
+
+    .main {
+      display: flex;
+      flex-direction: column;
+      font-family: "SourceSansPro-Regular";
+      font-size: 15px;
+      position: relative;
+      align-items: center;
+      /* min-height: 99px;
+      min-width: 768px; */
+    }
+      .column-1 {
+        background-color: #6dc5dd;
+        width: -webkit-fill-available;
+        padding: 60px 45px 60px 30px;
+        display: flex;
+        justify-content: space-between;
+        min-height: 270px;
+        min-width: 768px;
+      }
+
+      .column-1__item {
+        display: flex;
+        flex-direction: row;
+      }
+
+      .column-1__image {
+        width: 63px;
+        height: 63px;
+      }
+      
+      .column-1__title-text {
+          width: 138px;
+          height: 14px;
+          color: #ffffff;
+          font-family: "SourceSansPro-Regular";
+          font-size: 20px;
+          text-align: left;
+          margin: 0px 0px 30px 20px;
+      }
+      
+      .column-1__body-text {
+          width: 235px;
+          height: 62px;
+          color: #ffffff;
+          font-family: "SourceSansPro-Regular";
+          font-size: 15px;
+          margin: 0px 0px 30px 20px;
+          text-align: left;
+          line-height: 18px;
+      }
+
+      .column-1__additional-text-info {
+          width: 73px;
+          height: 11px;
+          color: #ffffff;
+          font-family: "SourceSansPro-Regular";
+          font-size: 16px;
+          text-align: left;
+          margin-left: 20px;
+      }
