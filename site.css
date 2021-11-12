@@ -85,15 +85,28 @@ body {
       font-style: normal; 
       font-weight: normal; 
       }
-/*-------------------------------------------------------------Media */
-/* @media (max-width: 767px){
-
-} */
-
 /*-------------------------------------------------------------Common styles */
-._container {
+.container {
   max-width: 1170px;
   margin: 0px auto;
+}
+
+@media (max-width: 1170px){
+  .container{
+    max-width: 960px;
+  }
+}
+
+@media (max-width: 992px){
+  .container{
+    max-width: 750px;
+  }
+}
+
+@media (max-width: 767px){
+  .container{
+    max-width: none;
+  }
 }
 
 .wrapper {
@@ -115,7 +128,6 @@ a {
       justify-content: space-between;
       align-items: center;
       min-height: 99px;
-      min-width: 768px;
       border-radius: 5px 5px 0px 0px;
       background-color: #ffffff;
     }
@@ -181,7 +193,6 @@ a {
   display: flex;
   flex-direction: row;
   min-height: 400px;
-  min-width: 768px;
   background-color: #ffffff;
   background-image: linear-gradient(to top, #ffffff 0%, #e7e7e7 100%);
 }
@@ -241,32 +252,27 @@ a {
       font-size: 15px;
       position: relative;
       align-items: center;
-      /* min-height: 99px;
-      min-width: 768px; */
     }
-      .column-1 {
+      .row-1 {
         background-color: #6dc5dd;
         width: -webkit-fill-available;
         padding: 60px 45px 60px 30px;
         display: flex;
         justify-content: space-between;
         min-height: 270px;
-        min-width: 768px;
       }
 
-      .column-1__item {
+      .row-1__item {
         display: flex;
         flex-direction: row;
       }
 
-      .column-1__image {
-        width: 63px;
-        height: 63px;
+      .row-1__image {
+        height: min-content;
       }
       
-      .column-1__title-text {
-          width: 138px;
-          height: 14px;
+      .row-1__title-text {
+
           color: #ffffff;
           font-family: "SourceSansPro-Regular";
           font-size: 20px;
@@ -274,9 +280,7 @@ a {
           margin: 0px 0px 30px 20px;
       }
       
-      .column-1__body-text {
-          width: 235px;
-          height: 62px;
+      .row-1__body-text {
           color: #ffffff;
           font-family: "SourceSansPro-Regular";
           font-size: 15px;
@@ -285,12 +289,103 @@ a {
           line-height: 18px;
       }
 
-      .column-1__additional-text-info {
-          width: 73px;
-          height: 11px;
+      .row-1__additional-text-info {
           color: #ffffff;
           font-family: "SourceSansPro-Regular";
           font-size: 16px;
           text-align: left;
           margin-left: 20px;
+      }
+
+      .row-2 {
+        background-color: #ffffff;
+        width: -webkit-fill-available;
+        padding: 60px 30px 60px 30px;
+        display: flex;
+        justify-content: space-between;
+        min-height: 573px;
+        margin: 0 auto;
+      }
+
+      .row-2__item {
+        display: flex;
+        justify-content: space-between;
+      }
+      .row-2__info-box {
+        display: flex;
+        justify-content: space-between;
+      }
+      .row-2__subitem-2 {
+        display: flex;
+        justify-content: space-between;
+      }
+      .row-2__tabs-items {
+        display: flex;
+      }
+      .row-2__tab-item {
+        flex: 0 1 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .row-2__tabs-items span {
+        position: relative;
+        z-index: 2;
+      }
+
+      .tab-block {
+        padding: 20px;
+        display: none;
+        position: relative;
+      }
+      .tab-block:target {
+        display: block;
+      }
+      .tab-block:before {
+
+        content: "";
+        position: absolute;
+        top: -42px;
+      }
+
+      .tab-block:nth-child(1) {
+
+        background-color: #003d48;
+      }
+
+      .tab-block:nth-child(1)::before {
+
+        background-color: #003d48;
+        left: 0%;
+      }
+
+      .tab-block:nth-child(2) {
+
+        background-color: #b18b8b;
+      }
+
+      .tab-block:nth-child(2)::before {
+
+        background-color: #b18b8b;
+        left: 50%;
+      }
+
+      .row-3 {
+        background-color: #f77462;
+        width: -webkit-fill-available;
+        text-align: center;
+        align-items: center;
+        min-height: 206px;
+        margin: 0 auto;
+      }
+
+      .row-3__item-title {
+        font-family: "SourceSansPro-Regular";
+        font-size: 32px;
+      }
+
+      .row-3__item-body {
+        font-family: "SourceSansPro-Regular";
+        font-size: 18px;
       }
