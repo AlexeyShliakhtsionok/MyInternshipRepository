@@ -120,7 +120,7 @@ a {
 /*-------------------------------------------------------------Document header */
 .header {
   position: relative;
-  margin-top: 101px;
+  margin-top: 100px;
   align-items: center;
 }
     .header__top {
@@ -136,7 +136,7 @@ a {
         display: flex;
       }
 
-      .logotype-image {
+      .logotype-image img {
         margin-left: 29px;
         margin-right: 15px;
       }
@@ -191,56 +191,54 @@ a {
 
 .header__bottom {
   display: flex;
-  flex-direction: row;
   min-height: 400px;
-  background-color: #ffffff;
-  background-image: linear-gradient(to top, #ffffff 0%, #e7e7e7 100%);
-}
-  .header__image {
-    margin-left: 100px;
-    margin-top: 52px;
-    height: 348px;
-    width: 380px;
+  background-color: #e9e9e9;
+  justify-content: center;
+  }
+
+  .header-image {
+    display: flex;
+    padding: 4.5% 0% 0% 8%;
+  }
+  .header-image img {
+    width: auto;
   }
 
   .header__banner {
     display: flex;
     flex-direction: column;
-    color: #003d48;
+    justify-content: space-between;
     font-family: "SourceSansPro-Regular";
+    padding: 8% 8% 4% 8%;
   }
     .banner__item-1 {
       font-family: "SourceSansPro-Light";
       font-size: 29px;
       color: #003d48;
-      margin:  93px 0px 39px 105px;
     }
     .item-1__text {
       font-family: "SourceSansPro-Black";
       font-size: 43px;
       text-transform: uppercase;
+      margin-top: 3%;
     }
 
     .banner__item-2 {
-      margin-left: 105px;
-      width: 422px;
-      height: 39px;
       color: #a0a0a0;
       font-family: "SourceSansPro-Regular";
       font-size: 18px;
-      margin-bottom: 36px;
+      margin-right: 5%;
     }
 
     .banner__button {
       background-color: #f77462;
       color: white;
       border-radius: 3px;
-      margin-left: 105px;
-      width: 129px;
-      height: 44px;
       text-align: center;
       font-family: "SourceSansPro-Regular";
       font-size: 18px;
+      margin-right: 75%;
+      height: 44px;
     }
 
     /*-------------------------------------------------------------Document main */
@@ -255,10 +253,9 @@ a {
     }
       .row-1 {
         background-color: #6dc5dd;
-        width: -webkit-fill-available;
-        padding: 60px 45px 60px 30px;
+        align-items: center;
+        padding: 0% 2% 0% 2%;
         display: flex;
-        justify-content: space-between;
         min-height: 270px;
       }
 
@@ -266,35 +263,37 @@ a {
         display: flex;
         flex-direction: row;
       }
-
+      
       .row-1__image {
         height: min-content;
       }
+
+      .row-1__text {
+        display: flex;
+        flex-direction: column;
+        font-family: "SourceSansPro-Black";
+        color: #ffff;
+      }
       
       .row-1__title-text {
-
-          color: #ffffff;
-          font-family: "SourceSansPro-Regular";
-          font-size: 20px;
-          text-align: left;
-          margin: 0px 0px 30px 20px;
+        margin-left: 8%;
+        font-size: 20px;
       }
       
       .row-1__body-text {
-          color: #ffffff;
-          font-family: "SourceSansPro-Regular";
-          font-size: 15px;
-          margin: 0px 0px 30px 20px;
-          text-align: left;
-          line-height: 18px;
+        font-family: "SourceSansPro-Regular";
+        margin: 8%;
+        font-size: 15px;
+        line-height: 24px;
       }
 
       .row-1__additional-text-info {
-          color: #ffffff;
-          font-family: "SourceSansPro-Regular";
-          font-size: 16px;
-          text-align: left;
-          margin-left: 20px;
+        margin-left: 8%;
+        font-size: 16px;
+      }
+
+      .row-1__additional-text-info a {
+        color: #ffff;
       }
 
       .row-2 {
