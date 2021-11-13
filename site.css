@@ -389,35 +389,89 @@ body {
   flex-direction: column;
   background-color: #ffff;
   width: -webkit-fill-available;
-  /* min-height: 642px; */
-  justify-content: center;
-  text-align: center;
+  min-height: 648px;
   align-items: center;
+  padding: 65px 30px 0px 30px;
 }
 
 .row-4__textBox {
   display: flex;
+  width: -webkit-fill-available;
   flex-wrap: wrap;
   flex-direction: column;
+  font-family: "SourceSansPro-Black";
+  height: 160px;
+  font-size: 32px;
+}
+
+.row-4__title {
+  margin-bottom: 30px;
+}
+
+.calendar__text {
+  text-align:  left;
+  margin-left: 30px;
+}
+
+.row-4__textBody{
+  min-height: 70px;
+  font-family: "SourceSansPro-Regular";
+  font-size: 24px;
+  padding-top: 20px;
+  border-top: 1px solid #dbdbdb;
+  border-bottom: 1px solid #dbdbdb;
+  color: #6dc5dd;
 }
 
 .row-4__contentBox {
   display: flex;
+  font-family: "SourceSansPro-Regular";
+}
+
+.row-4__calendarItem {
+  min-height: 90px;
 }
 
 .row-4__calendatDate {
   display: flex;
+  margin-bottom: 58px;
+}
+
+.row-4__cites {
+justify-content: space-between;
 }
 
 .row-4__cite {
   display: flex;
+  background-color: #ececec;
+  min-height: 173px;
+  border-radius: 2px;
+  color: #a8abad;
+  align-items: center;
+  padding: 45px 30px 40px 30px;
+  margin-bottom: 40px;
+}
+
+.row-4__cite-image {
+  border-radius: 50%;
+  background-color: #ffff;
+}
+
+.calendar__text-comments {
+  color: #f88272;
+  margin-bottom: 25px;
+}
+
+.calendar__text-title{
+  margin-bottom: 13px;
 }
 
 
 .footer {
+  width: -webkit-fill-available;
   background-color: #6dc5dd;
   align-items: center;
-  padding: 60px 30px 40px 30px;
+  padding: 60px 30px 0px 30px;
   display: flex;
   flex-direction: column;
   min-height: 324px;
@@ -431,41 +485,58 @@ body {
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-between;
-  align-items: center;
+  height: auto;
+  text-align: left;
 }
-.footer__item {
+.footer__item-1 {
   width: 12%;
+}
+.footer__item-2 {
+  width: 8.5%;
+}
+.footer__item-3 {
+  width: 9.8%;
 }
 .footer__item-title {
  font-size: 20px;
  align-items: center;
+ margin-bottom: 20px;
 }
-.footer__information-body {
-  text-align: left;
-  letter-spacing: 0.56px;
-  line-height: 27.2px;
-  align-items: center;
-}
+
 .footer__information {
   display: flex;
-  flex-wrap: wrap;
-  flex-direction: row;
+  justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
+  width: 100%;
+  min-height: 105px;
+  border-top: #9fd9e9 1px solid;
 }
 .footer__information-text {
-  align-items: center;
+  width: 700px;
+  height: 14px;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 400;
+  text-align: left;
+  font-style: normal;
+  letter-spacing: normal;
+  line-height: normal;
+}
+.footer__information-body {
+  line-height: 24px;
 }
 .footer__information-link {
+  height: 105px;
   display: flex;
-  flex-direction: row;
+  justify-content: space-between;
   flex-wrap: wrap;
   align-items: center;
 }
-.facebook-link {
-  align-items: center;
+.footer__information-facebook {
+  margin-right: 20px;
 }
-.twitter-link {
-  align-items: center;
+.footer__information-twitter {
 }
 
 
