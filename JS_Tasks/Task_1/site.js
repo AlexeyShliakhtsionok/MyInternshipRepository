@@ -1,4 +1,5 @@
-const description = [{
+const task = [
+  {
     type: "subSum_N",
     text: "Найти непрерывный подмассив arr, сумма элементов которого максимальна. Функция должна возвращать только эту сумму. Сложность O(n)"
   },
@@ -9,6 +10,7 @@ const description = [{
   {
     type: "search",
     text: "Написать функционал поиска минимального, максимального, медианного значения в массиве."
+    
   },
   {
     type: "selectionTask",
@@ -27,7 +29,7 @@ links.forEach(element => {
 function displayDescription() {
   let identify = this.getAttribute("id");
   let html = "";
-  description.forEach(block => {
+  task.forEach(block => {
     if (block.type === identify) {
 
       html = `
