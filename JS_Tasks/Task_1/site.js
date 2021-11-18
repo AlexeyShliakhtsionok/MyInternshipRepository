@@ -148,7 +148,7 @@ function getMinValue(array) {
   for (let index = 0; index < array.length; index++) {
 
     if (minValue > array[index]) {
-      maxValue = array[index]
+      minValue = array[index]
     }
   }
 
@@ -156,19 +156,14 @@ function getMinValue(array) {
 }
 
 function getMedianValue(array) {
-  let medianValue = 0;
-  array.sort();
-  let n = array.length;
+  var half = Math.floor(array.length / 2);
+  array.sort(function(a, b) { return a - b;});
 
-
-  if ((array.length % 2) == 0) {
-    medianValue = array[(n/2)];
+  if (array.length % 2) {
+    return array[half];
   } else {
-    console.log(n);
-    medianValue = array[((n-1)/2)];
+    return (array[half] + array[half] - 1) / 2;
   }
-  
-  return medianValue;
 }
 
 function getIncreasingSequence(array){
