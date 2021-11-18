@@ -87,35 +87,24 @@ function getSolution() {
       break;
 
     case "search":
-      result.innerHTML = (`<div class="result-text"><ul><li>Максимальное значение: ${getMaxValue(array)}</li><li>Минимальное значение: ${getMinValue(array)}</li></ul></div>`)
+      result.innerHTML = (`<div class="result-text"><ul><li>Максимальное значение: ${getMaxValue(array)}</li><li>Минимальное значение: ${getMinValue(array)}</li><li>Медианное значение: ${getMedianValue(array)}</li></ul></div>`)
       break;
   
     case "selectionTask":
-      result.innerHTML = ("")
+      result.innerHTML = (`<div class="result-text">Наибольшая возрастающая последовательность: </div><div class="result">${getIncreasingSequence(array)}</div>`)
       break;
 
       default:
       break;
   }
-  if (identify === "") {
-    
-  } else {
-    
-  }
-
-
-
  
-  console.log(result);
-
 }
 
 
 
 
 function getMaxSubSum(array) {
-  let maxSum = 0; // если элементов не будет - возвращаем 0
-
+  let maxSum = 0;
   for (let i = 0; i < array.length; i++) {
     let sumFixedStart = 0;
     for (let j = i; j < array.length; j++) {
@@ -132,10 +121,10 @@ function getMaxSubSumFast(array) {
   let maxSum = 0;
   let partialSum = 0;
 
-  for (let item of array) { // для каждого элемента массива
-    partialSum += item; // добавляем значение элемента к partialSum
-    maxSum = Math.max(maxSum, partialSum); // запоминаем максимум на данный момент
-    if (partialSum < 0) partialSum = 0; // ноль если отрицательное
+  for (let item of array) { 
+    partialSum += item; 
+    maxSum = Math.max(maxSum, partialSum);
+    if (partialSum < 0) partialSum = 0;
   }
 
   return maxSum;
@@ -167,18 +156,34 @@ function getMinValue(array) {
 }
 
 function getMedianValue(array) {
-  let medianValue;
-  Array.prototype.sort(array);
-  if ((array.length%2) === 0) {
-    medianValue = array[((array.length/2 + 1) + array.length/2)/2]
+  let medianValue = 0;
+  array.sort();
+  let n = array.length;
+
+
+  if ((array.length % 2) == 0) {
+    medianValue = array[(n/2)];
   } else {
-    medianValue = array[(array.length/2) + 1];
+    console.log(n);
+    medianValue = array[((n-1)/2)];
   }
   
   return medianValue;
 }
 
 function getIncreasingSequence(array){
-  let sequence = [];
+  let sequence = new Array;
+  sequence.push(array[0])
+  console.log(sequence)
+  for (let index = 1; index < array.length; index++) {
+    if (array[index] > array[index-1]) {
+      sequence.push(array[index]);
+    } else {
+      sequence = [];
+      sequence.push(array[index]);
+    }
+  }
   
+return sequence;
+
 }

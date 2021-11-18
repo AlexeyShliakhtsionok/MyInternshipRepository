@@ -149,14 +149,14 @@ html {
 }
 
 .main__content-solution {
-  color: #00fad8;
+  color: wheat;
   font-size: 15px;
   min-height: 200px;
   min-width: 400px;
   border-radius: 10px;
   margin: 10px;
   background-color: black;
-  border: 3px solid #00fad8;
+  border: wheat;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
