@@ -51,7 +51,7 @@ html {
 
 @font-face {
   font-family: Comic_Cat;
-  src: url("fonts/Comic_CAT.otf") format("truetype");
+  src: url("fonts/Comic_CAT.otf") format("opentype");
 }
 
 .header {
@@ -112,9 +112,78 @@ html {
   background-color: rgb(238, 157, 8);
   border: 5px solid #000;
   border-radius: 20px;
+  display: flex;
+  flex-direction: inherit;
 }
 
 .main__description {
+  font-size: 20px;
+  margin: 30px;
+  flex: 1;
+  text-align: center;
+}
+
+.main__content-body {
   font-size: 16px;
   margin: 30px;
+  border: black 3px solid;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  width: max-content;
+  flex: 1;
+}
+
+.main__content-inputInfo {
+  display: flex;
+  flex-direction: column;
+  margin: 10px;
+}
+
+.main__content-inputArea {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.main__content-solution {
+  color: #00fad8;
+  font-size: 15px;
+  min-height: 200px;
+  min-width: 400px;
+  border-radius: 10px;
+  margin: 10px;
+  background-color: black;
+  border: 3px solid #00fad8;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding-top: 20px;
+}
+
+.button {
+  cursor: pointer;
+  font-family: 'Comic_Cat';
+  color: wheat;
+  min-height: 40px !important;
+  min-width: 100px !important;
+  text-align: center;
+  margin: 10px;
+  background-color: black;
+  border: 2px solid orange;
+  border-radius: 10px;
+}
+
+.array-input {
+  min-height: 30px;
+  min-width: 70px;
+  border: black 2px solid;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.whatToDo {
+  text-align: center;
 }
