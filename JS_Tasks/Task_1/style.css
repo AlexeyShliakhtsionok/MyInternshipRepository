@@ -161,6 +161,7 @@ html {
   flex-wrap: wrap;
   justify-content: center;
   padding-top: 20px;
+  align-items: center;
 }
 
 .button {
@@ -174,6 +175,10 @@ html {
   background-color: black;
   border: 2px solid orange;
   border-radius: 10px;
+}
+
+.result-item {
+  margin-bottom: 20px;
 }
 
 .array-input {

@@ -24,7 +24,6 @@ links.forEach(element => {
   element.addEventListener("click", displayTask);
 });
 
-
 function displayTask() {
 
   identify = this.getAttribute("id");
@@ -63,14 +62,6 @@ function displayTask() {
   submitBtn.addEventListener("click", getSolution);
 }
 
-
-
-
-
-
-
-
-
 function getSolution() {
   var userInput = document.querySelector("#input");
   var array = userInput.value;
@@ -87,98 +78,15 @@ function getSolution() {
       break;
 
     case "search":
-      result.innerHTML = (`<div class="result-text"><ul><li>Максимальное значение: ${getMaxValue(array)}</li><li>Минимальное значение: ${getMinValue(array)}</li><li>Медианное значение: ${getMedianValue(array)}</li></ul></div>`)
+      result.innerHTML = (`<div class="result-text"><ul><li class="result-item">Максимальное значение: ${getMaxValue(array)}</li><li class="result-item">Минимальное значение: ${getMinValue(array)}</li><li class="result-item">Медианное значение: ${getMedianValue(array)}</li></ul></div>`)
       break;
-  
+
     case "selectionTask":
       result.innerHTML = (`<div class="result-text">Наибольшая возрастающая последовательность: </div><div class="result">${getIncreasingSequence(array)}</div>`)
       break;
 
-      default:
+    default:
       break;
   }
- 
-}
-
-
-
-
-function getMaxSubSum(array) {
-  let maxSum = 0;
-  for (let i = 0; i < array.length; i++) {
-    let sumFixedStart = 0;
-    for (let j = i; j < array.length; j++) {
-      sumFixedStart += array[j];
-      maxSum = Math.max(maxSum, sumFixedStart);
-    }
-  }
-
-  return maxSum;
-}
-
-
-function getMaxSubSumFast(array) {
-  let maxSum = 0;
-  let partialSum = 0;
-
-  for (let item of array) { 
-    partialSum += item; 
-    maxSum = Math.max(maxSum, partialSum);
-    if (partialSum < 0) partialSum = 0;
-  }
-
-  return maxSum;
-}
-
-function getMaxValue(array) {
-  let maxValue = array[0];
-
-  for (let index = 0; index < array.length; index++) {
-    if (maxValue < array[index]) {
-      maxValue = array[index]
-    }
-  }
-
-  return maxValue;
-}
-
-function getMinValue(array) {
-  let minValue = array[0];
-
-  for (let index = 0; index < array.length; index++) {
-
-    if (minValue > array[index]) {
-      minValue = array[index]
-    }
-  }
-
-  return minValue;
-}
-
-function getMedianValue(array) {
-  var half = Math.floor(array.length / 2);
-  array.sort(function(a, b) { return a - b;});
-
-  if (array.length % 2) {
-    return array[half];
-  } else {
-    return (array[half] + array[half] - 1) / 2;
-  }
-}
-
-function getIncreasingSequence(array){
-  let sequence = new Array;
-  sequence.push(array[0])
-  console.log(sequence)
-  for (let index = 1; index < array.length; index++) {
-    if (array[index] > array[index-1]) {
-      sequence.push(array[index]);
-    } else {
-      sequence = [];
-      sequence.push(array[index]);
-    }
-  }
-  
-return sequence;
 
 }
