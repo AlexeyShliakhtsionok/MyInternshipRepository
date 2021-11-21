@@ -1,5 +1,6 @@
+class ArrayFunctions{
 
-function getMaxSubSum(array) {
+getMaxSubSum(array) {
     let maxSum = 0;
     for (let i = 0; i < array.length; i++) {
       let sumFixedStart = 0;
@@ -8,12 +9,11 @@ function getMaxSubSum(array) {
         maxSum = Math.max(maxSum, sumFixedStart);
       }
     }
-  
     return maxSum;
   }
   
   
-function getMaxSubSumFast(array) {
+getMaxSubSumFast(array) {
     let maxSum = 0;
     let partialSum = 0;
   
@@ -26,7 +26,7 @@ function getMaxSubSumFast(array) {
     return maxSum;
   }
   
-function getMaxValue(array) {
+getMaxValue(array) {
     let maxValue = array[0];
   
     for (let index = 0; index < array.length; index++) {
@@ -38,7 +38,7 @@ function getMaxValue(array) {
     return maxValue;
   }
   
-function getMinValue(array) {
+getMinValue(array) {
     let minValue = array[0];
   
     for (let index = 0; index < array.length; index++) {
@@ -51,7 +51,7 @@ function getMinValue(array) {
     return minValue;
   }
   
-function getMedianValue(array) {
+getMedianValue(array) {
     var half = Math.floor(array.length / 2);
     array.sort(function(a, b) { return a - b;});
   
@@ -62,8 +62,7 @@ function getMedianValue(array) {
     }
   }
   
-  //Мне стыдно за мою реализацию нижеприведенного метода
- function getIncreasingSequence(array){
+getIncreasingSequence(array){
     let sequence = new Array;
     let maxSequence = new Array;
     sequence.push(array[0]);
@@ -82,3 +81,5 @@ function getMedianValue(array) {
   return maxSequence;
   
   }
+
+}

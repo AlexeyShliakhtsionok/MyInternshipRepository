@@ -1,3 +1,5 @@
+
+// Описание тасков и их тип (id)
 const task = [{
     type: "subSum_N",
     text: "Найти непрерывный подмассив arr, сумма элементов которого максимальна. Функция должна возвращать только эту сумму. Сложность O(n)",
@@ -16,21 +18,31 @@ const task = [{
   }
 ];
 
-const $contextBox = document.querySelector(".main__content-box");
-const links = document.querySelectorAll(".task-link");
-var identify = "";
+// Создание объекта класса ArrayFunctions, содержащего методы
+const arrClass = new ArrayFunctions();
 
+// Переменная для хранения элемента html, в которые будет рендериться контент
+const $contextBox = document.querySelector(".main__content-box");
+
+// Переменная для хранения ссылок из хидера
+const links = document.querySelectorAll(".task-link");
+
+// Переменная для хранения id активной ссылки
+var identificator = "";
+
+// Эвенты на ссылки
 links.forEach(element => {
   element.addEventListener("click", displayTask);
 });
 
+// Функция отображения задачи
 function displayTask() {
 
-  identify = this.getAttribute("id");
+  identificator = this.getAttribute("id");
   let html = "";
 
   task.forEach(block => {
-    if (block.type === identify) {
+    if (block.type === identificator) {
 
       html = `
     <div class="main__description">${block.text}</div>
@@ -62,27 +74,28 @@ function displayTask() {
   submitBtn.addEventListener("click", getSolution);
 }
 
+// Функция получения результата
 function getSolution() {
   var userInput = document.querySelector("#input");
   var array = userInput.value;
   array = array.split(",").map(Number);
   let result = document.getElementById("main__solution-result");
 
-  switch (identify) {
+  switch (identificator) {
     case "subSum_N":
-      result.innerHTML = (`<div class="result-text">Максимальная сумма непрерывного подмассива равна: </div><div class="result">${getMaxSubSumFast(array)}</div>`)
+      result.innerHTML = (`<div class="result-text">Максимальная сумма непрерывного подмассива равна: </div><div class="result">${arrClass.getMaxSubSumFast(array)}</div>`)
       break;
 
     case "subSum_N2":
-      result.innerHTML = (`<div class="result-text">Максимальная сумма непрерывного подмассива равна: </div><div class="result">${getMaxSubSum(array)}</div>`)
+      result.innerHTML = (`<div class="result-text">Максимальная сумма непрерывного подмассива равна: </div><div class="result">${arrClass.getMaxSubSum(array)}</div>`)
       break;
 
     case "search":
-      result.innerHTML = (`<div class="result-text"><ul><li class="result-item">Максимальное значение: ${getMaxValue(array)}</li><li class="result-item">Минимальное значение: ${getMinValue(array)}</li><li class="result-item">Медианное значение: ${getMedianValue(array)}</li></ul></div>`)
+      result.innerHTML = (`<div class="result-text"><ul><li class="result-item">Максимальное значение: ${arrClass.getMaxValue(array)}</li><li class="result-item">Минимальное значение: ${getMinValue(array)}</li><li class="result-item">Медианное значение: ${getMedianValue(array)}</li></ul></div>`)
       break;
 
     case "selectionTask":
-      result.innerHTML = (`<div class="result-text">Наибольшая возрастающая последовательность: </div><div class="result">${getIncreasingSequence(array)}</div>`)
+      result.innerHTML = (`<div class="result-text">Наибольшая возрастающая последовательность: </div><div class="result">${arrClass.getIncreasingSequence(array)}</div>`)
       break;
 
     default:
