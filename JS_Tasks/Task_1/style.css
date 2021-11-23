@@ -6,19 +6,17 @@
   border: 0;
   box-sizing: border-box
 }
-
 a {
   color: wheat;
   text-decoration: none;
   cursor: pointer;
-  text-align: center;
+  text-align: center
 }
 li,
 ol,
 ul {
   list-style: none
 }
-
 h1,
 h2,
 h3,
@@ -28,61 +26,50 @@ h6 {
   font-weight: inherit;
   font-size: inherit
 }
-
+p {
+  margin-right: 10px;
+}
 body,
 html {
-  font-family: "Comic_Cat";
+  font-family: Comic_Cat;
   height: 100%;
   line-height: 1;
   font-size: 16px;
   color: #000;
-  background-image: url("images/background.png");
+  background-image: url("images/background.png")
 }
-
 .wrapper {
   min-height: 100%;
-  overflow: hidden;
+  overflow: hidden
 }
-
 .container {
-    max-width: 1170px;
-    margin: 0 auto;
+  max-width: 1170px;
+  margin: 0 auto
 }
-
 @font-face {
   font-family: Comic_Cat;
-  src: url("fonts/Comic_CAT.otf") format("opentype");
+  src: url("fonts/Comic_CAT.otf") format("opentype")
 }
-
 .header {
   max-width: 1170px;
   margin: 0 auto;
   align-items: center
 }
-
 .header__content-box {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
   margin: 40px 40px 20px 40px;
-  background-color: black;
+  background-color: #000;
   border-radius: 10px;
   min-height: 100px;
-  border: rgb(214, 135, 15) solid 3px;
-}
-
-.header__menu-items {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: center;
+  border: #d6870f solid 3px
 }
 
 .header__logo {
-  margin-left: 30px;
+  margin-left: 30px
 }
-
 .header__task-name {
   color: wheat;
   align-items: center;
@@ -91,60 +78,60 @@ html {
   margin: 20px;
   border: 2px solid wheat;
   border-radius: 20px;
-  max-width: fit-content;
+  max-width: fit-content
 }
-
 .header__menu-item {
-  color: white;
+  color: #fff;
   font-size: 20px;
-  padding: 0px 25px 0px 25px;
+  padding: 0 25px 0 25px;
   min-height: 20px;
-  border-left: 2px solid #ffff;
+  border-left: 2px solid #ffff
 }
-
 .main {
   max-width: 1170px;
   min-height: 300px;
-  margin: 0 auto;
+  margin: 0 auto
 }
 .main__content-box {
   width: 100%;
-  background-color: rgb(238, 157, 8);
+  background-color: #ee9d08;
   border: 5px solid #000;
   border-radius: 20px;
   display: flex;
-  flex-direction: inherit;
-}
-
-.main__description {
-  font-size: 20px;
-  margin: 30px;
-  flex: 1;
-  text-align: center;
+  flex-direction: inherit
 }
 
 .main__content-body {
   font-size: 16px;
   margin: 30px;
-  border: black 3px solid;
+  border: #000 3px solid;
   border-radius: 10px;
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
   width: max-content;
   flex: 1;
+  flex-direction: column;
 }
 
 .main__content-inputInfo {
   display: flex;
-  flex-direction: column;
-  margin: 10px;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin: 10px 50px 10px 50px;
+  min-height: 100px;
+  align-items: center;
 }
 
 .main__content-inputArea {
-  align-items: center;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+}
+
+.main__options {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
   flex-wrap: wrap;
 }
 
@@ -155,40 +142,57 @@ html {
   min-width: 400px;
   border-radius: 10px;
   margin: 10px;
-  background-color: black;
+  background-color: #000;
   border: wheat;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   padding-top: 20px;
   align-items: center;
+  flex-direction: column;
 }
 
-.button {
+#button {
   cursor: pointer;
-  font-family: 'Comic_Cat';
+  font-family: Comic_Cat;
   color: wheat;
-  min-height: 40px !important;
-  min-width: 100px !important;
+  min-height: 40px!important;
+  min-width: 100px!important;
   text-align: center;
   margin: 10px;
-  background-color: black;
+  background-color: #000;
   border: 2px solid orange;
-  border-radius: 10px;
+  border-radius: 10px
 }
 
-.result-item {
-  margin-bottom: 20px;
-}
-
-.array-input {
+.text-input {
   min-height: 30px;
   min-width: 70px;
-  border: black 2px solid;
+  border: #000 2px solid;
   border-radius: 10px;
-  text-align: center;
+  text-align: center
 }
 
-.whatToDo {
+.text {
+max-width: 40%;
+}
+
+.result {
+  text-align: 20px;
+  margin: 10px;
+}
+
+.options-item {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+#stringLenght {
+  max-width: 70px;
+  min-height: 30px;
+  border: 2px solid black;
+  border-radius: 10px;
   text-align: center;
+  margin-bottom: 10px;
 }

@@ -1,105 +1,147 @@
+// Объект обработки массивов
+const arrayProcessingObj = [{
+    name: "SubSumm task",
+    id: "subSum_N",
+    func: (array) => {
+      array = array.split(",").map(Number);
+      let maxSum = 0;
+      for (let i = 0; i < array.length; i++) {
+        let sumFixedStart = 0;
+        for (let j = i; j < array.length; j++) {
+          sumFixedStart += array[j];
+          maxSum = Math.max(maxSum, sumFixedStart);
+        }
+      }
+      return maxSum;
+    }
 
-// Описание тасков и их тип (id)
-const task = [{
-    type: "subSum_N",
-    text: "Найти непрерывный подмассив arr, сумма элементов которого максимальна. Функция должна возвращать только эту сумму. Сложность O(n)",
   },
   {
-    type: "subSum_N2",
-    text: "Найти непрерывный подмассив arr, сумма элементов которого максимальна. Функция должна возвращать только эту сумму. Сложность O(n^2)",
+    name: "SubSumm task_N2",
+    id: "subSum_N2",
+    func: (array) => {
+      array = array.split(",").map(Number);
+      let maxSum = 0;
+      let partialSum = 0;
+
+      for (let item of array) {
+        partialSum += item;
+        maxSum = Math.max(maxSum, partialSum);
+        if (partialSum < 0) partialSum = 0;
+      }
+
+      return maxSum;
+    }
+
   },
   {
-    type: "search",
-    text: "Написать функционал поиска минимального, максимального, медианного значения в массиве.",
-  },
+    name: "Search task",
+    id: "search",
+    func: (array) => {
+
+      array = array.split(",").map(Number);
+
+      let maxValue = array[0];
+      for (let index = 0; index < array.length; index++) {
+        if (maxValue < array[index]) {
+          maxValue = array[index]
+        }
+      }
+
+      let minValue = array[0];
+      for (let index = 0; index < array.length; index++) {
+
+        if (minValue > array[index]) {
+          minValue = array[index]
+        }
+      }
+
+      var half = Math.floor(array.length / 2);
+      array.sort(function (a, b) {
+        return a - b;
+      });
+
+      if (array.length % 2) {
+        return `Максимальное значение: ${maxValue} Минимальное значение: ${minValue}; Медианное значение: ${array[half]}`;
+      } else {
+        return `Максимальное значение: ${maxValue} Минимальное значение: ${minValue}; Медианное значение: ${(array[half] + array[half] - 1) / 2}`;
+      }
+    }
+   },
   {
-    type: "selectionTask",
-    text: "Написать функционал поиска возрастающей последовательности максимальной длины в исходном массиве.",
+    name: "Selection task",
+    id: "selectionTask",
+    func: (array) => {
+      array = array.split(",").map(Number);
+      let sequence = new Array;
+      let maxSequence = new Array;
+      sequence.push(array[0]);
+
+      for (let index = 1; index < array.length; index++) {
+        if (array[index] < array[index - 1]) {
+          if (maxSequence.length < sequence.length) {
+            maxSequence = sequence.slice()
+          };
+          sequence = [];
+          sequence.push(array[index]);
+        } else {
+          sequence.push(array[index]);
+        }
+      }
+      if (sequence.length > maxSequence.length) {
+        maxSequence = sequence.slice()
+      };
+
+      return maxSequence;
+    }
   }
 ];
 
-// Создание объекта класса ArrayFunctions, содержащего методы
-const arrClass = new ArrayFunctions();
+// Переменная - объект рендеринга
+var contentHolder = document.getElementById("content-holder");
 
-// Переменная для хранения элемента html, в которые будет рендериться контент
-const $contextBox = document.querySelector(".main__content-box");
+// Ивент на кнопку загрузки и изначальное ее сокрытие
+const button = document.getElementById("button");
+button.addEventListener("click", ArrayProcessingFunction);
+button.setAttribute("hidden", true);
 
-// Переменная для хранения ссылок из хидера
-const links = document.querySelectorAll(".task-link");
+// Переменная и добавление ивентов к checkBox'ам (опциям)
+const checkBox = document.getElementsByClassName("checkB");
+for (let i = 0; i < checkBox.length; i++) {
+  checkBox[i].addEventListener("click", getCurrentOption);
+}
 
-// Переменная для хранения id активной ссылки
-var identificator = "";
+// Переменная под выбранную опцию
+var currentOption;
+// Переменная для последующего хранения пользовательского ввода
+var userInput;
 
-// Эвенты на ссылки
-links.forEach(element => {
-  element.addEventListener("click", displayTask);
-});
+// Функция получения выбранной опции, блокировки множественного выбора и активации кнопки загрузки
+function getCurrentOption() {
+  currentOption = this.getAttribute("id");
+  (this.checked !== true) ? button.setAttribute("hidden", true): button.removeAttribute("hidden");
 
-// Функция отображения задачи
-function displayTask() {
+  if (this.checked === true) {
+    for (let i = 0; i < checkBox.length; i++) {
+      (checkBox[i].checked === false) ? checkBox[i].disabled = true: "";
+    }
+  } else {
+    currentOption = "";
+    for (let i = 0; i < checkBox.length; i++) {
+      checkBox[i].disabled = false;
+    }
+  }
+}
 
-  identificator = this.getAttribute("id");
-  let html = "";
 
-  task.forEach(block => {
-    if (block.type === identificator) {
+function ArrayProcessingFunction() {
+  // Получение пользовательского ввода
+  userInput = document.getElementById("input").value;
 
-      html = `
-    <div class="main__description">${block.text}</div>
-
-    <div class="main__content-body">
-
-    <div class="main__content-inputInfo">
-        <p class="whatToDo">Введите массив чисел (в качестве разделителя используйте запятую)</p>
-        <div class="main__content-inputArea">
-            <input type="text" class="array-input" id="input" placeholder="insert array here" value="">
-            <input type="button" class="button" value="Загрузить"></input>
-        </div>
-        
-    </div>
-      <div class="main__content-solution">
-        <div id="main__solution-result">
-          
-        </div>
-        
-      </div>
-  </div>`
+  arrayProcessingObj.forEach(item => {
+    if (item.id === currentOption) {
+      contentHolder.innerHTML = `<p>Обработка введенного Вами массива чисел (${userInput}) выполнена при помощи ${item.name}.</p>
+    <p> Результат: ${item.func(userInput)}</p>`;
     }
   });
-
-  $contextBox.innerHTML = "";
-  $contextBox.insertAdjacentHTML("beforeend", html);
-
-  let submitBtn = document.querySelector(".button");
-  submitBtn.addEventListener("click", getSolution);
-}
-
-// Функция получения результата
-function getSolution() {
-  var userInput = document.querySelector("#input");
-  var array = userInput.value;
-  array = array.split(",").map(Number);
-  let result = document.getElementById("main__solution-result");
-
-  switch (identificator) {
-    case "subSum_N":
-      result.innerHTML = (`<div class="result-text">Максимальная сумма непрерывного подмассива равна: </div><div class="result">${arrClass.getMaxSubSumFast(array)}</div>`)
-      break;
-
-    case "subSum_N2":
-      result.innerHTML = (`<div class="result-text">Максимальная сумма непрерывного подмассива равна: </div><div class="result">${arrClass.getMaxSubSum(array)}</div>`)
-      break;
-
-    case "search":
-      result.innerHTML = (`<div class="result-text"><ul><li class="result-item">Максимальное значение: ${arrClass.getMaxValue(array)}</li><li class="result-item">Минимальное значение: ${getMinValue(array)}</li><li class="result-item">Медианное значение: ${getMedianValue(array)}</li></ul></div>`)
-      break;
-
-    case "selectionTask":
-      result.innerHTML = (`<div class="result-text">Наибольшая возрастающая последовательность: </div><div class="result">${arrClass.getIncreasingSequence(array)}</div>`)
-      break;
-
-    default:
-      break;
-  }
-
-}
+};
