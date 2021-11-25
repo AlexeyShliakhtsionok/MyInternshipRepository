@@ -3,6 +3,7 @@ const arrayProcessingObj = [{
     name: "SubSumm task",
     id: "subSum_N",
     func: (array) => {
+      var s_timeN = performance.now()*1000;
       array = array.split(",").map(Number);
       let maxSum = 0;
       for (let i = 0; i < array.length; i++) {
@@ -11,8 +12,10 @@ const arrayProcessingObj = [{
           sumFixedStart += array[j];
           maxSum = Math.max(maxSum, sumFixedStart);
         }
-      }
-      return maxSum;
+      };
+      var e_timeN = performance.now()*1000 - s_timeN;
+
+      return `сумма: ${maxSum}, время выполнения: ${e_timeN} мкс.`;
     }
 
   },
@@ -20,6 +23,7 @@ const arrayProcessingObj = [{
     name: "SubSumm task_N2",
     id: "subSum_N2",
     func: (array) => {
+      var s_timeN2 = performance.now()*1000;
       array = array.split(",").map(Number);
       let maxSum = 0;
       let partialSum = 0;
@@ -30,7 +34,10 @@ const arrayProcessingObj = [{
         if (partialSum < 0) partialSum = 0;
       }
 
-      return maxSum;
+
+      var e_timeN2 = performance.now()*1000 - s_timeN2;
+      
+      return `сумма: ${maxSum}, время выполнения: ${e_timeN2}  мкс.`;
     }
 
   },
