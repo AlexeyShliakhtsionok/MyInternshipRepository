@@ -145,10 +145,15 @@ function ArrayProcessingFunction() {
   // Получение пользовательского ввода
   userInput = document.getElementById("input").value;
 
-  arrayProcessingObj.forEach(item => {
-    if (item.id === currentOption) {
-      contentHolder.innerHTML = `<p>Обработка введенного Вами массива чисел (${userInput}) выполнена при помощи ${item.name}.</p>
-    <p> Результат: ${item.func(userInput)}</p>`;
-    }
-  });
+  var regexp = /^[0-9\,\.]+$/;
+  if (regexp.test(userInput)){
+    arrayProcessingObj.forEach(item => {
+      if (item.id === currentOption) {
+        contentHolder.innerHTML = `<p>Обработка введенного Вами массива чисел (${userInput}) выполнена при помощи ${item.name}.</p>
+      <p> Результат: ${item.func(userInput)}</p>`;
+      }
+    });
+  } else {
+    alert("Некорректный ввод!")
+  } 
 };
