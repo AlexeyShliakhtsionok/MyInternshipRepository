@@ -2,8 +2,7 @@ name: MyTestsAction
 
 on:
   push:
-    branches:
-      - Task_3
+    branches: [ Task_3 ]
 
 jobs:
   initialization:
