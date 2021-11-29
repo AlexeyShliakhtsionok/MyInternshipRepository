@@ -15,7 +15,7 @@ const arrayProcessingObj = [{
       };
       var end_timeN = performance.now()*1000 - start_timeN;
 
-      return `сумма: ${maxSum}, время выполнения: ${end_timeN} мкс.`;
+      return `<p class="display-text">сумма: ${maxSum}, время выполнения: ${end_timeN} мкс.</p>`;
     }
 
   },
@@ -37,7 +37,7 @@ const arrayProcessingObj = [{
 
       var e_timeN2 = performance.now()*1000 - s_timeN2;
       
-      return `сумма: ${maxSum}, время выполнения: ${e_timeN2}  мкс.`;
+      return `<p class="display-text">сумма: ${maxSum}, время выполнения: ${e_timeN2}  мкс.</p>`;
     }
 
   },
@@ -69,9 +69,9 @@ const arrayProcessingObj = [{
       });
 
       if (array.length % 2) {
-        return `Максимальное значение: ${maxValue} Минимальное значение: ${minValue}; Медианное значение: ${array[half]}`;
+        return `<p class="display-text">Максимальное значение: ${maxValue} Минимальное значение: ${minValue}; Медианное значение: ${array[half]}</p>`;
       } else {
-        return `Максимальное значение: ${maxValue} Минимальное значение: ${minValue}; Медианное значение: ${(array[half] + array[half] - 1) / 2}`;
+        return `<p class="display-text">Максимальное значение: ${maxValue} Минимальное значение: ${minValue}; Медианное значение: ${(array[half] + array[half] - 1) / 2}</p>`;
       }
     }
    },
@@ -149,9 +149,8 @@ function ArrayProcessingFunction() {
   if (regexp.test(userInput)){
     arrayProcessingObj.forEach(item => {
       if (item.id === currentOption) {
-        userInput = `[${userInput}]`;
-        contentHolder.innerHTML = `<p>Обработка введенного Вами массива чисел (${userInput}) выполнена при помощи ${item.name}.</p>
-      <p> Результат: ${item.func(userInput)}</p>`;
+        contentHolder.innerHTML = `<p  class="display-text">Обработка введенного Вами массива чисел выполнена при помощи ${item.name}</p></p>
+      <p class="display-text"> Результат: ${item.func(userInput)}</p>`;
       }
     });
   } else {

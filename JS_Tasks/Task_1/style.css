@@ -196,3 +196,9 @@ max-width: 40%;
   text-align: center;
   margin-bottom: 10px;
 }
+
+.display-text{
+  flex-wrap: wrap;
+  word-wrap: break-word;
+  line-height: 25px;
+}
