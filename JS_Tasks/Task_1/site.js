@@ -1,4 +1,3 @@
-// Объект обработки массивов
 const arrayProcessingObj = [{
     name: "SubSumm task",
     id: "subSum_N",
@@ -15,7 +14,7 @@ const arrayProcessingObj = [{
       };
       var end_timeN = performance.now()*1000 - start_timeN;
 
-      return `<p class="display-text">сумма: ${maxSum}, время выполнения: ${end_timeN} мкс.</p>`;
+      return `<p class="display-text">sum: ${maxSum}, lead time: ${end_timeN} μs.</p>`;
     }
 
   },
@@ -37,7 +36,7 @@ const arrayProcessingObj = [{
 
       var e_timeN2 = performance.now()*1000 - s_timeN2;
       
-      return `<p class="display-text">сумма: ${maxSum}, время выполнения: ${e_timeN2}  мкс.</p>`;
+      return `<p class="display-text">sum: ${maxSum}, lead time: ${e_timeN2}  μs.</p>`;
     }
 
   },
@@ -69,9 +68,9 @@ const arrayProcessingObj = [{
       });
 
       if (array.length % 2) {
-        return `<p class="display-text">Максимальное значение: ${maxValue} Минимальное значение: ${minValue}; Медианное значение: ${array[half]}</p>`;
+        return `<p class="display-text">Max value: ${maxValue} Min value: ${minValue}; Median value: ${array[half]}</p>`;
       } else {
-        return `<p class="display-text">Максимальное значение: ${maxValue} Минимальное значение: ${minValue}; Медианное значение: ${(array[half] + array[half] - 1) / 2}</p>`;
+        return `<p class="display-text">Max value: ${maxValue} Min value: ${minValue}; Median value: ${(array[half] + array[half] - 1) / 2}</p>`;
       }
     }
    },
@@ -104,26 +103,20 @@ const arrayProcessingObj = [{
   }
 ];
 
-// Переменная - объект рендеринга
 var contentHolder = document.getElementById("content-holder");
 
-// Ивент на кнопку загрузки и изначальное ее сокрытие
 const button = document.getElementById("button");
 button.addEventListener("click", ArrayProcessingFunction);
 button.setAttribute("hidden", true);
 
-// Переменная и добавление ивентов к checkBox'ам (опциям)
 const checkBox = document.getElementsByClassName("checkB");
 for (let i = 0; i < checkBox.length; i++) {
   checkBox[i].addEventListener("click", getCurrentOption);
 }
 
-// Переменная под выбранную опцию
 var currentOption;
-// Переменная для последующего хранения пользовательского ввода
 var userInput;
 
-// Функция получения выбранной опции, блокировки множественного выбора и активации кнопки загрузки
 function getCurrentOption() {
   currentOption = this.getAttribute("id");
   (this.checked !== true) ? button.setAttribute("hidden", true): button.removeAttribute("hidden");
@@ -140,20 +133,19 @@ function getCurrentOption() {
   }
 }
 
-
 function ArrayProcessingFunction() {
-  // Получение пользовательского ввода
+
   userInput = document.getElementById("input").value;
 
   var regexp = /^[0-9\,\.]+$/;
   if (regexp.test(userInput)){
     arrayProcessingObj.forEach(item => {
       if (item.id === currentOption) {
-        contentHolder.innerHTML = `<p  class="display-text">Обработка введенного Вами массива чисел выполнена при помощи ${item.name}</p></p>
-      <p class="display-text"> Результат: ${item.func(userInput)}</p>`;
+        contentHolder.innerHTML = `<p  class="display-text">The processing of the array of numbers you entered is done using ${item.name}</p></p>
+      <p class="display-text"> Result: ${item.func(userInput)}</p>`;
       }
     });
   } else {
-    alert("Некорректный ввод!")
+    alert("Incorrect input! Try again.")
   } 
 };
