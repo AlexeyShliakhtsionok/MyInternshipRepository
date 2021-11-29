@@ -3,7 +3,7 @@ const arrayProcessingObj = [{
     name: "SubSumm task",
     id: "subSum_N",
     func: (array) => {
-      var s_timeN = performance.now()*1000;
+      var start_timeN = performance.now()*1000;
       array = array.split(",").map(Number);
       let maxSum = 0;
       for (let i = 0; i < array.length; i++) {
@@ -13,9 +13,9 @@ const arrayProcessingObj = [{
           maxSum = Math.max(maxSum, sumFixedStart);
         }
       };
-      var e_timeN = performance.now()*1000 - s_timeN;
+      var end_timeN = performance.now()*1000 - start_timeN;
 
-      return `сумма: ${maxSum}, время выполнения: ${e_timeN} мкс.`;
+      return `сумма: ${maxSum}, время выполнения: ${end_timeN} мкс.`;
     }
 
   },
@@ -149,6 +149,7 @@ function ArrayProcessingFunction() {
   if (regexp.test(userInput)){
     arrayProcessingObj.forEach(item => {
       if (item.id === currentOption) {
+        userInput = `[${userInput}]`;
         contentHolder.innerHTML = `<p>Обработка введенного Вами массива чисел (${userInput}) выполнена при помощи ${item.name}.</p>
       <p> Результат: ${item.func(userInput)}</p>`;
       }
