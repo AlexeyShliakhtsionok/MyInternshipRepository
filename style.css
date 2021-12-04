@@ -1,0 +1,239 @@
+*,
+::after,
+::before {
+  padding: 0;
+  margin: 0;
+  border: 0;
+  box-sizing: border-box
+}
+
+a {
+  color: wheat;
+  text-decoration: none;
+  cursor: pointer;
+  text-align: center;
+  font-size: 12px;
+}
+li,
+ol,
+ul {
+  list-style: none
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: inherit;
+  font-size: inherit
+}
+
+p{
+  margin-right: 5px;
+}
+
+body,
+html {
+  font-family: "Comic_Cat";
+  height: 100%;
+  line-height: 1;
+  font-size: 16px;
+  color: #000;
+  background-image: url("images/background.png");
+}
+
+.wrapper {
+  min-height: 100%;
+  overflow: hidden;
+}
+
+.container {
+    max-width: 1170px;
+    margin: 0 auto;
+}
+
+@font-face {
+  font-family: Comic_Cat;
+  src: url("fonts/Comic_CAT.otf") format("opentype");
+}
+
+.header {
+  max-width: 1170px;
+  margin: 0 auto;
+  align-items: center
+}
+
+.header__content-box {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  margin: 40px 40px 20px 40px;
+  background-color: black;
+  border-radius: 10px;
+  min-height: 100px;
+  border: rgb(214, 135, 15) solid 3px;
+}
+
+.header__menu-items {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+}
+
+.header__logo {
+  margin-left: 30px;
+}
+
+.header__task-name {
+  color: wheat;
+  align-items: center;
+  text-align: center;
+  padding: 10px;
+  margin: 20px;
+  border: 2px solid wheat;
+  border-radius: 20px;
+  max-width: fit-content;
+}
+
+.header__menu-item {
+  color: white;
+  font-size: 20px;
+  padding: 0px 10px 0px 10px;
+  min-height: 20px;
+  border-left: 2px solid #ffff;
+}
+.main {
+  max-width: 1170px;
+  min-height: 300px;
+  margin: 0 auto
+}
+
+.main__start{
+  font-size: 50px;
+  text-align: center;
+  padding: 50px;
+}
+
+.main__content-box {
+  width: 100%;
+  background-color: #ee9d08;
+  border: 5px solid #000;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: inherit
+}
+
+.main__content-body {
+  font-size: 16px;
+  margin: 30px;
+  border: #000 3px solid;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  width: max-content;
+  flex: 1;
+  flex-direction: column;
+}
+
+.main__content-inputInfo {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin: 10px 50px 10px 50px;
+  min-height: 100px;
+  align-items: center;
+}
+
+.main__content-inputArea {
+  display: flex;
+  flex-direction: column;
+}
+
+.main__options {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+.main__content-solution {
+  color: wheat;
+  font-size: 15px;
+  min-height: 200px;
+  min-width: 400px;
+  border-radius: 10px;
+  margin: 10px;
+  background-color: #000;
+  border: wheat;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 20px;
+  align-items: flex-start;
+  flex-direction: column;
+}
+
+#button{
+  cursor: pointer;
+  font-family: Comic_Cat;
+  color: wheat;
+  min-height: 40px!important;
+  min-width: 100px!important;
+  text-align: center;
+  margin: 10px;
+  background-color: #000;
+  border: 2px solid orange;
+  border-radius: 10px
+}
+
+.text-input {
+  min-height: 30px;
+  min-width: 70px;
+  border: #000 2px solid;
+  border-radius: 10px;
+  text-align: center
+}
+
+.text {
+max-width: 40%;
+}
+
+.result {
+  text-align: 20px;
+  margin: 10px;
+}
+
+.options-item {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+#stringLenght,
+#stringNumber {
+  max-width: 70px;
+  min-height: 30px;
+  border: 2px solid black;
+  border-radius: 10px;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.notation-item {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.array-input {
+  min-height: 30px;
+  min-width: 70px;
+  border: #000 2px solid;
+  border-radius: 10px;
+  text-align: center;
+}
