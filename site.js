@@ -264,24 +264,9 @@ const arraySortObj = [{
     }
 ]
 
-
 var button;
-
 var userInput;
 var contentHolder;
-var currentNotation;
-
-
-
-
-
-
-
-
-
-
-
-
 
 var enteryPoint = 0;
 
@@ -289,9 +274,7 @@ for (let i = 0; i < mainHeaderItems.length; i++) {
     mainHeaderItems[i].addEventListener("click", displayTask, false);
 }
 
-
 var insertionArea = document.querySelector(".main__content-box");
-
 
 var tasks = [{
         id: "arrayTask",
