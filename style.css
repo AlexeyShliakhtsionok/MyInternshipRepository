@@ -237,3 +237,7 @@ max-width: 40%;
   border-radius: 10px;
   text-align: center;
 }
+
+.chosen {
+  color: rgb(179, 200, 245) !important;
+}

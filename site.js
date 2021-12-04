@@ -1,4 +1,8 @@
 var mainHeaderItems = document.getElementsByClassName("taskLink");
+var enteryPoint = 0;
+var button;
+var userInput;
+var contentHolder;
 
 const arrayProcessingObj = [{
         name: "SubSumm task",
@@ -264,11 +268,6 @@ const arraySortObj = [{
     }
 ]
 
-var button;
-var userInput;
-var contentHolder;
-
-var enteryPoint = 0;
 
 for (let i = 0; i < mainHeaderItems.length; i++) {
     mainHeaderItems[i].addEventListener("click", displayTask, false);
@@ -470,8 +469,13 @@ var tasks = [{
 
 function displayTask() {
 
-    let currentTask = this.getAttribute("id");
+    for (let i = 0; i < mainHeaderItems.length; i++) {
+       mainHeaderItems[i].classList.remove("chosen");
+    }
 
+    let currentTask = this.getAttribute("id");
+    let chosen = document.getElementById(currentTask);
+    chosen.classList.add("chosen");
     tasks.forEach(task => {
         if (task.id === currentTask) {
             insertionArea.innerHTML = "";
