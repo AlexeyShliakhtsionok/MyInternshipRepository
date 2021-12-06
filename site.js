@@ -391,6 +391,7 @@ var tasks = [{
         html: `<div class="main__content-body">
   <div class="main__content-inputInfo">
       <p class="text">Enter a mathematical expression and click "Upload"</p>
+      <p>For example: -5*(3*2)+(60/6)</p>
       <div class="main__content-inputArea">
           <input type="text" class="text-input" id="input" placeholder="insert string here" value="">
           <input type="button" id="button" value="Upload">
