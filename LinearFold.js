@@ -13,7 +13,8 @@ console.log(result); // 15
 // 3.2 Example (function implementation)
 
 function linearFold(array, callbackFunc, initValue) {
-    const countCallbackArgs = 4;
+    // Validation block--------------
+    const countCallbackArgs = 4; 
     if (!Array.isArray(array)) {
         throw new Error("First argument is not an array!");
     }
@@ -29,11 +30,14 @@ function linearFold(array, callbackFunc, initValue) {
         throw new Error("Function callback has to accept not more 4 parameters");
     }
     
-    let prev = initValue;
-    for (let i = 0; i < array.length; i++) {
-        prev = callbackFunc(prev, array[i], i, array);
+    // End of validation block--------------
+
+
+    let previousVal = initValue; // Variable, that accumulate returned from callback functions values. Initialize by "initValue" on the first call of callback
+    for (let i = 0; i < array.length; i++) { // Iteration thru the array applying callback on each index
+        previousVal = callbackFunc(previousVal, array[i], i, array);
     }
-    return prev;
+    return previousVal;
 }
 
 function callbackSumPrevWithCurr(previouslyReturnedValue, currentValue) {
