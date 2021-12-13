@@ -38,7 +38,7 @@ console.log(resultSum); // 14
 
 const add = (x, y, z, w) => x + y + z + w;
 
-function partialApplication(fn = required(), ...partialArgs) {
+function partialApplication(fn, ...partialArgs) {
 
     if(typeof fn !== "function"){
         throw new Error("First argument is not a function");
@@ -61,7 +61,6 @@ function partialApplication(fn = required(), ...partialArgs) {
         };
     };
 };
-
 
 const sum = partialApplication(normalFunct, 1, 2); // As a result we recieved the function, that awaits for missing parameters
 const step_1 = sum(3); // Same result

@@ -4,8 +4,6 @@ function linearUnfold(func, initialValue) {
         throw new Error('First argument is not a function');
     }
 
-
-
     let arr = [],
         state = initialValue,
         value;
@@ -18,7 +16,7 @@ function linearUnfold(func, initialValue) {
 
 function funcWithRandomValue(state) {
     let value = Math.floor(Math.random() * 10);
-    if (value >= 7) {
+    if (value >= 9) {
         state = null;
     }
     return [
@@ -27,6 +25,6 @@ function funcWithRandomValue(state) {
     ]
 }
 
-let testArr = linearUnfold(funcWithRandomValue, 547);
+let testArr = linearUnfold(funcWithRandomValue, 0);
 
 console.log(testArr);

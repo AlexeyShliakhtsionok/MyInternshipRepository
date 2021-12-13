@@ -34,12 +34,14 @@ function callbackSumPrevWithCurr(previouslyReturnedValue, currentValue) {
 }
 
 let intermediate = filterImpementation(arrayToFindEvenNumbersAverage, callbackFilterFunction);
-console.log(intermediate);
+console.log("Отфильтрованный массив: " + intermediate);
 
 
 let averageResult = linearFold(filterImpementation(arrayToFindEvenNumbersAverage, callbackFilterFunction),callbackSumPrevWithCurr,0);
 console.log(averageResult);
 
+
+// 7.2 Another implementation
 
 let something = [1,2,3,4,5,6,7,8,9,10];
 

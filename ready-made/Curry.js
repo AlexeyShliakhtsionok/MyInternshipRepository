@@ -4,14 +4,14 @@
 
 const addOperation = (x, y, z, w) => x + y + z + w;
 
-function curry(fn = required()) {
-    if (typeof fn !== "function") {
+function curry(funct) {
+    if (typeof funct !== "function") {
         throw new Error("First argument is not a function");
     }
-    let length = fn.length;
+    let length = funct.length;
     return function curriedFunct(currentArg, i = 1, args = []) {
         const allArgs = [...args, currentArg];
-        return i === length ? fn(...allArgs) : nextArg => curriedFunct(nextArg, i + 1, allArgs);
+        return i === length ? funct(...allArgs) : nextArg => curriedFunct(nextArg, i + 1, allArgs);
     };
 }
 
@@ -34,7 +34,7 @@ console.log(curryJS);
 let stp_1 = curryJS(5);
 console.log(stp_1);
 
-let rslt_stp = stp_1(10, 100000)(2)(3); //for note: the second argument which equals to 100000 were ignored
+let rslt_stp = stp_1(10, 100000)(2)(3); //for note: the second argument which equals to 100000 will be ignored
 console.log(rslt_stp);
 
 
