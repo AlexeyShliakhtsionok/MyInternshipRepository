@@ -1,6 +1,11 @@
+// Task_4 Linear unfold
 
-function linearUnfold(func, initialValue) {
-    if (typeof func !== 'function') {
+// 4.1 Example (function implementation)
+
+function linearUnfold(funct, initialValue) {
+
+    // Check block
+    if (typeof funct !== 'function') {
         throw new Error('First argument is not a function');
     }
 
@@ -8,7 +13,7 @@ function linearUnfold(func, initialValue) {
         state = initialValue,
         value;
     while (state !== null) {
-        [state, value] = func(initialValue);
+        [state, value] = funct(initialValue);
         arr.push(value);
     }
     return arr;

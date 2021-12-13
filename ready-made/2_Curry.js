@@ -25,7 +25,7 @@ let result__step = step__1(2)(5)(8) ;
 console.log(result__step);
 
 
-// 2.2 ( JavaScript built-in alternative)
+// 2.2 (JavaScript built-in alternative)
 
 
 let curryJS = curry(addOperation);
@@ -36,7 +36,3 @@ console.log(stp_1);
 
 let rslt_stp = stp_1(10, 100000)(2)(3); //for note: the second argument which equals to 100000 will be ignored
 console.log(rslt_stp);
-
-
-
-

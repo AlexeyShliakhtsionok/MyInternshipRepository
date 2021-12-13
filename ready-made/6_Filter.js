@@ -12,6 +12,14 @@ function callbackFilterFunction (currentValue, newArrayArg){
 
 function filterImpementation(array, callbackFunct){
    
+    if(!Array.isArray(array)){
+        throw new Error("First argument is not an array");
+    };
+
+    if(typeof callbackFunct !== "function"){
+        throw new Error("Argument passed as callbackFunction is not a function");
+    };
+
     let newArray = [];
 
     for (let i = 0; i < array.length; i++) {

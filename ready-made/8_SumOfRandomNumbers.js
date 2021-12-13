@@ -1,22 +1,26 @@
-// Task_3 Linear fold
 
-// 3.1 Example (JS built-in implementation)
+function linearUnfold(callbackFunction) {
+    let arr = [],
+        state = 0,
+        value;
+    while (state !== 10) {
+        value = callbackFunction();
+        arr.push(value);
+        state++;
+    }
+    return arr;
+}
 
-const testArray = [1, 2, 3, 4, 5]; // Test array
-
-const callbackFunct = (previous, current) => previous + current;
-
-let result = testArray.reduce(callbackFunct);
-console.log(result); // 15
-
-
-// 3.2 Example (function implementation)
+function funcWithRandomValue() {
+    let value = Math.floor(Math.random() * 10);
+    return value;
+}
 
 function linearFold(array, callbackFunc, initValue) {
+    
     // Validation block--------------
-    const countCallbackArgs = 4; 
     if (!Array.isArray(array)) {
-        throw new Error("First argument is not an array!");
+        throw new Error("First argument is not an array");
     }
     for (let value of array) {
         if (!Number.isInteger(value)) {
@@ -24,11 +28,13 @@ function linearFold(array, callbackFunc, initValue) {
         }
     }
     if (typeof callbackFunc !== "function") {
-        throw new Error("First argument is not a function");
+        throw new Error("Argument passed as callbackFunction is not a function");
     }
-    if (callbackFunc.length > countCallbackArgs) {
-        throw new Error("Function callback has to accept 4 parameters");
-    }
+    if(!Number.isInteger(initValue)){
+        throw new Error("Argument passed as initValue is not a number");
+    };
+
+    
     
     // End of validation block--------------
 
@@ -44,5 +50,15 @@ function callbackSumPrevWithCurr(previouslyReturnedValue, currentValue) {
     return previouslyReturnedValue + currentValue;
 }
 
-let result__1 = linearFold(testArray, callbackSumPrevWithCurr, 0)
-console.log("The result is: " + result__1);
+
+
+
+let testArr = linearUnfold(funcWithRandomValue);
+console.log(testArr);
+
+let result_Task8 = linearFold(testArr, callbackSumPrevWithCurr, 0);
+
+console.log(result_Task8);
+
+
+

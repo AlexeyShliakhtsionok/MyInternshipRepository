@@ -15,7 +15,7 @@ function mapImpementation(array, callbackFunct){
     }
 
     if (array.lenght == 0) {
-        throw new Error ("Arrad doesn't contains any values.")
+        throw new Error ("Array doesn't contains any values.")
     };
     // Validation block end ---------------------
 
@@ -23,13 +23,13 @@ function mapImpementation(array, callbackFunct){
     let newArray = [];
 
     for (let i = 0; i < length; i++) {
-        newArray.push(callbackIndexManipulation(array[i]));
+        newArray.push(callbackIndexProcessing(array[i]));
     }
 
     return newArray;
 }
 
-function callbackIndexManipulation(currentValue){
+function callbackIndexProcessing(currentValue){
     return currentValue * 2;
 }
 

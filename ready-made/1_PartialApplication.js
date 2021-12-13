@@ -2,7 +2,7 @@
 
 // 1 Bind usage ------------------------------------------
 
-// 1.1 Example ( JavaScript built-in alternative)
+// 1.1 Example (JavaScript built-in alternative)
 
 const normalFunct = (a, b, c, d, f) =>  a * b * c * d * f ;
 
@@ -17,7 +17,7 @@ const resultPartialFunction = intermediatePartialFunction(1, 2, 5);// Declaring 
 console.log(resultPartialFunction); // 120
 
 
-// 1.2 Example (using "bind" to get function context from object)
+// 1.2 Example ("bind" usage to get function context from object)
 
 var calculator = {
     number: 5,
@@ -38,25 +38,25 @@ console.log(resultSum); // 14
 
 const add = (x, y, z, w) => x + y + z + w;
 
-function partialApplication(fn, ...partialArgs) {
+function partialApplication(funct, ...partialArgs) {
 
-    if(typeof fn !== "function"){
+    if(typeof funct !== "function"){
         throw new Error("First argument is not a function");
     };
 
-    if (fn.length === partialArgs.length) {
-        return fn(...partialArgs);
+    if (funct.length === partialArgs.length) {
+        return funct(...partialArgs);
     } 
     else {
 
         return function awaitFunc (...awaitingArgs) {
          
-            if (fn.length !== awaitingArgs.length + partialArgs.length) {
+            if (funct.length !== awaitingArgs.length + partialArgs.length) {
                 partialArgs = partialArgs.concat(awaitingArgs);
                 return awaitFunc
             }
             else{
-                return fn(...partialArgs, ...awaitingArgs);
+                return funct(...partialArgs, ...awaitingArgs);
             }
         };
     };
@@ -67,10 +67,10 @@ const step_1 = sum(3); // Same result
 const step_2 = step_1(4); // Same result
 const result_step = step_2(2)  // Evaluation of origin function as the partial function recieved all parameters
 
-console.log(sum);
-console.log(step_1);
-console.log(step_2);
-console.log("The result is: " + result_step);
+console.log(sum); //[Function: awaitFunc]
+console.log(step_1); //[Function: awaitFunc]
+console.log(step_2); //[Function: awaitFunc]
+console.log("The result is: " + result_step); //The result is: 48
 
 
 
