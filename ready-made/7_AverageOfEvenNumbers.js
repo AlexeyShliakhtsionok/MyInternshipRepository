@@ -1,4 +1,3 @@
-
 // Task_7 Average of even numbers
 
 // 7.1 Example (implementation using 1-6 tasks)

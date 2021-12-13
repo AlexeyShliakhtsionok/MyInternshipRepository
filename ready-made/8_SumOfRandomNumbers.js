@@ -1,4 +1,6 @@
+// Task_8 Sum of random numbers
 
+// 8.1 Example (function implementation based on Tasks 1-6)
 function linearUnfold(callbackFunction) {
     let arr = [],
         state = 0,
@@ -33,11 +35,7 @@ function linearFold(array, callbackFunc, initValue) {
     if(!Number.isInteger(initValue)){
         throw new Error("Argument passed as initValue is not a number");
     };
-
-    
-    
     // End of validation block--------------
-
 
     let previousVal = initValue; // Variable, that accumulate returned from callback functions values. Initialize by "initValue" on the first call of callback
     for (let i = 0; i < array.length; i++) { // Iteration thru the array applying callback on each index
@@ -49,9 +47,6 @@ function linearFold(array, callbackFunc, initValue) {
 function callbackSumPrevWithCurr(previouslyReturnedValue, currentValue) {
     return previouslyReturnedValue + currentValue;
 }
-
-
-
 
 let testArr = linearUnfold(funcWithRandomValue);
 console.log(testArr);

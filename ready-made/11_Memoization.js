@@ -1,3 +1,6 @@
+// 11. Memoization of functions 
+
+// 11.1 Example (function implementation)
 function numbersAdditing(a, b) {
     return a + b;
 }
