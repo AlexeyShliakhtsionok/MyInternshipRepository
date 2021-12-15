@@ -5,16 +5,16 @@
 const addOperation = (x, y, z, w) => x + y + z + w;
 
 function curry(funct) {
-	if (typeof funct !== "function") {
-		throw new Error("First argument is not a function");
-	}
-	let length = funct.length;
-	return function curriedFunct(currentArg, i = 1, args = []) {
-		const allArgs = [...args, currentArg];
-		return i === length
-			? funct(...allArgs)
-			: (nextArg) => curriedFunct(nextArg, i + 1, allArgs);
-	};
+  if (typeof funct !== 'function') {
+    throw new Error('First argument is not a function');
+  }
+  let length = funct.length;
+  return function curriedFunct(currentArg, i = 1, args = []) {
+    const allArgs = [...args, currentArg];
+    return i === length
+      ? funct(...allArgs)
+      : (nextArg) => curriedFunct(nextArg, i + 1, allArgs);
+  };
 }
 
 let newCurriedFunc = curry(addOperation);
