@@ -4,15 +4,15 @@
 
 // 1.1 Example (JavaScript built-in alternative)
 
-const normalFunct = (a, b, c, d, f) =>  a * b * c * d * f ;
+const normalFunct = (a, b, c, d, f) => a * b * c * d * f;
 
-console.log(normalFunct(1,2,3,4,5)); // 120
+console.log(normalFunct(1, 2, 3, 4, 5)); // 120
 
 const intermediatePartialFunction = normalFunct.bind(null, 3, 4); // Declaring new partial function wich awaiting for remaining parameters
 
 console.log(intermediatePartialFunction); // [Function: bound normalFunct]
 
-const resultPartialFunction = intermediatePartialFunction(1, 2, 5);// Declaring of function that recived remaining parameters and returns the result
+const resultPartialFunction = intermediatePartialFunction(1, 2, 5); // Declaring of function that recived remaining parameters and returns the result
 
 console.log(resultPartialFunction); // 120
 
@@ -21,8 +21,9 @@ console.log(resultPartialFunction); // 120
 
 var calculator = {
     number: 5,
-    getSumm: function(a , b , c)
-    { return this.number + a + b + c }
+    getSumm: function (a, b, c) {
+        return this.number + a + b + c
+    }
 }
 
 var partialSum = calculator.getSumm.bind(calculator, 2, 3);
@@ -40,22 +41,20 @@ const add = (x, y, z, w) => x + y + z + w;
 
 function partialApplication(funct, ...partialArgs) {
 
-    if(typeof funct !== "function"){
+    if (typeof funct !== "function") {
         throw new Error("First argument is not a function");
     };
 
     if (funct.length === partialArgs.length) {
         return funct(...partialArgs);
-    } 
-    else {
+    } else {
 
-        return function awaitFunc (...awaitingArgs) {
-         
+        return function awaitFunc(...awaitingArgs) {
+
             if (funct.length !== awaitingArgs.length + partialArgs.length) {
                 partialArgs = partialArgs.concat(awaitingArgs);
                 return awaitFunc
-            }
-            else{
+            } else {
                 return funct(...partialArgs, ...awaitingArgs);
             }
         };
@@ -65,14 +64,9 @@ function partialApplication(funct, ...partialArgs) {
 const sum = partialApplication(normalFunct, 1, 2); // As a result we recieved the function, that awaits for missing parameters
 const step_1 = sum(3); // Same result
 const step_2 = step_1(4); // Same result
-const result_step = step_2(2)  // Evaluation of origin function as the partial function recieved all parameters
+const result_step = step_2(2) // Evaluation of origin function as the partial function recieved all parameters
 
 console.log(sum); //[Function: awaitFunc]
 console.log(step_1); //[Function: awaitFunc]
 console.log(step_2); //[Function: awaitFunc]
 console.log("The result is: " + result_step); //The result is: 48
-
-
-
-
-
