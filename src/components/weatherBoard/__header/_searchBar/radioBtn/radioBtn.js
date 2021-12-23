@@ -1,5 +1,5 @@
 import React from 'react';
-import './_radioBtn.css';
+import './radioBtn.css';
 
 const RadioButton = (props) => {
   return (
@@ -7,7 +7,7 @@ const RadioButton = (props) => {
       <h3>{props.title}</h3>
       <input
         type="radio"
-        className="_radio"
+        className="radio"
         name="forecastLimit"
         value={props.limit}
       />

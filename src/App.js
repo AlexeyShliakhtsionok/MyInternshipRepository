@@ -1,7 +1,7 @@
-import Header from './components/header/header.js';
+import WeatherBoard from './components/weatherBoard/weatherBoard.js';
 
 function App() {
-  return <Header title="lol" limit="3" />;
+  return <WeatherBoard />;
 }
 
 export default App;

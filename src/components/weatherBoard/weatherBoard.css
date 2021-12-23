@@ -1,4 +1,4 @@
-.header {
+.weatherBoard__header {
   display: flex;
   min-height: 200px;
   background-color: #00549d;
