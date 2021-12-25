@@ -1,7 +1,7 @@
 import React from 'react';
 import Logotype from './__header/_logotype/_logotype.js';
 import SearchBar from './__header/_searchBar/_searchBar.js';
-import Forecast from './__forecast/forecast.js';
+import Forecast from './__forecast/__forecast.js';
 import './weatherBoard.css';
 
 class WeatherBoard extends React.Component {
@@ -25,7 +25,10 @@ class WeatherBoard extends React.Component {
           <SearchBar getForecastInfo={this.getForecastInfo} />
         </div>
         <div className="weatherBoard__forecastArea">
-          <Forecast forecastLimit={this.forecastLimit} city={this.userInput} />
+          <Forecast
+            forecastLimit={this.state.forecastLimit}
+            userInput={this.state.userInput}
+          />
         </div>
       </div>
     );

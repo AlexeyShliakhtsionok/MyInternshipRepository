@@ -1,9 +1,7 @@
 import React from 'react';
-import Button from './button/button.js';
 import InputField from './input/input.js';
 import RadioButton from './radioBtn/radioBtn.js';
 import './_searchBar.css';
-import './button/button.css';
 
 class SearchBar extends React.Component {
   constructor(props) {
@@ -49,7 +47,7 @@ class SearchBar extends React.Component {
             );
           }}
         >
-          ПАЛУЧИТЬ ПАГОДУ
+          Get weather
         </button>
         <InputField getUserInput={this.getUserInput} />
       </div>
