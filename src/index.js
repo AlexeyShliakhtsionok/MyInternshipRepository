@@ -1,14 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import WeatherBoard from './components/weatherBoard/weatherBoard';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <WeatherBoard />
   </React.StrictMode>,
   document.getElementById('root'),
 );
-
-reportWebVitals();
