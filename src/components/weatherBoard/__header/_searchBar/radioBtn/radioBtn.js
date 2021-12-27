@@ -16,7 +16,7 @@ class RadioButton extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="weatherBoard__header_searchBar-radioBtn">
         <h3>{this.props.title}</h3>
         <input
           type="radio"

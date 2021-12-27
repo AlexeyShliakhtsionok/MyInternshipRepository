@@ -1,7 +1,14 @@
 .weatherBoard__header {
   display: flex;
-  min-height: 200px;
-  background-color: #00549d;
+  flex-wrap: wrap;
+  min-height: 150px;
+  background-image: url('/public/img/header.png');
+  border: 4px solid rgb(248, 248, 248);
   justify-content: space-around;
   align-items: center;
+  background-size: cover;
+}
+.weatherBoard__forecastArea {
+  height: 100%;
+  background-image: url('/public/img/back.webp');
 }

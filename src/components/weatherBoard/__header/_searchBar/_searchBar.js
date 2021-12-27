@@ -23,33 +23,38 @@ class SearchBar extends React.Component {
   render() {
     return (
       <div className="_searchBar">
-        <RadioButton
-          title="1 day forecast"
-          limit="1"
-          getForecastLimit={this.getForecastLimit}
-        />
-        <RadioButton
-          title="3 days forecast"
-          limit="3"
-          getForecastLimit={this.getForecastLimit}
-        />
-        <RadioButton
-          title="7 days forecast"
-          limit="7"
-          getForecastLimit={this.getForecastLimit}
-        />
-        <button
-          className="button"
-          onClick={() => {
-            this.props.getForecastInfo(
-              this.state.forecastLimit,
-              this.state.userInput,
-            );
-          }}
-        >
-          Get weather
-        </button>
-        <InputField getUserInput={this.getUserInput} />
+        <div className="RadioButton">
+          <RadioButton
+            title="1 day forecast"
+            limit="1"
+            getForecastLimit={this.getForecastLimit}
+          />
+          <RadioButton
+            title="3 days forecast"
+            limit="3"
+            getForecastLimit={this.getForecastLimit}
+          />
+          <RadioButton
+            title="7 days forecast"
+            limit="7"
+            getForecastLimit={this.getForecastLimit}
+          />
+        </div>
+
+        <div className="_search">
+          <button
+            className="button"
+            onClick={() => {
+              this.props.getForecastInfo(
+                this.state.forecastLimit,
+                this.state.userInput,
+              );
+            }}
+          >
+            Get weather
+          </button>
+          <InputField getUserInput={this.getUserInput} />
+        </div>
       </div>
     );
   }

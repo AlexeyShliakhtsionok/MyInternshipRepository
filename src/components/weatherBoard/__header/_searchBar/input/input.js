@@ -20,7 +20,7 @@ class InputField extends React.Component {
     return (
       <input
         type="text"
-        className="input"
+        className="weatherBoard__header_searchBar-input"
         placeholder="Enter location here..."
         onChange={this.inputHandler}
       />
