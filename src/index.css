@@ -4,6 +4,7 @@ html {
   margin: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  height: 100%;
 }
 
 code {
@@ -14,4 +15,8 @@ code {
 @font-face {
   font-family: Comic_Cat;
   src: url('/public/fonts/Comic_CAT.otf') format('opentype');
+}
+
+#root {
+  height: 100%;
 }

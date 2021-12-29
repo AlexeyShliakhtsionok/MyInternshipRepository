@@ -1,37 +1,35 @@
 import React from 'react';
-import Logotype from './__header/_logotype/_logotype.js';
-import SearchBar from './__header/_searchBar/_searchBar.js';
-import Forecast from './__forecast/__forecast.js';
+import Logotype from '../weatherBoard/header/searchBar/logotype/logotype.js';
+import SearchBar from './header/searchBar/searchBar.js';
 import './weatherBoard.css';
-
-class WeatherBoard extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      forecastLimit: '',
-      userInput: '',
-    };
-  }
-
-  getForecastInfo = (limit, input) => {
-    this.setState({ forecastLimit: limit, userInput: input });
-  };
-
+import { connect } from 'react-redux';
+class WeatherBoard extends React.PureComponent {
   render() {
     return (
       <div className="weatherBoard">
         <div className="weatherBoard__header">
           <Logotype />
-          <SearchBar getForecastInfo={this.getForecastInfo} />
+          <SearchBar />
         </div>
-        <div className="weatherBoard__forecastArea">
-          <Forecast
-            forecastLimit={this.state.forecastLimit}
-            userInput={this.state.userInput}
-          />
-        </div>
+        <div className="weatherBoard__forecastArea">{/* <Forecast /> */}</div>
       </div>
     );
   }
 }
-export default WeatherBoard;
+
+function mapStateToProps(state) {
+  return {
+    forecastLimit: state.forecastLimit,
+    userInput: state.userInput,
+    locationName: state.locationName,
+    latitude: state.latitude,
+    longitude: state.longitude,
+    coordinates: state.coordinates,
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {};
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(WeatherBoard);

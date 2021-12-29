@@ -1,11 +1,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
+import { createStore, applyMiddleware } from 'redux';
+import { Provider } from 'react-redux';
 import WeatherBoard from './components/weatherBoard/weatherBoard';
+import reducer from './Redux/reducer';
+import reduxThunk from 'redux-thunk';
+import './index.css';
 
-ReactDOM.render(
-  <React.StrictMode>
-    <WeatherBoard />
-  </React.StrictMode>,
-  document.getElementById('root'),
+const store = createStore(reducer, applyMiddleware(reduxThunk));
+const app = (
+  <Provider store={store}>
+    <React.StrictMode>
+      <WeatherBoard />
+    </React.StrictMode>
+  </Provider>
 );
+
+ReactDOM.render(app, document.getElementById('root'));

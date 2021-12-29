@@ -1,0 +1,20 @@
+.forecastOfDay {
+  display: flex;
+  flex-direction: column;
+  background: rgb(255, 255, 255);
+  flex-wrap: wrap;
+  margin: 1rem;
+  border-radius: 20px;
+  padding: 1rem;
+  font-size: 14px;
+  border: 4px solid #002b8e;
+}
+.icon {
+  width: 40px;
+  margin: 0 10px;
+}
+.__icon {
+  display: flex;
+  align-items: center;
+  margin-left: 5px;
+}

@@ -1,19 +1,9 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { radioButtonChange } from '../../../../../Redux/actions/actions';
 import './radioBtn.css';
 
 class RadioButton extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { forecastLimit: '' };
-    this.stateHandler = this.stateHandler.bind(this);
-  }
-
-  stateHandler = () => {
-    this.setState({ forecastLimit: this.props.limit }, () => {
-      this.props.getForecastLimit(this.state.forecastLimit);
-    });
-  };
-
   render() {
     return (
       <div className="weatherBoard__header_searchBar-radioBtn">
@@ -23,11 +13,19 @@ class RadioButton extends React.Component {
           className="radio"
           name="forecastLimit"
           value={this.props.limit}
-          onChange={this.stateHandler}
+          onChange={() => {
+            this.props.onRBChange(this.props.limit);
+          }}
         />
       </div>
     );
   }
 }
 
-export default RadioButton;
+function mapDispatchToProps(dispatch) {
+  return {
+    onRBChange: (value) => dispatch(radioButtonChange(value)),
+  };
+}
+
+export default connect(null, mapDispatchToProps)(RadioButton);

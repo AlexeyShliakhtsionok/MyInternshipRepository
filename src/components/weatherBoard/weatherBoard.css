@@ -2,7 +2,11 @@
   display: flex;
   flex-wrap: wrap;
   min-height: 150px;
-  background-image: url('/public/img/header.png');
+  background: linear-gradient(
+    to bottom right,
+    rgb(79, 97, 255),
+    rgb(255, 115, 0)
+  );
   border: 4px solid rgb(248, 248, 248);
   justify-content: space-around;
   align-items: center;
@@ -10,5 +14,10 @@
 }
 .weatherBoard__forecastArea {
   height: 100%;
-  background-image: url('/public/img/back.webp');
+  border: 4px solid rgb(248, 248, 248);
+  background-image: url('/public/img/back.jpg');
+}
+
+.weatherBoard {
+  height: 100%;
 }

@@ -12,6 +12,7 @@
 }
 
 .button {
+  font-family: Comic_Cat;
   display: inline-block;
   margin: 0 1rem;
   height: 2em;
