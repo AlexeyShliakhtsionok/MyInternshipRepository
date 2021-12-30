@@ -19,7 +19,7 @@ class SearchBar extends React.PureComponent {
           <button
             className="button"
             onClick={() => {
-              this.props.click('orsha');
+              this.props.click(this.props.userInput);
             }}
           >
             Get weather
@@ -34,6 +34,9 @@ class SearchBar extends React.PureComponent {
 function mapStateToProps(state) {
   return {
     userInput: state.userInput,
+    coordinates: state.coordinates,
+    latitude: state.latitude,
+    longitude: state.longitude,
   };
 }
 

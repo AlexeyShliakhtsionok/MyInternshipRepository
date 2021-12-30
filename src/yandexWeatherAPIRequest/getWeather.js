@@ -7,7 +7,6 @@ async function getWeather(latitude, longitude, forecastLimit) {
     }),
   });
   return response.json().then((data) => {
-    // console.log(data);
     return data;
   });
 }

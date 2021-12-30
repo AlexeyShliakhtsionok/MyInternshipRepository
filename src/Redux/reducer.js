@@ -7,8 +7,8 @@ const initialState = {
   forecastLimit: '7',
   latitude: '53.9006011',
   longitude: '27.558972',
-  coordinates: '',
-  forecast: getWeather('53.9006011', '27.558972', '7'),
+  coordinates: [],
+  forecast: '',
 };
 
 export default function reducer(state = initialState, action) {
@@ -16,7 +16,6 @@ export default function reducer(state = initialState, action) {
     case click:
       return {
         ...state,
-        locationName: state.userInput,
         coordinates: action.payload,
         latitude: state.coordinates[0],
         longitude: state.coordinates[1],

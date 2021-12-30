@@ -19,12 +19,9 @@ class WeatherBoard extends React.PureComponent {
 
 function mapStateToProps(state) {
   return {
-    forecastLimit: state.forecastLimit,
-    userInput: state.userInput,
-    locationName: state.locationName,
+    coordinates: state.coordinates,
     latitude: state.latitude,
     longitude: state.longitude,
-    coordinates: state.coordinates,
   };
 }
 

@@ -7,11 +7,14 @@ Geocode.setLocationType('ROOFTOP');
 
 async function getGeoCoordinates(locationName, callback) {
   var result;
-  await Geocode.fromAddress(locationName, result).then((response) => {
-    const { lat, lng } = response.results[0].geometry.location;
-    result = [lat, lng];
-  });
-  return callback(result);
+  const coordinates = await Geocode.fromAddress(locationName, result).then(
+    (response) => {
+      const { lat, lng } = response.results[0].geometry.location;
+      result = [lat, lng];
+    },
+  );
+
+  return result;
 }
 
 function callbackForGeocode(data) {
