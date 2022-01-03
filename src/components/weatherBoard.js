@@ -1,8 +1,9 @@
 import React from 'react';
-import Logotype from '../weatherBoard/header/searchBar/logotype/logotype.js';
+import Logotype from './header/searchBar/logotype/logotype.js';
 import SearchBar from './header/searchBar/searchBar.js';
-import './weatherBoard.css';
 import { connect } from 'react-redux';
+import Forecast from './forecast';
+
 class WeatherBoard extends React.PureComponent {
   render() {
     return (
@@ -11,7 +12,9 @@ class WeatherBoard extends React.PureComponent {
           <Logotype />
           <SearchBar />
         </div>
-        <div className="weatherBoard__forecastArea">{/* <Forecast /> */}</div>
+        <div className="weatherBoard__forecastArea">
+          <Forecast />
+        </div>
       </div>
     );
   }
@@ -19,9 +22,9 @@ class WeatherBoard extends React.PureComponent {
 
 function mapStateToProps(state) {
   return {
-    coordinates: state.coordinates,
-    latitude: state.latitude,
-    longitude: state.longitude,
+    forecast: state.forecast,
+    limit: state.forecastLimit,
+    userInput: state.userInput,
   };
 }
 

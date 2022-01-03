@@ -1,11 +1,10 @@
 import React from 'react';
-import './logotype.css';
 import logo from './logo.png';
 
 const logotype = () => {
   return (
     <div className="logotype">
-      <img className="logo" alt="Logotype" src={logo} />
+      {/* <img className="logo" alt="Logotype" src={logo} /> */}
     </div>
   );
 };

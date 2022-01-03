@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { userInputChange } from '../../../../../Redux/actions/actions';
-import './input.css';
+import { userInputChange } from '../../../Redux/actions/actions.js';
 
 class InputField extends React.PureComponent {
   render() {
@@ -19,10 +18,16 @@ class InputField extends React.PureComponent {
   }
 }
 
+function mapStateToProps(state) {
+  return {
+    userInput: state.userInput,
+  };
+}
+
 function mapDispatchToProps(dispatch) {
   return {
     onUIChange: (value) => dispatch(userInputChange(value)),
   };
 }
 
-export default connect(null, mapDispatchToProps)(InputField);
+export default connect(mapStateToProps, mapDispatchToProps)(InputField);

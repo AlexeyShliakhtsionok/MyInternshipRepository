@@ -2,10 +2,15 @@ import React from 'react';
 import InputField from './input/input.js';
 import RadioButton from './radioBtn/radioBtn.js';
 import { connect } from 'react-redux';
-import { getWeatherOnClick } from '../../../../Redux/actions/actions.js';
-import './searchBar.css';
+import { getForecast } from './../../Redux/actions/actions.js';
 
 class SearchBar extends React.PureComponent {
+  componentDidMount() {
+    if (this.props.firstLaunch === true) {
+      this.props.initialForecast();
+    }
+  }
+
   render() {
     return (
       <div className="_searchBar">
@@ -19,7 +24,10 @@ class SearchBar extends React.PureComponent {
           <button
             className="button"
             onClick={() => {
-              this.props.click(this.props.userInput);
+              this.props.getAsyncResponse(
+                this.props.userInput,
+                this.props.forecastLimit,
+              );
             }}
           >
             Get weather
@@ -34,15 +42,17 @@ class SearchBar extends React.PureComponent {
 function mapStateToProps(state) {
   return {
     userInput: state.userInput,
-    coordinates: state.coordinates,
-    latitude: state.latitude,
-    longitude: state.longitude,
+    currentLocation: state.currentLocation,
+    forecastLimit: state.forecastLimit,
+    forecast: state.forecast,
+    firstLaunch: state.firstLaunch,
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    click: (value) => dispatch(getWeatherOnClick(value)),
+    initialForecast: () => dispatch(getForecast('minsk', '7')),
+    getAsyncResponse: (value, limit) => dispatch(getForecast(value, limit)),
   };
 }
 export default connect(mapStateToProps, mapDispatchToProps)(SearchBar);

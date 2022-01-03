@@ -1,24 +1,26 @@
-import getWeather from '../yandexWeatherAPIRequest/getWeather';
-import { click, onRBChange, onUIChange, addLimit } from './actions/actionTypes';
+import {
+  click,
+  onRBChange,
+  onUIChange,
+  addLimit,
+} from './actions/actionTypes.js';
 
 const initialState = {
+  currentLocation: 'Minsk',
   userInput: '',
-  locationName: 'Minsk',
   forecastLimit: '7',
-  latitude: '53.9006011',
-  longitude: '27.558972',
-  coordinates: [],
   forecast: '',
+  requestCompleted: false,
 };
 
 export default function reducer(state = initialState, action) {
   switch (action.type) {
     case click:
+      console.log('#2 Payload: ', action.payload);
       return {
         ...state,
-        coordinates: action.payload,
-        latitude: state.coordinates[0],
-        longitude: state.coordinates[1],
+        forecast: action.payload,
+        requestCompleted: true,
       };
 
     case addLimit:
@@ -29,6 +31,7 @@ export default function reducer(state = initialState, action) {
 
     case onRBChange:
       return { ...state, forecastLimit: action.payload };
+
     default:
       return state;
   }

@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { radioButtonChange } from '../../../../../Redux/actions/actions';
-import './radioBtn.css';
+import { radioButtonChange } from '../../../Redux/actions/actions.js';
 
 class RadioButton extends React.Component {
   render() {
@@ -22,10 +21,17 @@ class RadioButton extends React.Component {
   }
 }
 
+function mapStateToProps(state) {
+  return {
+    currentLocation: state.currentLocation,
+    forecastLimit: state.forecastLimit,
+  };
+}
+
 function mapDispatchToProps(dispatch) {
   return {
     onRBChange: (value) => dispatch(radioButtonChange(value)),
   };
 }
 
-export default connect(null, mapDispatchToProps)(RadioButton);
+export default connect(mapStateToProps, mapDispatchToProps)(RadioButton);
