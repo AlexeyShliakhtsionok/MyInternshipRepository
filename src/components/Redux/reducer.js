@@ -3,36 +3,38 @@ import {
   onRBChange,
   onUIChange,
   addLimit,
-} from './actions/actionTypes.js';
+} from './actions/actionTypes.js'
 
 const initialState = {
   currentLocation: 'Minsk',
   userInput: '',
   forecastLimit: '7',
   forecast: '',
-  requestCompleted: false,
-};
+  firstRender: true,
+}
 
 export default function reducer(state = initialState, action) {
   switch (action.type) {
     case click:
-      console.log('#2 Payload: ', action.payload);
       return {
         ...state,
         forecast: action.payload,
-        requestCompleted: true,
-      };
+        firstRender: false,
+      }
 
     case addLimit:
-      return state;
+      return state
 
     case onUIChange:
-      return { ...state, userInput: action.payload };
+      return { ...state, userInput: action.payload }
 
     case onRBChange:
-      return { ...state, forecastLimit: action.payload };
+      return {
+        ...state,
+        forecastLimit: action.payload,
+      }
 
     default:
-      return state;
+      return state
   }
 }
