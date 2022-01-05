@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { userInputChange } from '../../../Redux/actions/actions.js';
+import { userInputChange } from './Redux/actions/actions.js';
 
 class InputField extends React.PureComponent {
   componentDidMount() {

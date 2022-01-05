@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { radioButtonChange } from '../../../Redux/actions/actions.js';
+import { radioButtonChange } from './Redux/actions/actions.js';
 
 class RadioButton extends React.Component {
   render() {

@@ -1,6 +1,6 @@
 import React from 'react';
-import Logotype from './header/searchBar/logotype/logotype.js';
-import SearchBar from './header/searchBar/searchBar.js';
+import Logotype from './logotype.js';
+import SearchBar from './searchBar.js';
 import { connect } from 'react-redux';
 import Forecast from './forecast';
 

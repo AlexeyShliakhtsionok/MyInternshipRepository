@@ -36,13 +36,9 @@ html {
   background-image: url('./../public/img/background.jpg');
 }
 
-.wrapper {
-  min-height: 100%;
-}
-
 .main {
   background-color: aliceblue;
-  margin: 30px 30px 30px 30px;
+  margin: 0px 30px 5px 30px;
   border-radius: 10px;
 }
 
@@ -52,7 +48,7 @@ html {
 }
 
 .weatherBoard {
-  min-height: 100%;
+  min-height: -webkit-fill-available;
   background-image: url('../public/img/HEADER_BKG.jpg');
   border-radius: 10px;
 }
