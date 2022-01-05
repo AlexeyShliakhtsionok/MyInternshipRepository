@@ -8,21 +8,6 @@
   font-family: Arial, Helvetica, sans-serif;
 }
 
-a:active {
-  color: #6dc5dd;
-}
-
-a[tabindex]:focus {
-  color: #6dc5dd;
-  outline: 0;
-}
-
-a {
-  color: grey;
-  text-decoration: none;
-  cursor: pointer;
-}
-
 img {
   vertical-align: top;
   height: min-content;
@@ -36,6 +21,10 @@ h5,
 h6 {
   font-weight: inherit;
   font-size: inherit;
+}
+
+div#root {
+  height: 100%;
 }
 
 body,
@@ -54,7 +43,6 @@ html {
 .main {
   background-color: aliceblue;
   margin: 30px 30px 30px 30px;
-
   border-radius: 10px;
 }
 
@@ -63,13 +51,19 @@ html {
   padding: 10px;
 }
 
+.weatherBoard {
+  min-height: 100%;
+  background-image: url('../public/img/HEADER_BKG.jpg');
+  border-radius: 10px;
+}
+
 .weatherBoard__header {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
   border: 3px solid #347fab;
   border-radius: 10px;
-  background-image: url('../public/img/HEADER_BKG.jpg') !important;
+  background-image: url('../public/img/HEADER_BKG.jpg');
 }
 
 .weatherBoard__header_searchBar {
@@ -88,16 +82,19 @@ html {
 
 .weatherBoard__header_searchBar-radioBtn {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   margin: 5px;
 }
 
 .RadioButton input {
   margin-left: 10px;
+  margin-right: 25px;
 }
 
 .weatherBoard__header_searchBar-searchBox {
   padding: 10px;
+  flex-wrap: wrap;
 }
 
 .weatherBoard__header_searchBar-searchBox-button {
@@ -122,6 +119,7 @@ html {
   margin-top: 10px;
   padding: 20px;
   display: flex;
+  flex-wrap: wrap;
   border: 3px solid #347fab;
   border-radius: 10px;
 }
