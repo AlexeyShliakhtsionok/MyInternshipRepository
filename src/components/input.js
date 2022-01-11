@@ -23,16 +23,10 @@ class InputField extends React.PureComponent {
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    userInput: state.userInput,
-  };
-}
-
 function mapDispatchToProps(dispatch) {
   return {
     onUIChange: (value) => dispatch(userInputChange(value)),
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(InputField);
+export default connect(null, mapDispatchToProps)(InputField);

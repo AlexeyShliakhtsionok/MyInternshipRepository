@@ -69,7 +69,6 @@ class OneDayForecast extends React.PureComponent {
 
 function mapStateToProps(state) {
   return {
-    forecastLimit: state.forecastLimit,
     forecast: state.forecast,
   };
 }

@@ -22,18 +22,10 @@ class RadioButton extends React.Component {
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    currentLocation: state.currentLocation,
-    forecastLimit: state.forecastLimit,
-    firstRender: state.firstRender,
-  };
-}
-
 function mapDispatchToProps(dispatch) {
   return {
     onRBChange: (value) => dispatch(radioButtonChange(value)),
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(RadioButton);
+export default connect(null, mapDispatchToProps)(RadioButton);

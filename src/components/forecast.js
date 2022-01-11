@@ -16,7 +16,7 @@ class Forecast extends React.PureComponent {
       case '3':
         return (
           <div className="__forecast">
-            <ThreeDaysForecast forecast={this.props.forecast} />
+            <ThreeDaysForecast />
           </div>
         );
       case '7':
@@ -37,9 +37,7 @@ class Forecast extends React.PureComponent {
 
 function mapStateToProps(state) {
   return {
-    forecast: state.forecast,
     forecastLimit: state.forecastLimit,
-    userInput: state.userInput,
   };
 }
 

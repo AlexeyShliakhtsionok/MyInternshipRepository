@@ -42,9 +42,7 @@ class SearchBar extends React.PureComponent {
 function mapStateToProps(state) {
   return {
     userInput: state.userInput,
-    currentLocation: state.currentLocation,
     forecastLimit: state.forecastLimit,
-    forecast: state.forecast,
     firstRender: state.firstRender,
   };
 }

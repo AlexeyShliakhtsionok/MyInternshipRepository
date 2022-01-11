@@ -1,11 +1,11 @@
-import React from 'react'
-import { connect } from 'react-redux'
+import React from 'react';
+import { connect } from 'react-redux';
 
 class ThreeDaysForecast extends React.PureComponent {
   render() {
-    var elements = []
-    var element
-    var headerElement
+    var elements = [];
+    var element;
+    var headerElement;
 
     headerElement = (
       <div className="_headerElement">
@@ -15,12 +15,12 @@ class ThreeDaysForecast extends React.PureComponent {
         </h2>
         <h2>City: {this.props.forecast.geo_object.locality.name}</h2>
       </div>
-    )
+    );
 
-    elements = elements.concat(headerElement)
+    elements = elements.concat(headerElement);
 
     for (let i = 0; i < this.props.forecastLimit; i++) {
-      element = ''
+      element = '';
       element = (
         <div className="forecastOfDay">
           <div>
@@ -42,15 +42,15 @@ class ThreeDaysForecast extends React.PureComponent {
             />
           </div>
         </div>
-      )
-      elements = elements.concat(element)
+      );
+      elements = elements.concat(element);
     }
 
     return elements.map((item, index) => (
       <div className="forecastOfDays" key={index}>
         {item}
       </div>
-    ))
+    ));
   }
 }
 
@@ -58,7 +58,7 @@ function mapStateToProps(state) {
   return {
     forecast: state.forecast,
     forecastLimit: state.forecastLimit,
-  }
+  };
 }
 
-export default connect(mapStateToProps)(ThreeDaysForecast)
+export default connect(mapStateToProps)(ThreeDaysForecast);
