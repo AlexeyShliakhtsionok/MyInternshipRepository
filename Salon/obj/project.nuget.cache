@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "zDYwbP/At5QUe5yXWNJRcyBTDVIUjvtqVu/aE849EEE1a+sNgZaeeZIzofE4G8Ta6pzEa+ufParat767Uojm6Q==",
+  "dgSpecHash": "Q//rnDBKwoHL0j/qPahh75Ut602Zaw6heQP3XzDM+KBLx7OAu5t+wO2xOM6tKUe3a9kh9GLVJN/NNTlMIzpuvg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\aries\\Desktop\\WEB_API_REACT\\internship_project\\Salon\\Salon.csproj",
+  "projectFilePath": "C:\\Users\\aries\\Desktop\\MyInternshipRepository\\Salon\\Salon.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\aries\\.nuget\\packages\\advancedstringbuilder\\0.1.0\\advancedstringbuilder.0.1.0.nupkg.sha512",
     "C:\\Users\\aries\\.nuget\\packages\\automapper\\11.0.0\\automapper.11.0.0.nupkg.sha512",

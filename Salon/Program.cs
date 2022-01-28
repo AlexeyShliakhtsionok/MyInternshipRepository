@@ -28,6 +28,7 @@ builder.Services.AddScoped<IProcesureServices, ProcedureServices>();
 builder.Services.AddScoped<IProfileServices, ProfileServices>();
 builder.Services.AddScoped<IScheduleServices, ScheduleServices>();
 builder.Services.AddScoped<ISpecializationServices, SpecializationServices>();
+builder.Services.AddScoped<IMediaFileServices, MediaFileServices>();
 
 var app = builder.Build();
 

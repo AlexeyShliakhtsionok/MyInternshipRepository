@@ -34,9 +34,9 @@ namespace Data_Access_Layer.RepositoryWithUOW
             Specialization = new SpecializationRepository(context);
         }
 
-        public async Task CompleteAsync()
+        public void Complete()
         {
-            await _context.SaveChangesAsync();
+            _context.SaveChanges();
         }
         public void Dispose()
         {

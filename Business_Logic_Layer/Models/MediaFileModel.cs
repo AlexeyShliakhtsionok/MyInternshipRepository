@@ -9,8 +9,11 @@ namespace Business_Logic_Layer.Models
     public class MediaFileModel
     {
         public int FileId { get; set; }
-        public string FileDescription { get; set; }
-        public byte[] File { get; set; }
-        public virtual ProfileModel Profile { get; set; }
+        public string FileName { get; set; }
+        public byte[] FileData { get; set; }
+        public string FileType { get; set; }
+        public DateTime CreatedOn { get; set; }
+
+        public virtual ProfileModel? Profile { get; set; }
     }
 }

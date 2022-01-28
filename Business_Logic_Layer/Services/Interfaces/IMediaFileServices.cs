@@ -16,6 +16,7 @@ namespace Business_Logic_Layer.Services.Interfaces
         public void AddMediaFile(MediaFileModel mediaFile);
         public void UpdateMediaFile();
         public void DeleteMediaFile(int id);
-        //public byte[] ImageControlToByteArray(BufferImage image);
+
+
     }
 }

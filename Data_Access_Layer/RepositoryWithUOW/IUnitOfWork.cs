@@ -16,7 +16,7 @@ namespace Data_Access_Layer.RepositoryWithUOW
         IScheduleRepository Schedule { get; }
         ISpecializationRepository Specialization { get; }
 
-        Task CompleteAsync();
+        void Complete();
         void Dispose();
     }
 }

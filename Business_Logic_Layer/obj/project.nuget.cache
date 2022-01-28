@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "6t3PW2nJtjrtYt4lRy+/BzwOb5zIM0XeQ3n2fRPLkLEj4zFiGde7nDc9HvAm9vsrSgL3sNYrccLnUyF5sk4ZTA==",
+  "dgSpecHash": "OiamSUh08COPMY+EGH3rTZqppCHOF8Abc5hA+V5re3a9IQQoMU+TPZFRtnuyEYV5PGuyoR8NMCHfRZRPPgK6UA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\aries\\Desktop\\WEB_API_REACT\\internship_project\\Business_Logic_Layer\\Business_Logic_Layer.csproj",
+  "projectFilePath": "C:\\Users\\aries\\Desktop\\MyInternshipRepository\\Business_Logic_Layer\\Business_Logic_Layer.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\aries\\.nuget\\packages\\automapper\\11.0.0\\automapper.11.0.0.nupkg.sha512",
     "C:\\Users\\aries\\.nuget\\packages\\castle.core\\4.4.1\\castle.core.4.4.1.nupkg.sha512",

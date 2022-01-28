@@ -44,15 +44,13 @@ namespace Business_Logic_Layer.Services
 
         public void AddMediaFile(MediaFileModel mediaFile)
         {
-            MediaFile mediaFileEntity = GenericAutoMapper<MediaFileModel, MediaFile>.Map(mediaFile);
-            _UnitOfWork.MediaFile.Add(mediaFileEntity);
+            MediaFile mediafile = GenericAutoMapper<MediaFileModel, MediaFile>.Map(mediaFile);
+            _UnitOfWork.MediaFile.Add(mediafile);
+            _UnitOfWork.Complete();
         }
 
 
         //---------------------------------------------
-        public static byte[] AddImageFile(Image img)
-        {
-            throw new NotImplementedException();
-        }
+
     }
 }

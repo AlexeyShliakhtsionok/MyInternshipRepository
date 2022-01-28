@@ -9,11 +9,13 @@ namespace Data_Access_Layer.Entities
         [Key]
         public int FileId { get; set; }
         [Required]
-        [MaxLength(30)]
-        public string FileDescription {get; set;}
+        [MaxLength(100)]
+        public string FileName {get; set;}
         [Required]
-        public byte[] File { get; set; }
+        public byte[] FileData { get; set; }
+        public string FileType { get; set; }
+        public DateTime CreatedOn { get; set; }
 
-        public virtual ProFile Profile { get; set; }
+        public virtual ProFile? Profile { get; set; }
     }
 }
