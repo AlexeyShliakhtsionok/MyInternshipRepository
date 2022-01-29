@@ -6,10 +6,6 @@ namespace Data_Access_Layer
 {
     public class SalonDBContext : DbContext
     {
-        //public SalonDBContext(DbContextOptions<SalonDBContext> options) : base(options)
-        //{
-        //}
-
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
            var builder = new ConfigurationBuilder();
@@ -18,6 +14,12 @@ namespace Data_Access_Layer
            var config = builder.Build();
            string connectionString = config.GetConnectionString("DefaultConnection");
            optionsBuilder.UseSqlServer(connectionString);
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Feedback>().Property(f => f.IsVerify).HasDefaultValue(false);
+            
         }
 
         public DbSet<Client> Clients { get; set; }

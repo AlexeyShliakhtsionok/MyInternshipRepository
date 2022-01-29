@@ -21,9 +21,4 @@
     <ProjectReference Include="..\Business_Logic_Layer\Business_Logic_Layer.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="react-application\public\images\" />
-    <Folder Include="react-application\src\Fonts\" />
-  </ItemGroup>
-
 </Project>

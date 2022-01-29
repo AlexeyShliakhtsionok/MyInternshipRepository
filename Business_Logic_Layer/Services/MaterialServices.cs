@@ -24,12 +24,14 @@ namespace Business_Logic_Layer.Services
         {
             Material materialEntity = GenericAutoMapper<MaterialModel, Material>.Map(material);
              _UnitOfWork.Material.Add(materialEntity);
+            _UnitOfWork.Complete();
         }
 
         public void DeleteMaterial(int id)
         {
             var materialToDelete = _UnitOfWork.Material.GetById(id);
              _UnitOfWork.Material.Delete(materialToDelete);
+            _UnitOfWork.Complete();
         }
 
         public IEnumerable<MaterialModel> GetAllMaterials()
@@ -48,6 +50,7 @@ namespace Business_Logic_Layer.Services
 
         public void UpdateMaterial()
         {
+            _UnitOfWork.Complete();
             throw new NotImplementedException();
         }
     }

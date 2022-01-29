@@ -19,12 +19,14 @@ namespace Business_Logic_Layer.Services
         {
             Feedback feedbackEntity = GenericAutoMapper<FeedbackModel, Feedback>.Map(feedback);
              _UnitOfWork.Feedback.Add(feedbackEntity);
+            _UnitOfWork.Complete();
         }
 
         public void DeleteFeedback(int id)
         {
             var feedbackToDelete = _UnitOfWork.Feedback.GetById(id);
              _UnitOfWork.Feedback.Delete(feedbackToDelete);
+            _UnitOfWork.Complete();
         }
 
         public IEnumerable<FeedbackModel> GetAllFeedbacks()
@@ -43,6 +45,7 @@ namespace Business_Logic_Layer.Services
 
         public void UpdateFeedback()
         {
+            _UnitOfWork.Complete();
             throw new NotImplementedException();
         }
     }

@@ -24,12 +24,14 @@ namespace Business_Logic_Layer.Services
         {
             Procedure procedureEntity = GenericAutoMapper<ProcedureModel, Procedure>.Map(procedure);
             _UnitOfWork.Procedure.Add(procedureEntity);
+            _UnitOfWork.Complete();
         }
 
         public void DeleteProcedure(int id)
         {
             var procedureToDelete = _UnitOfWork.Procedure.GetById(id);
             _UnitOfWork.Procedure.Delete(procedureToDelete);
+            _UnitOfWork.Complete();
         }
 
         public ProcedureModel GetProcedureById(int id)
@@ -48,6 +50,7 @@ namespace Business_Logic_Layer.Services
 
         public void UpdateProcedure()
         {
+            _UnitOfWork.Complete();
             throw new NotImplementedException();
         }
     }

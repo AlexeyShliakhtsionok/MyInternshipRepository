@@ -24,12 +24,14 @@ namespace Business_Logic_Layer.Services
         {
             Order orderEntity = GenericAutoMapper<OrderModel,Order>.Map(order);
              _UnitOfWork.Order.Add(orderEntity);
+            _UnitOfWork.Complete();
         }
 
         public void DeleteOrder(int id)
         {
             var orderToDelete = _UnitOfWork.Order.GetById(id);
              _UnitOfWork.Order.Delete(orderToDelete);
+            _UnitOfWork.Complete();
         }
 
         public IEnumerable<OrderModel> GetOrders()
@@ -48,6 +50,7 @@ namespace Business_Logic_Layer.Services
 
         public void UpdateOrder()
         {
+            _UnitOfWork.Complete();
             throw new NotImplementedException();
         }
     }

@@ -20,12 +20,14 @@ namespace Business_Logic_Layer.Services
         {
             ProFile profileEntity = GenericAutoMapper<ProfileModel, ProFile>.Map(profile);
             _UnitOfWork.Profile.Add(profileEntity);
+            _UnitOfWork.Complete();
         }
 
         public void DeleteProfile(int id)
         {
             var profileToDelete = _UnitOfWork.Profile.GetById(id);
             _UnitOfWork.Profile.Delete(profileToDelete);
+            _UnitOfWork.Complete();
         }
 
         public ProfileModel GetProfileById(int id)
@@ -44,6 +46,7 @@ namespace Business_Logic_Layer.Services
 
         public void UpdateProfile()
         {
+            _UnitOfWork.Complete();
             throw new NotImplementedException();
         }
 

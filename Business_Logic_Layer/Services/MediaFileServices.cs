@@ -21,6 +21,7 @@ namespace Business_Logic_Layer.Services
         {
             var mediaFileToDelete = _UnitOfWork.MediaFile.GetById(id);
             _UnitOfWork.MediaFile.Delete(mediaFileToDelete);
+            _UnitOfWork.Complete();
         }
 
         public MediaFileModel GetMediaFileById(int id)
@@ -39,6 +40,7 @@ namespace Business_Logic_Layer.Services
 
         public void UpdateMediaFile()
         {
+            _UnitOfWork.Complete();
             throw new NotImplementedException();
         }
 
@@ -48,9 +50,5 @@ namespace Business_Logic_Layer.Services
             _UnitOfWork.MediaFile.Add(mediafile);
             _UnitOfWork.Complete();
         }
-
-
-        //---------------------------------------------
-
     }
 }

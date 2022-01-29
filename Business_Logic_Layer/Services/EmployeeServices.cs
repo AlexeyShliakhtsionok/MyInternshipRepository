@@ -20,6 +20,7 @@ namespace Business_Logic_Layer.Services
             Employee employeeEntity = GenericAutoMapper<EmployeeModel, Employee>.Map(employee);
 
              _UnitOfWork.Employee.Add(employeeEntity);
+            _UnitOfWork.Complete();
         }
 
         public void DeleteEmoloyee(int id)
@@ -27,6 +28,7 @@ namespace Business_Logic_Layer.Services
             var employeeToDelete =  _UnitOfWork.Employee.GetById(id);
 
              _UnitOfWork.Employee.Delete(employeeToDelete);
+            _UnitOfWork.Complete();
         }
 
         public IEnumerable<EmployeeModel> GetAllEmployees()
@@ -45,6 +47,7 @@ namespace Business_Logic_Layer.Services
 
         public void UpdateEmoloyee()
         {
+            _UnitOfWork.Complete();
             throw new NotImplementedException();
         }
     }

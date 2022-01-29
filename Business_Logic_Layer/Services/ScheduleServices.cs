@@ -24,12 +24,14 @@ namespace Business_Logic_Layer.Services
         {
             Schedule scheduleEntity = GenericAutoMapper<ScheduleModel, Schedule>.Map(schedule);
             _UnitOfWork.Schedule.Add(scheduleEntity);
+            _UnitOfWork.Complete();
         }
 
         public void DeleteSchedule(int id)
         {
             var scheduleToDelete = _UnitOfWork.Schedule.GetById(id);
             _UnitOfWork.Schedule.Delete(scheduleToDelete);
+            _UnitOfWork.Complete();
         }
 
         public ScheduleModel GetScheduleById(int id)
@@ -48,6 +50,7 @@ namespace Business_Logic_Layer.Services
 
         public void UpdateSchedule()
         {
+            _UnitOfWork.Complete();
             throw new NotImplementedException();
         }
     }

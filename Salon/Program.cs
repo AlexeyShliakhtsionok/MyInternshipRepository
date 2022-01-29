@@ -30,10 +30,18 @@ builder.Services.AddScoped<IScheduleServices, ScheduleServices>();
 builder.Services.AddScoped<ISpecializationServices, SpecializationServices>();
 builder.Services.AddScoped<IMediaFileServices, MediaFileServices>();
 
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(
+        builder =>
+        {
+            builder.WithOrigins().AllowAnyOrigin(); ;
+        });
+});
+
 var app = builder.Build();
 
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -41,6 +49,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseRouting();
+app.UseCors();
 
 app.UseAuthorization();
 

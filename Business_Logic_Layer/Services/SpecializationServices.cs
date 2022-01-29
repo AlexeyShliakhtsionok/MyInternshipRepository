@@ -24,12 +24,14 @@ namespace Business_Logic_Layer.Services
         {
             var specializationEntity = GenericAutoMapper<SpecializationModel, Specialization>.Map(specialization);
             _UnitOfWork.Specialization.Add(specializationEntity);
+            _UnitOfWork.Complete();
         }
 
         public void DeleteSpecialization(int id)
         {
             var specializationToDelete = _UnitOfWork.Specialization.GetById(id);
             _UnitOfWork.Specialization.Delete(specializationToDelete);
+            _UnitOfWork.Complete();
         }
 
         public IEnumerable<SpecializationModel> GetAllSpecializations()
@@ -48,6 +50,7 @@ namespace Business_Logic_Layer.Services
 
         public void UpdateSpecialization()
         {
+            _UnitOfWork.Complete();
             throw new NotImplementedException();
         }
     }

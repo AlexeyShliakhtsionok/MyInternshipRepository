@@ -286,9 +286,6 @@ C:\Users\aries\Desktop\MyInternshipRepository\Salon\obj\Debug\net6.0\ref\Salon.d
 C:\Users\aries\Desktop\MyInternshipRepository\Salon\obj\Debug\net6.0\Salon.pdb
 C:\Users\aries\Desktop\MyInternshipRepository\Salon\bin\Debug\net6.0\appsettings.Development.json
 C:\Users\aries\Desktop\MyInternshipRepository\Salon\bin\Debug\net6.0\appsettings.json
-C:\Users\aries\Desktop\MyInternshipRepository\Salon\bin\Debug\net6.0\react-application\package-lock.json
-C:\Users\aries\Desktop\MyInternshipRepository\Salon\bin\Debug\net6.0\react-application\package.json
-C:\Users\aries\Desktop\MyInternshipRepository\Salon\bin\Debug\net6.0\react-application\public\manifest.json
 C:\Users\aries\Desktop\MyInternshipRepository\Salon\bin\Debug\net6.0\Salon.exe
 C:\Users\aries\Desktop\MyInternshipRepository\Salon\bin\Debug\net6.0\Salon.deps.json
 C:\Users\aries\Desktop\MyInternshipRepository\Salon\bin\Debug\net6.0\Salon.runtimeconfig.json

@@ -19,12 +19,14 @@ namespace Business_Logic_Layer.Services
         {
             Client clientEntity = GenericAutoMapper<ClientModel, Client>.Map(client);
             _UnitOfWork.Client.Add(clientEntity);
+            _UnitOfWork.Complete();
         }
 
         public void DeleteClient(int id)
         {
             var clientToDelete = _UnitOfWork.Client.GetById(id);
              _UnitOfWork.Client.Delete(clientToDelete);
+            _UnitOfWork.Complete();
         }
 
         public IEnumerable<ClientModel> GetAllClients()
@@ -43,6 +45,7 @@ namespace Business_Logic_Layer.Services
 
         public void UpdateClient()
         {
+            _UnitOfWork.Complete();
             throw new NotImplementedException();
         }
 
