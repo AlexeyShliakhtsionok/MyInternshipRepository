@@ -32,7 +32,7 @@ namespace Business_Logic_Layer.Services
         public IEnumerable<ClientModel> GetAllClients()
         {
             var clients =  _UnitOfWork.Client.GetAll();
-            IEnumerable<ClientModel> clientsModel = GenericAutoMapper<Client, ClientModel>.MapEnumerable(clients);
+            IEnumerable<ClientModel> clientsModel = GenericAutoMapper<Client, ClientModel>.MapIQueryable(clients);
             return clientsModel;
         }
 
@@ -54,14 +54,14 @@ namespace Business_Logic_Layer.Services
         public IEnumerable<FeedbackModel> GetAllClientFeedbacks(int id)
         {
             var feedbacks = _UnitOfWork.Feedback.GetAll().Where(c => c.Client.ClientId == id);
-            IEnumerable<FeedbackModel> feedbackModels = GenericAutoMapper<Feedback, FeedbackModel>.MapEnumerable(feedbacks);
+            IEnumerable<FeedbackModel> feedbackModels = GenericAutoMapper<Feedback, FeedbackModel>.MapIQueryable(feedbacks);
             return feedbackModels;
         }
 
         public IEnumerable<OrderModel> GetAllClientOrders(int id)
         {
             var orders = _UnitOfWork.Order.GetAll().Where(o => o.Client.ClientId == id);
-            IEnumerable<OrderModel> orderModels = GenericAutoMapper<Order, OrderModel>.MapEnumerable(orders);
+            IEnumerable<OrderModel> orderModels = GenericAutoMapper<Order, OrderModel>.MapIQueryable(orders);
             return orderModels;
         }
 

@@ -292,12 +292,9 @@ C:\Users\aries\Desktop\MyInternshipRepository\Salon\bin\Debug\net6.0\Salon.runti
 C:\Users\aries\Desktop\MyInternshipRepository\Salon\bin\Debug\net6.0\Salon.dll
 C:\Users\aries\Desktop\MyInternshipRepository\Salon\bin\Debug\net6.0\ref\Salon.dll
 C:\Users\aries\Desktop\MyInternshipRepository\Salon\bin\Debug\net6.0\Salon.pdb
-C:\Users\aries\Desktop\MyInternshipRepository\Salon\bin\Debug\net6.0\AdvancedStringBuilder.dll
 C:\Users\aries\Desktop\MyInternshipRepository\Salon\bin\Debug\net6.0\AutoMapper.dll
 C:\Users\aries\Desktop\MyInternshipRepository\Salon\bin\Debug\net6.0\Castle.Core.dll
 C:\Users\aries\Desktop\MyInternshipRepository\Salon\bin\Debug\net6.0\Humanizer.dll
-C:\Users\aries\Desktop\MyInternshipRepository\Salon\bin\Debug\net6.0\JavaScriptEngineSwitcher.Core.dll
-C:\Users\aries\Desktop\MyInternshipRepository\Salon\bin\Debug\net6.0\JSPool.dll
 C:\Users\aries\Desktop\MyInternshipRepository\Salon\bin\Debug\net6.0\MessagePack.dll
 C:\Users\aries\Desktop\MyInternshipRepository\Salon\bin\Debug\net6.0\MessagePack.Annotations.dll
 C:\Users\aries\Desktop\MyInternshipRepository\Salon\bin\Debug\net6.0\Microsoft.AspNetCore.JsonPatch.dll
@@ -321,14 +318,12 @@ C:\Users\aries\Desktop\MyInternshipRepository\Salon\bin\Debug\net6.0\Microsoft.C
 C:\Users\aries\Desktop\MyInternshipRepository\Salon\bin\Debug\net6.0\Microsoft.CodeAnalysis.Workspaces.MSBuild.dll
 C:\Users\aries\Desktop\MyInternshipRepository\Salon\bin\Debug\net6.0\Microsoft.Data.SqlClient.dll
 C:\Users\aries\Desktop\MyInternshipRepository\Salon\bin\Debug\net6.0\Microsoft.DiaSymReader.dll
-C:\Users\aries\Desktop\MyInternshipRepository\Salon\bin\Debug\net6.0\Microsoft.DotNet.PlatformAbstractions.dll
 C:\Users\aries\Desktop\MyInternshipRepository\Salon\bin\Debug\net6.0\Microsoft.DotNet.Scaffolding.Shared.dll
 C:\Users\aries\Desktop\MyInternshipRepository\Salon\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.dll
 C:\Users\aries\Desktop\MyInternshipRepository\Salon\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.Abstractions.dll
 C:\Users\aries\Desktop\MyInternshipRepository\Salon\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.Proxies.dll
 C:\Users\aries\Desktop\MyInternshipRepository\Salon\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.Relational.dll
 C:\Users\aries\Desktop\MyInternshipRepository\Salon\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.SqlServer.dll
-C:\Users\aries\Desktop\MyInternshipRepository\Salon\bin\Debug\net6.0\Microsoft.Extensions.DependencyModel.dll
 C:\Users\aries\Desktop\MyInternshipRepository\Salon\bin\Debug\net6.0\Microsoft.Identity.Client.dll
 C:\Users\aries\Desktop\MyInternshipRepository\Salon\bin\Debug\net6.0\Microsoft.IdentityModel.JsonWebTokens.dll
 C:\Users\aries\Desktop\MyInternshipRepository\Salon\bin\Debug\net6.0\Microsoft.IdentityModel.Logging.dll
@@ -353,7 +348,6 @@ C:\Users\aries\Desktop\MyInternshipRepository\Salon\bin\Debug\net6.0\NuGet.Packa
 C:\Users\aries\Desktop\MyInternshipRepository\Salon\bin\Debug\net6.0\NuGet.ProjectModel.dll
 C:\Users\aries\Desktop\MyInternshipRepository\Salon\bin\Debug\net6.0\NuGet.Protocol.dll
 C:\Users\aries\Desktop\MyInternshipRepository\Salon\bin\Debug\net6.0\NuGet.Versioning.dll
-C:\Users\aries\Desktop\MyInternshipRepository\Salon\bin\Debug\net6.0\React.Core.dll
 C:\Users\aries\Desktop\MyInternshipRepository\Salon\bin\Debug\net6.0\Swashbuckle.AspNetCore.Swagger.dll
 C:\Users\aries\Desktop\MyInternshipRepository\Salon\bin\Debug\net6.0\Swashbuckle.AspNetCore.SwaggerGen.dll
 C:\Users\aries\Desktop\MyInternshipRepository\Salon\bin\Debug\net6.0\Swashbuckle.AspNetCore.SwaggerUI.dll
@@ -369,7 +363,6 @@ C:\Users\aries\Desktop\MyInternshipRepository\Salon\bin\Debug\net6.0\System.Runt
 C:\Users\aries\Desktop\MyInternshipRepository\Salon\bin\Debug\net6.0\System.Security.Cryptography.ProtectedData.dll
 C:\Users\aries\Desktop\MyInternshipRepository\Salon\bin\Debug\net6.0\System.Security.Permissions.dll
 C:\Users\aries\Desktop\MyInternshipRepository\Salon\bin\Debug\net6.0\System.Windows.Extensions.dll
-C:\Users\aries\Desktop\MyInternshipRepository\Salon\bin\Debug\net6.0\ru-ru\JavaScriptEngineSwitcher.Core.resources.dll
 C:\Users\aries\Desktop\MyInternshipRepository\Salon\bin\Debug\net6.0\cs\Microsoft.CodeAnalysis.resources.dll
 C:\Users\aries\Desktop\MyInternshipRepository\Salon\bin\Debug\net6.0\de\Microsoft.CodeAnalysis.resources.dll
 C:\Users\aries\Desktop\MyInternshipRepository\Salon\bin\Debug\net6.0\es\Microsoft.CodeAnalysis.resources.dll
@@ -547,3 +540,4 @@ C:\Users\aries\Desktop\MyInternshipRepository\Salon\obj\Debug\net6.0\staticwebas
 C:\Users\aries\Desktop\MyInternshipRepository\Salon\obj\Debug\net6.0\scopedcss\bundle\Salon.styles.css
 C:\Users\aries\Desktop\MyInternshipRepository\Salon\obj\Debug\net6.0\Salon.csproj.CopyComplete
 C:\Users\aries\Desktop\MyInternshipRepository\Salon\obj\Debug\net6.0\Salon.genruntimeconfig.cache
+C:\Users\aries\Desktop\MyInternshipRepository\Salon\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll

@@ -37,7 +37,7 @@ namespace Business_Logic_Layer.Services
         public IEnumerable<SpecializationModel> GetAllSpecializations()
         {
             var specializations = _UnitOfWork.Specialization.GetAll();
-            IEnumerable<SpecializationModel> specializationModel = GenericAutoMapper<Specialization, SpecializationModel>.MapEnumerable(specializations);
+            IEnumerable<SpecializationModel> specializationModel = GenericAutoMapper<Specialization, SpecializationModel>.MapIQueryable(specializations);
             return specializationModel;
         }
 

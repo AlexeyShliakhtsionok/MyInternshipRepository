@@ -1,4 +1,5 @@
-﻿using Business_Logic_Layer.Services.Interfaces;
+﻿using Business_Logic_Layer.Models;
+using Business_Logic_Layer.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Salon.Controllers
@@ -12,6 +13,14 @@ namespace Salon.Controllers
         public OrderController(IOrderServices orderServices)
         {
             _orderServices = orderServices;
+        }
+
+        [HttpGet]
+        [Route("GetAllOrders")]
+        public ActionResult<IEnumerable<OrderModel>> GetAllOrders()
+        {
+            var orders = _orderServices.GetOrders();
+            return Ok(orders);
         }
     }
 }

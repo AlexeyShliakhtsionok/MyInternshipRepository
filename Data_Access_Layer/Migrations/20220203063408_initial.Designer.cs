@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data_Access_Layer.Migrations
 {
     [DbContext(typeof(SalonDBContext))]
-    [Migration("20220127060955_mediaFilechanged#3")]
-    partial class mediaFilechanged3
+    [Migration("20220203063408_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -80,9 +80,16 @@ namespace Data_Access_Layer.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("ProfileId")
+                        .HasColumnType("int");
 
                     b.Property<int>("Qualification")
                         .HasColumnType("int");
@@ -90,7 +97,18 @@ namespace Data_Access_Layer.Migrations
                     b.Property<int>("Role")
                         .HasColumnType("int");
 
+                    b.Property<int?>("ScheduleId")
+                        .HasColumnType("int");
+
                     b.HasKey("EmployeeId");
+
+                    b.HasIndex("ProfileId")
+                        .IsUnique()
+                        .HasFilter("[ProfileId] IS NOT NULL");
+
+                    b.HasIndex("ScheduleId")
+                        .IsUnique()
+                        .HasFilter("[ScheduleId] IS NOT NULL");
 
                     b.ToTable("Employees");
                 });
@@ -117,7 +135,9 @@ namespace Data_Access_Layer.Migrations
                         .HasColumnType("nvarchar(15)");
 
                     b.Property<bool>("IsVerify")
-                        .HasColumnType("bit");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
 
                     b.HasKey("FeedbackId");
 
@@ -134,6 +154,9 @@ namespace Data_Access_Layer.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MaterialId"), 1L, 1);
 
+                    b.Property<DateTime>("BestBeforeDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<double>("MaterialAmount")
                         .HasColumnType("float");
 
@@ -144,6 +167,9 @@ namespace Data_Access_Layer.Migrations
                         .IsRequired()
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)");
+
+                    b.Property<DateTime>("ProductionDate")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("MaterialId");
 
@@ -160,9 +186,6 @@ namespace Data_Access_Layer.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ManufacturerId"), 1L, 1);
 
-                    b.Property<DateTime>("BestBeforeDate")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("MadeIn")
                         .IsRequired()
                         .HasMaxLength(10)
@@ -172,9 +195,6 @@ namespace Data_Access_Layer.Migrations
                         .IsRequired()
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)");
-
-                    b.Property<DateTime>("ProductionDate")
-                        .HasColumnType("datetime2");
 
                     b.HasKey("ManufacturerId");
 
@@ -282,18 +302,12 @@ namespace Data_Access_Layer.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProfileId"), 1L, 1);
 
-                    b.Property<int>("EmployeeId")
-                        .HasColumnType("int");
-
                     b.Property<string>("ProfileTitle")
                         .IsRequired()
                         .HasMaxLength(15)
                         .HasColumnType("nvarchar(15)");
 
                     b.HasKey("ProfileId");
-
-                    b.HasIndex("EmployeeId")
-                        .IsUnique();
 
                     b.ToTable("Profiles");
                 });
@@ -306,9 +320,6 @@ namespace Data_Access_Layer.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ScheduleId"), 1L, 1);
 
-                    b.Property<int>("EmployeeId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("ScheduleDate")
                         .HasColumnType("datetime2");
 
@@ -318,9 +329,6 @@ namespace Data_Access_Layer.Migrations
                         .HasColumnType("nvarchar(10)");
 
                     b.HasKey("ScheduleId");
-
-                    b.HasIndex("EmployeeId")
-                        .IsUnique();
 
                     b.ToTable("Schedules");
                 });
@@ -401,6 +409,21 @@ namespace Data_Access_Layer.Migrations
                     b.ToTable("OrderProcedure");
                 });
 
+            modelBuilder.Entity("Data_Access_Layer.Entities.Employee", b =>
+                {
+                    b.HasOne("Data_Access_Layer.Entities.ProFile", "ProFile")
+                        .WithOne("Employee")
+                        .HasForeignKey("Data_Access_Layer.Entities.Employee", "ProfileId");
+
+                    b.HasOne("Data_Access_Layer.Entities.Schedule", "Schedule")
+                        .WithOne("Employee")
+                        .HasForeignKey("Data_Access_Layer.Entities.Employee", "ScheduleId");
+
+                    b.Navigation("ProFile");
+
+                    b.Navigation("Schedule");
+                });
+
             modelBuilder.Entity("Data_Access_Layer.Entities.Feedback", b =>
                 {
                     b.HasOne("Data_Access_Layer.Entities.Client", "Client")
@@ -445,28 +468,6 @@ namespace Data_Access_Layer.Migrations
                         .HasForeignKey("ScheduleId");
 
                     b.Navigation("Client");
-                });
-
-            modelBuilder.Entity("Data_Access_Layer.Entities.ProFile", b =>
-                {
-                    b.HasOne("Data_Access_Layer.Entities.Employee", "Employee")
-                        .WithOne("ProFile")
-                        .HasForeignKey("Data_Access_Layer.Entities.ProFile", "EmployeeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Employee");
-                });
-
-            modelBuilder.Entity("Data_Access_Layer.Entities.Schedule", b =>
-                {
-                    b.HasOne("Data_Access_Layer.Entities.Employee", "Employee")
-                        .WithOne("Schedule")
-                        .HasForeignKey("Data_Access_Layer.Entities.Schedule", "EmployeeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Employee");
                 });
 
             modelBuilder.Entity("EmployeeOrder", b =>
@@ -536,15 +537,6 @@ namespace Data_Access_Layer.Migrations
                     b.Navigation("Orders");
                 });
 
-            modelBuilder.Entity("Data_Access_Layer.Entities.Employee", b =>
-                {
-                    b.Navigation("ProFile")
-                        .IsRequired();
-
-                    b.Navigation("Schedule")
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Data_Access_Layer.Entities.MaterialManufacturer", b =>
                 {
                     b.Navigation("Materials");
@@ -552,11 +544,17 @@ namespace Data_Access_Layer.Migrations
 
             modelBuilder.Entity("Data_Access_Layer.Entities.ProFile", b =>
                 {
+                    b.Navigation("Employee")
+                        .IsRequired();
+
                     b.Navigation("MediaFiles");
                 });
 
             modelBuilder.Entity("Data_Access_Layer.Entities.Schedule", b =>
                 {
+                    b.Navigation("Employee")
+                        .IsRequired();
+
                     b.Navigation("Orders");
                 });
 #pragma warning restore 612, 618

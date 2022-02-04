@@ -32,7 +32,7 @@ namespace Business_Logic_Layer.Services
         public IEnumerable<FeedbackModel> GetAllFeedbacks()
         {
             var feedbacks = _UnitOfWork.Feedback.GetAll();
-            IEnumerable<FeedbackModel> feedbacksModel = GenericAutoMapper<Feedback, FeedbackModel>.MapEnumerable(feedbacks);
+            IEnumerable<FeedbackModel> feedbacksModel = GenericAutoMapper<Feedback, FeedbackModel>.MapIQueryable(feedbacks);
             return feedbacksModel;
         }
 

@@ -39,7 +39,7 @@ namespace Business_Logic_Layer.Services
         {
             var materialManufacturers =  _UnitOfWork.MaterialManufacturer.GetAll();
             IEnumerable<MaterialManufacturerModel> materialManufacturersModel = GenericAutoMapper<MaterialManufacturer,MaterialManufacturerModel>
-                .MapEnumerable(materialManufacturers);
+                .MapIQueryable(materialManufacturers);
             return materialManufacturersModel;
         }
 

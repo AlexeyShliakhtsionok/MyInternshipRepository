@@ -4,6 +4,7 @@ using Business_Logic_Layer.Services.Interfaces;
 using Business_Logic_Layer.Utilities;
 using Data_Access_Layer.Entities;
 using Data_Access_Layer.RepositoryWithUOW;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,8 +37,8 @@ namespace Business_Logic_Layer.Services
 
         public IEnumerable<MaterialModel> GetAllMaterials()
         {
-            var materials = _UnitOfWork.Material.GetAll();
-            IEnumerable<MaterialModel> materialModels = GenericAutoMapper<Material, MaterialModel>.MapEnumerable(materials);
+            var materials = _UnitOfWork.Material.GetAll().Include(m => m.MaterialManufacturer);
+            IEnumerable<MaterialModel> materialModels = GenericAutoMapper<Material, MaterialModel>.MapIQueryable(materials);
             return materialModels;
         }
 

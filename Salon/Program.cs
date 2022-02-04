@@ -2,9 +2,12 @@ using Business_Logic_Layer.Services;
 using Business_Logic_Layer.Services.Interfaces;
 using Data_Access_Layer;
 using Data_Access_Layer.RepositoryWithUOW;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
+using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Serialization;
+using Salon.AuthOptions;
 using System.IO;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -29,15 +32,30 @@ builder.Services.AddScoped<IProfileServices, ProfileServices>();
 builder.Services.AddScoped<IScheduleServices, ScheduleServices>();
 builder.Services.AddScoped<ISpecializationServices, SpecializationServices>();
 builder.Services.AddScoped<IMediaFileServices, MediaFileServices>();
-
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(
         builder =>
         {
-            builder.WithOrigins().AllowAnyOrigin(); ;
+            builder.WithOrigins().AllowAnyOrigin(); 
         });
 });
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                    .AddJwtBearer(options =>
+                    {
+                        options.RequireHttpsMetadata = false;
+                        options.TokenValidationParameters = new TokenValidationParameters
+                        {
+                            ValidateIssuer = true,
+                            ValidIssuer = AuthOptions.ISSUER,
+                            ValidateAudience = true,
+                            ValidAudience = AuthOptions.AUDIENCE,
+                            ValidateLifetime = true,
+                            IssuerSigningKey = AuthOptions.GetSymmetricSecurityKey(),
+                            ValidateIssuerSigningKey = true,
+                        };
+                    });
 
 var app = builder.Build();
 
@@ -45,13 +63,16 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(options =>
+    {
+    });
 }
 
 app.UseHttpsRedirection();
 app.UseRouting();
 app.UseCors();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

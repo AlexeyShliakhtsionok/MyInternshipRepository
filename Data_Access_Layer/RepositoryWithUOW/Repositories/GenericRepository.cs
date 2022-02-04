@@ -14,14 +14,14 @@ namespace Data_Access_Layer.RepositoryWithUOW.Repositories
             dbSet = context.Set<T>();
         }
 
-        public virtual IEnumerable<T> GetAll()
+        public virtual IQueryable<T> GetAll()
         {
-            return dbSet.ToList();
+            return dbSet;
         }
 
         public virtual T GetById(int id)
         {
-            return  dbSet.Find(id);
+            return dbSet.Find(id);
         }
 
         public virtual void Add(T entity)

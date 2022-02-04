@@ -14,6 +14,6 @@ namespace Business_Logic_Layer.Models
         public float ProcedurePrice { get; set; }
         public ProcedureTypeModel ProcedureType { get; set; }
         public virtual ICollection<MaterialModel> Materials { get; set; }
-        public virtual SpecializationModel Specialization { get; set; }
+        public virtual ICollection<OrderModel> Orders { get; set; }
     }
 }

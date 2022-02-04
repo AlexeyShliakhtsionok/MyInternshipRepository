@@ -1,9 +1,13 @@
 ﻿using Business_Logic_Layer.Models;
 using Business_Logic_Layer.Services.Interfaces;
-using Data_Access_Layer.Entities;
 using Microsoft.AspNetCore.Mvc;
+using System.IdentityModel.Tokens.Jwt;
+using Microsoft.IdentityModel.Tokens;
+using System.Security.Claims;
+using System.Text.Json.Serialization;
+using Newtonsoft.Json;
+using Microsoft.AspNetCore.Authorization;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Salon.Controllers
 {
@@ -37,14 +41,56 @@ namespace Salon.Controllers
         {
             var employees = _employeeServices.GetAllEmployees();
             return Ok(employees);
-            
         }
 
+        [HttpPost]
+        [Route("GetToken")]
+        public IActionResult Token(string employeeEmail, string password)
+        {
+            var identity = GetIdentity(employeeEmail, password);
+            if (identity == null)
+            {
+                return BadRequest(new { errorText = "Invalid username or password." });
+            }
 
-        //[HttpGet (Name ="GetEmployeesBySpecialization")]
-        //public ActionResult<IEnumerable<Employee>> getEmployyeBySpecialization(int id)
-        //{
-        //    return _employeeServices.GetEmployeesBySpecialization(id);
-        //}
+            var now = DateTime.UtcNow;
+            // создаем JWT-токен
+            var jwt = new JwtSecurityToken(
+                    issuer: AuthOptions.AuthOptions.ISSUER,
+                    audience: AuthOptions.AuthOptions.AUDIENCE,
+                    notBefore: now,
+                    claims: identity.Claims,
+                    expires: now.Add(TimeSpan.FromMinutes(AuthOptions.AuthOptions.LIFETIME)),
+                    signingCredentials: new SigningCredentials(AuthOptions.AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
+            var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
+
+            var response = new
+            {
+                access_token = encodedJwt,
+                employeeEmail = identity.Name,
+            };
+            return Ok(response);
+        }
+
+        private ClaimsIdentity GetIdentity(string email, string password)
+        {
+            IEnumerable<EmployeeModel> employees = _employeeServices.GetAllEmployees();
+
+            var employee = employees.FirstOrDefault(e => e.Email == email && e.Password == password);
+
+            if (employee != null)
+            {
+                var claims = new List<Claim>
+                {
+                    new Claim(ClaimsIdentity.DefaultNameClaimType, employee.Email),
+                    new Claim(ClaimsIdentity.DefaultRoleClaimType, employee.Role.ToString())
+                };
+                ClaimsIdentity claimsIdentity =
+                new ClaimsIdentity(claims, "Token", ClaimsIdentity.DefaultNameClaimType,
+                    ClaimsIdentity.DefaultRoleClaimType);
+                return claimsIdentity;
+            }
+            return null;
+        }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using Business_Logic_Layer.Models;
 using Business_Logic_Layer.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Salon.Controllers
 {
@@ -14,6 +14,37 @@ namespace Salon.Controllers
         public MediaFileController(IMediaFileServices mediaFileServices)
         {
             _mediaFileServices = mediaFileServices;
+        }
+
+        [HttpGet]
+        [Route("GetFileById")]
+        public ActionResult GetImageFromDB(int id)
+        {
+            MediaFileModel imageToShow = _mediaFileServices.GetMediaFileById(id);
+            var byteArray = imageToShow.FileData;
+            return File(byteArray, "image/png");
+        }
+
+
+        [HttpGet]
+        [Route("GetAllFiles")]
+        public ActionResult GetAllMediaFiles()
+        {
+            List<MediaFileModel> models = new();
+            var files = _mediaFileServices.GetMediaFiles();
+
+            foreach (var file in files)
+            {
+                models.Add(file);
+            }
+
+            List<FileContentResult> result = new();
+
+            foreach (var file in files)
+            {
+                result.Add(File(file.FileData, "image/png"));
+            }
+            return Ok(result);
         }
 
         [HttpPost]
@@ -44,14 +75,6 @@ namespace Salon.Controllers
                 return Ok();
             }
             return NoContent();
-        }
-
-        [HttpGet]
-        public ActionResult GetImageFromDB(int id)
-        {
-            MediaFileModel imageToShow = _mediaFileServices.GetMediaFileById(id);
-            var byteArray = imageToShow.FileData;
-            return File(byteArray, "image/png");
         }
     }
 }

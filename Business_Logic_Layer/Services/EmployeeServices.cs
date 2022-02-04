@@ -4,6 +4,7 @@ using Business_Logic_Layer.Services.Interfaces;
 using Business_Logic_Layer.Utilities;
 using Data_Access_Layer.Entities;
 using Data_Access_Layer.RepositoryWithUOW;
+using Microsoft.EntityFrameworkCore;
 
 namespace Business_Logic_Layer.Services
 {
@@ -33,14 +34,14 @@ namespace Business_Logic_Layer.Services
 
         public IEnumerable<EmployeeModel> GetAllEmployees()
         {
-            var employees =  _UnitOfWork.Employee.GetAll();
-            IEnumerable<EmployeeModel> employeesModel = GenericAutoMapper<Employee, EmployeeModel>.MapEnumerable(employees);
+            var employees =  _UnitOfWork.Employee.GetAll().Include(x => x.ProFile);
+            IQueryable<EmployeeModel> employeesModel = GenericAutoMapper<Employee, EmployeeModel>.MapIQueryable(employees);
             return employeesModel;
         }
 
         public EmployeeModel GetEmployeeById(int id)
         {
-            var employee = _UnitOfWork.Employee.GetById(id);
+            var employee = _UnitOfWork.Employee.GetAll().Include(e=>e.ProFile).FirstOrDefault(i=>i.EmployeeId ==id);
             EmployeeModel employeeModel = GenericAutoMapper<Employee, EmployeeModel>.Map(employee);
             return employeeModel;
         }

@@ -44,7 +44,7 @@ namespace Business_Logic_Layer.Services
         public IEnumerable<ScheduleModel> GetAllSchedules()
         {
             var schedules = _UnitOfWork.Schedule.GetAll();
-            IEnumerable<ScheduleModel> scheduleModels = GenericAutoMapper<Schedule, ScheduleModel>.MapEnumerable(schedules);
+            IEnumerable<ScheduleModel> scheduleModels = GenericAutoMapper<Schedule, ScheduleModel>.MapIQueryable(schedules);
             return scheduleModels;
         }
 

@@ -1,4 +1,5 @@
-﻿using Business_Logic_Layer.Services.Interfaces;
+﻿using Business_Logic_Layer.Models;
+using Business_Logic_Layer.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Salon.Controllers
@@ -12,6 +13,14 @@ namespace Salon.Controllers
         public MaterialController(IMaterialServices materialServices)
         {
             _materialServices = materialServices;
+        }
+
+        [HttpGet]
+        [Route("GetAllMaterials")]
+        public ActionResult<IEnumerable<MaterialModel>> GetMaterials()
+        {
+            var materials = _materialServices.GetAllMaterials();
+            return Ok(materials);
         }
     }
 }

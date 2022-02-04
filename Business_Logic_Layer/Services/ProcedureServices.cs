@@ -44,7 +44,7 @@ namespace Business_Logic_Layer.Services
         public IEnumerable<ProcedureModel> GetAllProcedures()
         {
             var procedures = _UnitOfWork.Procedure.GetAll();
-            IEnumerable<ProcedureModel> procedureModels = GenericAutoMapper<Procedure, ProcedureModel>.MapEnumerable(procedures);
+            IEnumerable<ProcedureModel> procedureModels = GenericAutoMapper<Procedure, ProcedureModel>.MapIQueryable(procedures);
             return procedureModels;
         }
 

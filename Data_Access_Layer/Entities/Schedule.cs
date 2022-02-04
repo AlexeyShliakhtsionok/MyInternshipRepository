@@ -16,7 +16,6 @@ namespace Data_Access_Layer.Entities
         [Required]
         public DateTime ScheduleDate { get; set; }
 
-        public int EmployeeId { get; set; }
         public virtual Employee Employee { get; set; }
         public virtual ICollection<Order> Orders { get; set; }
     }

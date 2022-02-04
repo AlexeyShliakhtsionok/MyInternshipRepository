@@ -34,7 +34,7 @@ namespace Business_Logic_Layer.Services
         public IEnumerable<MediaFileModel> GetMediaFiles()
         {
             var mediaFiles = _UnitOfWork.MediaFile.GetAll();
-            IEnumerable<MediaFileModel> mediaFileModel = GenericAutoMapper<MediaFile, MediaFileModel>.MapEnumerable(mediaFiles);
+            IEnumerable<MediaFileModel> mediaFileModel = GenericAutoMapper<MediaFile, MediaFileModel>.MapIQueryable(mediaFiles);
             return mediaFileModel;
         }
 

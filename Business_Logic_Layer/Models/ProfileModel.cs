@@ -10,7 +10,6 @@ namespace Business_Logic_Layer.Models
     {
         public int ProfileId { get; set; }
         public string ProfileTitle { get; set; }
-        public int EmployeeId { get; set; }
         public virtual EmployeeModel Employee { get; set; }
         public virtual ICollection<MediaFileModel> MediaFiles { get; set; }
     }

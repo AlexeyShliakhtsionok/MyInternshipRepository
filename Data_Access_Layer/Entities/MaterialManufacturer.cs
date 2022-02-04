@@ -15,8 +15,7 @@ namespace Data_Access_Layer.Entities
         [Required]
         [MaxLength(10)]
         public string MadeIn { get; set; }
-        public DateTime ProductionDate { get; set; }
-        public DateTime BestBeforeDate { get; set; }
+
 
         public virtual ICollection<Material> Materials { get; set; }
     }

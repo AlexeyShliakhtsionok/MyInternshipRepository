@@ -40,7 +40,7 @@ namespace Business_Logic_Layer.Services
         public IEnumerable<ProfileModel> GetProfiles()
         {
             var profiles = _UnitOfWork.Profile.GetAll();
-            IEnumerable<ProfileModel> profileModels = GenericAutoMapper<ProFile, ProfileModel>.MapEnumerable(profiles);
+            IEnumerable<ProfileModel> profileModels = GenericAutoMapper<ProFile, ProfileModel>.MapIQueryable(profiles);
             return profileModels;
         }
 

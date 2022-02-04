@@ -12,6 +12,7 @@ namespace Business_Logic_Layer.Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string PhoneNumber { get; set; }
+        public string Password { get; set; }
         public string Email { get; set; }
         public DateTime HireDate { get; set; }
         public RoleModel Role { get; set; }
@@ -19,6 +20,7 @@ namespace Business_Logic_Layer.Models
         public virtual ICollection<SpecializationModel>? Specialization { get; set; }
         public int? ScheduleId { get; set; }
         public virtual ScheduleModel? Schedule { get; set; }
+        public int? ProfileId { get; set; }
         public virtual ProfileModel? Profile { get; set; }
         public virtual ICollection<OrderModel>? Orders { get; set; }
     }

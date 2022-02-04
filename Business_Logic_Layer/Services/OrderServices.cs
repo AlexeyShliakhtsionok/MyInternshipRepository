@@ -37,7 +37,7 @@ namespace Business_Logic_Layer.Services
         public IEnumerable<OrderModel> GetOrders()
         {
             var orders = _UnitOfWork.Order.GetAll();
-            IEnumerable<OrderModel> orderModels = GenericAutoMapper<Order, OrderModel>.MapEnumerable(orders);
+            IEnumerable<OrderModel> orderModels = GenericAutoMapper<Order, OrderModel>.MapIQueryable(orders);
             return orderModels;
         }
 
