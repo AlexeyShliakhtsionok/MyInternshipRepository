@@ -8,7 +8,7 @@ namespace Business_Logic_Layer.Services.Interfaces
         public IEnumerable<EmployeeModel> GetAllEmployees();
         public EmployeeModel GetEmployeeById(int id);
         public void CreateEmoloyee(EmployeeModel employee);
-        public void UpdateEmoloyee();
+        public void UpdateEmoloyee(EmployeeModel employee);
         public void DeleteEmoloyee(int id);
     }
 }

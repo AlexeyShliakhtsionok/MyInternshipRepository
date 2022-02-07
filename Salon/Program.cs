@@ -9,11 +9,15 @@ using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Serialization;
 using Salon.AuthOptions;
 using System.IO;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
+builder.Services.AddControllers().AddJsonOptions(x =>
+{
+    x.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+});
 builder.Services.AddControllers().AddNewtonsoftJson(options =>
                             options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 builder.Services.AddControllersWithViews();
@@ -30,14 +34,14 @@ builder.Services.AddScoped<IOrderServices, OrderServices>();
 builder.Services.AddScoped<IProcesureServices, ProcedureServices>();
 builder.Services.AddScoped<IProfileServices, ProfileServices>();
 builder.Services.AddScoped<IScheduleServices, ScheduleServices>();
-builder.Services.AddScoped<ISpecializationServices, SpecializationServices>();
 builder.Services.AddScoped<IMediaFileServices, MediaFileServices>();
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(
         builder =>
         {
-            builder.WithOrigins().AllowAnyOrigin(); 
+            builder.WithOrigins("http://localhost: 3000");//???
+            builder.WithOrigins().AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader(); 
         });
 });
 

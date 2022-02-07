@@ -15,6 +15,13 @@ namespace Salon.Controllers
             _orderServices = orderServices;
         }
 
+        [HttpPost]
+        [Route("DeleteOrderById")]
+        public void DeleteOrder(int id)
+        {
+            _orderServices.DeleteOrder(id);
+        }
+
         [HttpGet]
         [Route("GetAllOrders")]
         public ActionResult<IEnumerable<OrderModel>> GetAllOrders()

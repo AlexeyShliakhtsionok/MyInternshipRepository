@@ -17,6 +17,6 @@ namespace Data_Access_Layer.Entities
         public string MadeIn { get; set; }
 
 
-        public virtual ICollection<Material> Materials { get; set; }
+        public virtual ICollection<Material>? Materials { get; set; }
     }
 }

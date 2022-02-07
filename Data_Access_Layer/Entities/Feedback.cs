@@ -15,6 +15,7 @@ namespace Data_Access_Layer.Entities
         [Required]
         [MaxLength(255)]
         public string FeedbackText { get; set; }
+        public DateTime CreatedOn { get; set; }
         public bool IsVerify { get; set; }
 
         public virtual Client Client { get; set; }

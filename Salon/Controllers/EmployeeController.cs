@@ -7,7 +7,7 @@ using System.Security.Claims;
 using System.Text.Json.Serialization;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Authorization;
-
+using Business_Logic_Layer.Utilities;
 
 namespace Salon.Controllers
 {
@@ -22,6 +22,13 @@ namespace Salon.Controllers
             _employeeServices = employeeServices;
         }
 
+        [HttpPost]
+        [Route("DeleteEmployeeById")]
+        public void DeleteEmoloyee(int id)
+        {
+            _employeeServices.DeleteEmoloyee(id);
+        }
+
         [HttpGet]
         [Route("GetEmployeeById")]
         public ActionResult<EmployeeModel> GetEmployeeById(int id)
@@ -31,7 +38,6 @@ namespace Salon.Controllers
             {
                 return NotFound("InvalidId");
             }
-
             return Ok(employee);
         }
 
@@ -39,8 +45,11 @@ namespace Salon.Controllers
         [Route("GetAllEmployees")]
         public ActionResult<IEnumerable<EmployeeModel>> GetEmployees()
         {
+            var roles = EnumExtensions.GetValues<RoleModel>();
+            var specialization = EnumExtensions.GetValues<SpecializationModel>();
+            var qualification = EnumExtensions.GetValues<QualificationModel>();
             var employees = _employeeServices.GetAllEmployees();
-            return Ok(employees);
+            return Ok(new { employees, roles, specialization, qualification });
         }
 
         [HttpPost]
@@ -54,7 +63,6 @@ namespace Salon.Controllers
             }
 
             var now = DateTime.UtcNow;
-            // создаем JWT-токен
             var jwt = new JwtSecurityToken(
                     issuer: AuthOptions.AuthOptions.ISSUER,
                     audience: AuthOptions.AuthOptions.AUDIENCE,
@@ -92,5 +100,25 @@ namespace Salon.Controllers
             }
             return null;
         }
+
+
+
+
+        [HttpPost]
+        [Route("CreateEmployee")]
+        public void CreateEmployee([FromBody] EmployeeModel employeeInput)
+        {
+          _employeeServices.CreateEmoloyee(employeeInput);
+        }
+
+        [HttpPost]
+        [Route("UpdateEmployee")]
+        public void UpdateEmployee([FromBody]EmployeeModel employeeInput)
+        {
+            _employeeServices.UpdateEmoloyee(employeeInput);
+            
+        }
+
+
     }
 }

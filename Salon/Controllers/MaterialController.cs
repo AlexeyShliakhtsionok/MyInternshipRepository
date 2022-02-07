@@ -15,6 +15,13 @@ namespace Salon.Controllers
             _materialServices = materialServices;
         }
 
+        [HttpPost]
+        [Route("DeleteMaterialById")]
+        public void DeleteMaterial(int id)
+        {
+            _materialServices.DeleteMaterial(id);
+        }
+
         [HttpGet]
         [Route("GetAllMaterials")]
         public ActionResult<IEnumerable<MaterialModel>> GetMaterials()

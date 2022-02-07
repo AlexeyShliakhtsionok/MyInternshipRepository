@@ -20,7 +20,7 @@ namespace Data_Access_Layer.Entities
         [EmailAddress]
         public string Email { get; set; }
 
-        public virtual ICollection<Feedback> Feedbacks { get; set; }
-        public virtual ICollection<Order> Orders { get; set; }
+        public virtual ICollection<Feedback>? Feedbacks { get; set; }
+        public virtual ICollection<Order>? Orders { get; set; }
     }
 }

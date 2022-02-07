@@ -15,6 +15,13 @@ namespace Salon.Controllers
             _materialManufacturerServices = materialManufacturerServices;
         }
 
+        [HttpPost]
+        [Route("DeleteManufacturerById")]
+        public void DeleteManufacturer(int id)
+        {
+            _materialManufacturerServices.DeleteMaterialManufacturer(id);
+        }
+
         [HttpGet]
         [Route("GetAllManufacturers")]
         public ActionResult<IEnumerable<MaterialManufacturerModel>> GetAllManufacturers()

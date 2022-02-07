@@ -16,7 +16,7 @@ namespace Data_Access_Layer.RepositoryWithUOW
         public IProcedureRepository Procedure { get; private set; }
         public IProfileRepository Profile { get; private set; }
         public IScheduleRepository Schedule { get; private set; }
-        public ISpecializationRepository Specialization { get; private set; }
+        //public ISpecializationRepository Specialization { get; private set; }
 
         public UnitOfWork(SalonDBContext context)
         {
@@ -31,7 +31,6 @@ namespace Data_Access_Layer.RepositoryWithUOW
             Procedure = new ProcedureRepository(context);
             Profile = new ProfileRepository(context);
             Schedule = new ScheduleRepository(context);
-            Specialization = new SpecializationRepository(context);
         }
 
         public void Complete()

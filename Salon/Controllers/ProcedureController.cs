@@ -15,6 +15,13 @@ namespace Salon.Controllers
             _procesureServices = procesureServices;
         }
 
+        [HttpPost]
+        [Route("DeleteProcedureById")]
+        public void DeleteProcedure(int id)
+        {
+            _procesureServices.DeleteProcedure(id);
+        }
+
         [HttpGet]
         [Route("GetAllProcedures")]
         public ActionResult<IEnumerable<ProcedureModel>> GetAllProcedures()

@@ -15,6 +15,13 @@ namespace Salon.Controllers
             _scheduleServices = scheduleServices;
         }
 
+        [HttpPost]
+        [Route("DeleteScheduleById")]
+        public void DeleteSchedule(int id)
+        {
+            _scheduleServices.DeleteSchedule(id);
+        }
+
         [HttpGet]
         [Route("GetAllSchedules")]
         public ActionResult<IEnumerable<ScheduleModel>> GetAllSchedules()

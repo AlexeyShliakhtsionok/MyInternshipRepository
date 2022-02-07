@@ -48,7 +48,7 @@ namespace Data_Access_Layer.Migrations
                     ProcedureName = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
                     TimeAmount = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ProcedurePrice = table.Column<float>(type: "real", nullable: false),
-                    ProcedureType = table.Column<int>(type: "int", nullable: false)
+                    Specialization = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -80,19 +80,6 @@ namespace Data_Access_Layer.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Schedules", x => x.ScheduleId);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Specializations",
-                columns: table => new
-                {
-                    SpecializationId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ProcedureType = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Specializations", x => x.SpecializationId);
                 });
 
             migrationBuilder.CreateTable(
@@ -176,6 +163,7 @@ namespace Data_Access_Layer.Migrations
                     HireDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Role = table.Column<int>(type: "int", nullable: false),
                     Qualification = table.Column<int>(type: "int", nullable: false),
+                    Specializations = table.Column<int>(type: "int", nullable: false),
                     ProfileId = table.Column<int>(type: "int", nullable: true),
                     ScheduleId = table.Column<int>(type: "int", nullable: true)
                 },
@@ -247,30 +235,6 @@ namespace Data_Access_Layer.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "EmployeeSpecialization",
-                columns: table => new
-                {
-                    EmployeesEmployeeId = table.Column<int>(type: "int", nullable: false),
-                    SpecializationsSpecializationId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_EmployeeSpecialization", x => new { x.EmployeesEmployeeId, x.SpecializationsSpecializationId });
-                    table.ForeignKey(
-                        name: "FK_EmployeeSpecialization_Employees_EmployeesEmployeeId",
-                        column: x => x.EmployeesEmployeeId,
-                        principalTable: "Employees",
-                        principalColumn: "EmployeeId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_EmployeeSpecialization_Specializations_SpecializationsSpecializationId",
-                        column: x => x.SpecializationsSpecializationId,
-                        principalTable: "Specializations",
-                        principalColumn: "SpecializationId",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "EmployeeOrder",
                 columns: table => new
                 {
@@ -338,11 +302,6 @@ namespace Data_Access_Layer.Migrations
                 filter: "[ScheduleId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_EmployeeSpecialization_SpecializationsSpecializationId",
-                table: "EmployeeSpecialization",
-                column: "SpecializationsSpecializationId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Feedbacks_ClientId",
                 table: "Feedbacks",
                 column: "ClientId");
@@ -384,9 +343,6 @@ namespace Data_Access_Layer.Migrations
                 name: "EmployeeOrder");
 
             migrationBuilder.DropTable(
-                name: "EmployeeSpecialization");
-
-            migrationBuilder.DropTable(
                 name: "Feedbacks");
 
             migrationBuilder.DropTable(
@@ -400,9 +356,6 @@ namespace Data_Access_Layer.Migrations
 
             migrationBuilder.DropTable(
                 name: "Employees");
-
-            migrationBuilder.DropTable(
-                name: "Specializations");
 
             migrationBuilder.DropTable(
                 name: "Materials");

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json.Converters;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
@@ -30,13 +31,13 @@ namespace Data_Access_Layer.Entities
         [Required]
         public Role Role { get; set; }
         [Required]
-        public virtual Qualification Qualification { get; set; }
+        public Qualification Qualification { get; set; }
+        public Specialization Specializations { get; set; }
 
         public int? ProfileId { get; set; }
         public virtual ProFile? ProFile { get; set; }
         public int? ScheduleId { get; set; }
         public virtual Schedule? Schedule { get; set; }
-        public virtual ICollection<Specialization>? Specializations { get; set; }
         public virtual ICollection<Order>? Orders { get; set; }
     }
 }

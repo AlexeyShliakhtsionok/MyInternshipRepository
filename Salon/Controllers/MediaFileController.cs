@@ -16,6 +16,13 @@ namespace Salon.Controllers
             _mediaFileServices = mediaFileServices;
         }
 
+        [HttpPost]
+        [Route("DeleteMediaFileById")]
+        public void DeleteMediaFile(int id)
+        {
+            _mediaFileServices.DeleteMediaFile(id);
+        }
+
         [HttpGet]
         [Route("GetFileById")]
         public ActionResult GetImageFromDB(int id)

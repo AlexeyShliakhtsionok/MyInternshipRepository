@@ -16,8 +16,8 @@ namespace Business_Logic_Layer.Models
         public string Email { get; set; }
         public DateTime HireDate { get; set; }
         public RoleModel Role { get; set; }
-        public virtual QualificationModel Qualification { get; set; }
-        public virtual ICollection<SpecializationModel>? Specialization { get; set; }
+        public QualificationModel Qualification { get; set; }
+        public SpecializationModel Specialization { get; set; }
         public int? ScheduleId { get; set; }
         public virtual ScheduleModel? Schedule { get; set; }
         public int? ProfileId { get; set; }

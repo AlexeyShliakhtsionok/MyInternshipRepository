@@ -13,7 +13,6 @@ namespace Business_Logic_Layer.Utilities
               cfg.CreateMap<ProFile, ProfileModel>().ReverseMap();
               cfg.CreateMap<Order, OrderModel>().ReverseMap();
               cfg.CreateMap<Schedule, ScheduleModel>().ReverseMap();
-              cfg.CreateMap<Specialization, SpecializationModel>().ReverseMap();
               cfg.CreateMap<Client, ClientModel>().ReverseMap();
               cfg.CreateMap<Feedback, FeedbackModel>().ReverseMap();
               cfg.CreateMap<Material, MaterialModel>().ReverseMap();

@@ -14,6 +14,6 @@ namespace Business_Logic_Layer.Models
         public DateTime ProductionDate { get; set; }
         public DateTime BestBeforeDate { get; set; }
         public virtual MaterialManufacturerModel MaterialManufacturer { get; set; }
-        public virtual ICollection<ProcedureModel> Procedures { get; set; }
+        public virtual ICollection<ProcedureModel>? Procedures { get; set; }
     }
 }

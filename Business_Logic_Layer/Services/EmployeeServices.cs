@@ -20,7 +20,7 @@ namespace Business_Logic_Layer.Services
         {
             Employee employeeEntity = GenericAutoMapper<EmployeeModel, Employee>.Map(employee);
 
-             _UnitOfWork.Employee.Add(employeeEntity);
+            _UnitOfWork.Employee.Add(employeeEntity);
             _UnitOfWork.Complete();
         }
 
@@ -46,10 +46,19 @@ namespace Business_Logic_Layer.Services
             return employeeModel;
         }
 
-        public void UpdateEmoloyee()
+        public void UpdateEmoloyee(EmployeeModel employee)
         {
+            var employeeToUpdate = _UnitOfWork.Employee.GetById(employee.EmployeeId);
+            employeeToUpdate.FirstName = employee.FirstName;
+            employeeToUpdate.LastName = employee.LastName;
+            employeeToUpdate.PhoneNumber = employee.PhoneNumber;
+            employeeToUpdate.Email = employee.Email;
+            employeeToUpdate.Specializations = (Specialization)employee.Specialization;
+            employeeToUpdate.Role = ((Role)employee.Role);
+            employeeToUpdate.Qualification = (Qualification)employee.Qualification;
+            employeeToUpdate.HireDate = employee.HireDate;
+ 
             _UnitOfWork.Complete();
-            throw new NotImplementedException();
-        }
+         }
     }
 }

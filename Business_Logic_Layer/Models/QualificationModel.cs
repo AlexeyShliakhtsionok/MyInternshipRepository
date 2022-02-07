@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,8 +9,11 @@ namespace Business_Logic_Layer.Models
 {
     public enum QualificationModel
     {
-        FirstClass,
-        SecondClass,
-        ThirdClass
+        [Description("First class")]
+        FirstClass = 0,
+        [Description("SecondClass")]
+        SecondClass = 1,
+        [Description("ThirdClass")]
+        ThirdClass = 2,
     }
 }

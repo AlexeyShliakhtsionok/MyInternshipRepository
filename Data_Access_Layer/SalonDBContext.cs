@@ -19,6 +19,7 @@ namespace Data_Access_Layer
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Feedback>().Property(f => f.IsVerify).HasDefaultValue(false);
+            modelBuilder.Entity<Feedback>().Property(f => f.CreatedOn).HasDefaultValue(DateTime.Now);
             
         }
 
@@ -32,6 +33,5 @@ namespace Data_Access_Layer
         public DbSet<ProFile> Profiles { get; set; }
         public DbSet<MaterialManufacturer> MaterialManufacturers { get; set; }
         public DbSet<MediaFile> MediaFiles { get; set; }
-        public DbSet<Specialization> Specializations { get; set; }
     }
 }

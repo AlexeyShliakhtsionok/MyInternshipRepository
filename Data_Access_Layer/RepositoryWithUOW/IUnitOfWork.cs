@@ -14,7 +14,6 @@ namespace Data_Access_Layer.RepositoryWithUOW
         IProcedureRepository Procedure { get; }
         IProfileRepository Profile { get; }
         IScheduleRepository Schedule { get; }
-        ISpecializationRepository Specialization { get; }
 
         void Complete();
         void Dispose();

@@ -7,7 +7,7 @@ namespace Business_Logic_Layer.Services.Interfaces
         public IEnumerable<ClientModel> GetAllClients();
         public ClientModel GetClientById(int id);
         public void CreateClient(ClientModel client);
-        public void UpdateClient();
+        public void UpdateClient(ClientModel client);
         public void DeleteClient(int id);
 
         // Additional methods

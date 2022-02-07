@@ -43,10 +43,14 @@ namespace Business_Logic_Layer.Services
             return clientModel;
         }
 
-        public void UpdateClient()
+        public void UpdateClient(ClientModel client)
         {
+            var clientToUpdate = _UnitOfWork.Client.GetById(client.ClientId);
+            clientToUpdate.FirstName = client.FirstName;
+            clientToUpdate.LastName = client.LastName;
+            clientToUpdate.PhoneNumber = client.PhoneNumber;
+            clientToUpdate.Email = client.Email;
             _UnitOfWork.Complete();
-            throw new NotImplementedException();
         }
 
         // Additional methods -----------------------------------------------

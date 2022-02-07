@@ -15,6 +15,13 @@ namespace Salon.Controllers
             _profileServices = profileServices;
         }
 
+        [HttpPost]
+        [Route("DeleteProfileById")]
+        public void DeleteProfile(int id)
+        {
+            _profileServices.DeleteProfile(id);
+        }
+
         [HttpGet]
         [Route("GetAllProfiles")]
         public ActionResult<IEnumerable<ProfileModel>> GetAllProfiles()

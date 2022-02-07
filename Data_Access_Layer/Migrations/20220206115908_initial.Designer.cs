@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data_Access_Layer.Migrations
 {
     [DbContext(typeof(SalonDBContext))]
-    [Migration("20220203063408_initial")]
+    [Migration("20220206115908_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -98,6 +98,9 @@ namespace Data_Access_Layer.Migrations
                         .HasColumnType("int");
 
                     b.Property<int?>("ScheduleId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Specializations")
                         .HasColumnType("int");
 
                     b.HasKey("EmployeeId");
@@ -283,7 +286,7 @@ namespace Data_Access_Layer.Migrations
                     b.Property<float>("ProcedurePrice")
                         .HasColumnType("real");
 
-                    b.Property<int>("ProcedureType")
+                    b.Property<int>("Specialization")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("TimeAmount")
@@ -333,22 +336,6 @@ namespace Data_Access_Layer.Migrations
                     b.ToTable("Schedules");
                 });
 
-            modelBuilder.Entity("Data_Access_Layer.Entities.Specialization", b =>
-                {
-                    b.Property<int>("SpecializationId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SpecializationId"), 1L, 1);
-
-                    b.Property<int>("ProcedureType")
-                        .HasColumnType("int");
-
-                    b.HasKey("SpecializationId");
-
-                    b.ToTable("Specializations");
-                });
-
             modelBuilder.Entity("EmployeeOrder", b =>
                 {
                     b.Property<int>("EmployeesEmployeeId")
@@ -362,21 +349,6 @@ namespace Data_Access_Layer.Migrations
                     b.HasIndex("OrdersOrderId");
 
                     b.ToTable("EmployeeOrder");
-                });
-
-            modelBuilder.Entity("EmployeeSpecialization", b =>
-                {
-                    b.Property<int>("EmployeesEmployeeId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SpecializationsSpecializationId")
-                        .HasColumnType("int");
-
-                    b.HasKey("EmployeesEmployeeId", "SpecializationsSpecializationId");
-
-                    b.HasIndex("SpecializationsSpecializationId");
-
-                    b.ToTable("EmployeeSpecialization");
                 });
 
             modelBuilder.Entity("MaterialProcedure", b =>
@@ -481,21 +453,6 @@ namespace Data_Access_Layer.Migrations
                     b.HasOne("Data_Access_Layer.Entities.Order", null)
                         .WithMany()
                         .HasForeignKey("OrdersOrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("EmployeeSpecialization", b =>
-                {
-                    b.HasOne("Data_Access_Layer.Entities.Employee", null)
-                        .WithMany()
-                        .HasForeignKey("EmployeesEmployeeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Data_Access_Layer.Entities.Specialization", null)
-                        .WithMany()
-                        .HasForeignKey("SpecializationsSpecializationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

@@ -16,6 +16,13 @@ namespace Salon.Controllers
             _clientServices = clientServices;
         }
 
+        [HttpPost]
+        [Route("DeleteClientById")]
+        public void DeleteClient(int id)
+        {
+            _clientServices.DeleteClient(id);
+        }
+
         [HttpGet]
         [Route("GetClientById")]
         public ActionResult<ClientModel> GetClientById(int id)
@@ -36,6 +43,21 @@ namespace Salon.Controllers
             var clients = _clientServices.GetAllClients();
             return Ok(clients);
         }
+
+        [HttpPost]
+        [Route("CreateClient")]
+        public void CreateClient([FromBody] ClientModel clientInput)
+        {
+            _clientServices.CreateClient(clientInput);
+        }
+
+        [HttpPost]
+        [Route("UpdateClient")]
+        public void UpdateClient([FromBody] ClientModel clientInput)
+        {
+            _clientServices.UpdateClient(clientInput);
+        }
+
 
     }
 }
