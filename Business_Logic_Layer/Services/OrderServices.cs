@@ -22,7 +22,7 @@ namespace Business_Logic_Layer.Services
 
         public void CreateOrder(OrderModel order)
         {
-            Order orderEntity = GenericAutoMapper<OrderModel,Order>.Map(order);
+            Order orderEntity = AutoMappers<OrderModel,Order>.Map(order);
              _UnitOfWork.Order.Add(orderEntity);
             _UnitOfWork.Complete();
         }
@@ -37,14 +37,14 @@ namespace Business_Logic_Layer.Services
         public IEnumerable<OrderModel> GetOrders()
         {
             var orders = _UnitOfWork.Order.GetAll();
-            IEnumerable<OrderModel> orderModels = GenericAutoMapper<Order, OrderModel>.MapIQueryable(orders);
+            IEnumerable<OrderModel> orderModels = AutoMappers<Order, OrderModel>.MapIQueryable(orders);
             return orderModels;
         }
 
         public OrderModel GetOrdersById(int id)
         {
             var orderEntity = _UnitOfWork.Order.GetById(id);
-            OrderModel orderModel = GenericAutoMapper<Order, OrderModel>.Map(orderEntity);
+            OrderModel orderModel = AutoMappers<Order, OrderModel>.Map(orderEntity);
             return orderModel;
         }
 

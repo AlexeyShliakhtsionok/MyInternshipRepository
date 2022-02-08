@@ -22,7 +22,7 @@ namespace Business_Logic_Layer.Services
 
         public void CreateSchedule(ScheduleModel schedule)
         {
-            Schedule scheduleEntity = GenericAutoMapper<ScheduleModel, Schedule>.Map(schedule);
+            Schedule scheduleEntity = AutoMappers<ScheduleModel, Schedule>.Map(schedule);
             _UnitOfWork.Schedule.Add(scheduleEntity);
             _UnitOfWork.Complete();
         }
@@ -37,14 +37,14 @@ namespace Business_Logic_Layer.Services
         public ScheduleModel GetScheduleById(int id)
         {
             var schedule = _UnitOfWork.Schedule.GetById(id);
-            ScheduleModel scheduleModel = GenericAutoMapper<Schedule, ScheduleModel>.Map(schedule);
+            ScheduleModel scheduleModel = AutoMappers<Schedule, ScheduleModel>.Map(schedule);
             return scheduleModel;
         }
 
         public IEnumerable<ScheduleModel> GetAllSchedules()
         {
             var schedules = _UnitOfWork.Schedule.GetAll();
-            IEnumerable<ScheduleModel> scheduleModels = GenericAutoMapper<Schedule, ScheduleModel>.MapIQueryable(schedules);
+            IEnumerable<ScheduleModel> scheduleModels = AutoMappers<Schedule, ScheduleModel>.MapIQueryable(schedules);
             return scheduleModels;
         }
 

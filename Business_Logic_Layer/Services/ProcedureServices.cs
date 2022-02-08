@@ -22,7 +22,7 @@ namespace Business_Logic_Layer.Services
 
         public void CreateProcedure(ProcedureModel procedure)
         {
-            Procedure procedureEntity = GenericAutoMapper<ProcedureModel, Procedure>.Map(procedure);
+            Procedure procedureEntity = AutoMappers<ProcedureModel, Procedure>.Map(procedure);
             _UnitOfWork.Procedure.Add(procedureEntity);
             _UnitOfWork.Complete();
         }
@@ -37,14 +37,14 @@ namespace Business_Logic_Layer.Services
         public ProcedureModel GetProcedureById(int id)
         {
             var procedure = _UnitOfWork.Procedure.GetById(id);
-            ProcedureModel procedureModel = GenericAutoMapper<Procedure, ProcedureModel>.Map(procedure);
+            ProcedureModel procedureModel = AutoMappers<Procedure, ProcedureModel>.Map(procedure);
             return procedureModel;
         }
 
         public IEnumerable<ProcedureModel> GetAllProcedures()
         {
             var procedures = _UnitOfWork.Procedure.GetAll();
-            IEnumerable<ProcedureModel> procedureModels = GenericAutoMapper<Procedure, ProcedureModel>.MapIQueryable(procedures);
+            IEnumerable<ProcedureModel> procedureModels = AutoMappers<Procedure, ProcedureModel>.MapIQueryable(procedures);
             return procedureModels;
         }
 

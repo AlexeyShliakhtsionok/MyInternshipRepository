@@ -17,7 +17,7 @@ namespace Business_Logic_Layer.Services
 
         public void CreateClient(ClientModel client)
         {
-            Client clientEntity = GenericAutoMapper<ClientModel, Client>.Map(client);
+            Client clientEntity = AutoMappers<ClientModel, Client>.Map(client);
             _UnitOfWork.Client.Add(clientEntity);
             _UnitOfWork.Complete();
         }
@@ -32,14 +32,14 @@ namespace Business_Logic_Layer.Services
         public IEnumerable<ClientModel> GetAllClients()
         {
             var clients =  _UnitOfWork.Client.GetAll();
-            IEnumerable<ClientModel> clientsModel = GenericAutoMapper<Client, ClientModel>.MapIQueryable(clients);
+            IEnumerable<ClientModel> clientsModel = AutoMappers<Client, ClientModel>.MapIQueryable(clients);
             return clientsModel;
         }
 
         public ClientModel GetClientById(int id)
         {
             var client =  _UnitOfWork.Client.GetById(id);
-            ClientModel clientModel = GenericAutoMapper<Client, ClientModel>.Map(client);
+            ClientModel clientModel = AutoMappers<Client, ClientModel>.Map(client);
             return clientModel;
         }
 
@@ -58,14 +58,14 @@ namespace Business_Logic_Layer.Services
         public IEnumerable<FeedbackModel> GetAllClientFeedbacks(int id)
         {
             var feedbacks = _UnitOfWork.Feedback.GetAll().Where(c => c.Client.ClientId == id);
-            IEnumerable<FeedbackModel> feedbackModels = GenericAutoMapper<Feedback, FeedbackModel>.MapIQueryable(feedbacks);
+            IEnumerable<FeedbackModel> feedbackModels = AutoMappers<Feedback, FeedbackModel>.MapIQueryable(feedbacks);
             return feedbackModels;
         }
 
         public IEnumerable<OrderModel> GetAllClientOrders(int id)
         {
             var orders = _UnitOfWork.Order.GetAll().Where(o => o.Client.ClientId == id);
-            IEnumerable<OrderModel> orderModels = GenericAutoMapper<Order, OrderModel>.MapIQueryable(orders);
+            IEnumerable<OrderModel> orderModels = AutoMappers<Order, OrderModel>.MapIQueryable(orders);
             return orderModels;
         }
 

@@ -1,15 +1,9 @@
-﻿using AutoMapper;
-using Business_Logic_Layer.Models;
+﻿using Business_Logic_Layer.Models;
 using Business_Logic_Layer.Services.Interfaces;
 using Business_Logic_Layer.Utilities;
 using Data_Access_Layer.Entities;
 using Data_Access_Layer.RepositoryWithUOW;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Business_Logic_Layer.Services
 {
@@ -23,8 +17,11 @@ namespace Business_Logic_Layer.Services
 
         public void CreateMaterial(MaterialModel material)
         {
-            Material materialEntity = GenericAutoMapper<MaterialModel, Material>.Map(material);
-             _UnitOfWork.Material.Add(materialEntity);
+            Material materialEntity = AutoMappers<MaterialModel, Material>.Map(material);
+            materialEntity.MaterialManufacturer = _UnitOfWork.MaterialManufacturer
+                .GetById(material.MaterialManufacturer.ManufacturerId);
+           
+            _UnitOfWork.Material.Add(materialEntity);
             _UnitOfWork.Complete();
         }
 
@@ -38,21 +35,26 @@ namespace Business_Logic_Layer.Services
         public IEnumerable<MaterialModel> GetAllMaterials()
         {
             var materials = _UnitOfWork.Material.GetAll().Include(m => m.MaterialManufacturer);
-            IEnumerable<MaterialModel> materialModels = GenericAutoMapper<Material, MaterialModel>.MapIQueryable(materials);
+            IEnumerable<MaterialModel> materialModels = AutoMappers<Material, MaterialModel>.MapIQueryable(materials);
             return materialModels;
         }
 
         public MaterialModel GetMaterialById(int id)
         {
             var materialEntity = _UnitOfWork.Material.GetById(id);
-            MaterialModel materialModel = GenericAutoMapper<Material, MaterialModel>.Map(materialEntity);
+            MaterialModel materialModel = AutoMappers<Material, MaterialModel>.Map(materialEntity);
             return materialModel;
         }
 
-        public void UpdateMaterial()
+        public void UpdateMaterial(MaterialModel material)
         {
+            Material materialEntity = AutoMappers<MaterialModel, Material>.Map(material);
+            materialEntity.MaterialManufacturer = _UnitOfWork.MaterialManufacturer
+                .GetById(material.MaterialManufacturer.ManufacturerId);
+           
+            _UnitOfWork.Material.Update(materialEntity);
+
             _UnitOfWork.Complete();
-            throw new NotImplementedException();
         }
     }
 }

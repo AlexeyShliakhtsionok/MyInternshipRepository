@@ -1,5 +1,6 @@
 ﻿using Business_Logic_Layer.Models;
 using Data_Access_Layer.Entities;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,5 +16,6 @@ namespace Business_Logic_Layer.Services.Interfaces
         public void CreateMaterialManufacturer(MaterialManufacturerModel materialManufacturer);
         public void UpdateMaterialManufacturer();
         public void DeleteMaterialManufacturer(int id);
+        public SelectList GetManufacturersSelectList(List<MaterialManufacturerModel> list);
     }
 }

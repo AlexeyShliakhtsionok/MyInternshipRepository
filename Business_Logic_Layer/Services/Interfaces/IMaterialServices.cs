@@ -13,7 +13,7 @@ namespace Business_Logic_Layer.Services.Interfaces
         public IEnumerable<MaterialModel> GetAllMaterials();
         public MaterialModel GetMaterialById(int id);
         public void CreateMaterial(MaterialModel material);
-        public void UpdateMaterial();
+        public void UpdateMaterial(MaterialModel material);
         public void DeleteMaterial(int id);
     }
 }

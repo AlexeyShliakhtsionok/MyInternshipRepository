@@ -27,14 +27,14 @@ namespace Business_Logic_Layer.Services
         public MediaFileModel GetMediaFileById(int id)
         {
             var mediaFileEntity = _UnitOfWork.MediaFile.GetById(id);
-            MediaFileModel mediaFileModel = GenericAutoMapper<MediaFile, MediaFileModel>.Map(mediaFileEntity);
+            MediaFileModel mediaFileModel = AutoMappers<MediaFile, MediaFileModel>.Map(mediaFileEntity);
             return mediaFileModel;
         }
 
         public IEnumerable<MediaFileModel> GetMediaFiles()
         {
             var mediaFiles = _UnitOfWork.MediaFile.GetAll();
-            IEnumerable<MediaFileModel> mediaFileModel = GenericAutoMapper<MediaFile, MediaFileModel>.MapIQueryable(mediaFiles);
+            IEnumerable<MediaFileModel> mediaFileModel = AutoMappers<MediaFile, MediaFileModel>.MapIQueryable(mediaFiles);
             return mediaFileModel;
         }
 
@@ -46,7 +46,7 @@ namespace Business_Logic_Layer.Services
 
         public void AddMediaFile(MediaFileModel mediaFile)
         {
-            MediaFile mediafile = GenericAutoMapper<MediaFileModel, MediaFile>.Map(mediaFile);
+            MediaFile mediafile = AutoMappers<MediaFileModel, MediaFile>.Map(mediaFile);
             _UnitOfWork.MediaFile.Add(mediafile);
             _UnitOfWork.Complete();
         }

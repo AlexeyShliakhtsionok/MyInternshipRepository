@@ -541,3 +541,5 @@ C:\Users\aries\Desktop\MyInternshipRepository\Salon\obj\Debug\net6.0\scopedcss\b
 C:\Users\aries\Desktop\MyInternshipRepository\Salon\obj\Debug\net6.0\Salon.csproj.CopyComplete
 C:\Users\aries\Desktop\MyInternshipRepository\Salon\obj\Debug\net6.0\Salon.genruntimeconfig.cache
 C:\Users\aries\Desktop\MyInternshipRepository\Salon\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\aries\Desktop\MyInternshipRepository\Salon\bin\Debug\net6.0\Microsoft.DotNet.PlatformAbstractions.dll
+C:\Users\aries\Desktop\MyInternshipRepository\Salon\bin\Debug\net6.0\Microsoft.Extensions.DependencyModel.dll

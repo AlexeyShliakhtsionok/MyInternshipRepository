@@ -3,12 +3,8 @@ using Business_Logic_Layer.Services.Interfaces;
 using Data_Access_Layer;
 using Data_Access_Layer.RepositoryWithUOW;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
-using Newtonsoft.Json.Serialization;
 using Salon.AuthOptions;
-using System.IO;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -40,7 +36,6 @@ builder.Services.AddCors(options =>
     options.AddDefaultPolicy(
         builder =>
         {
-            builder.WithOrigins("http://localhost: 3000");//???
             builder.WithOrigins().AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader(); 
         });
 });

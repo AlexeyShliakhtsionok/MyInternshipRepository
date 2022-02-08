@@ -17,7 +17,7 @@ namespace Business_Logic_Layer.Services
 
         public void CreateFeedback(FeedbackModel feedback)
         {
-            Feedback feedbackEntity = GenericAutoMapper<FeedbackModel, Feedback>.Map(feedback);
+            Feedback feedbackEntity = AutoMappers<FeedbackModel, Feedback>.Map(feedback);
              _UnitOfWork.Feedback.Add(feedbackEntity);
             _UnitOfWork.Complete();
         }
@@ -32,14 +32,14 @@ namespace Business_Logic_Layer.Services
         public IEnumerable<FeedbackModel> GetAllFeedbacks()
         {
             var feedbacks = _UnitOfWork.Feedback.GetAll();
-            IEnumerable<FeedbackModel> feedbacksModel = GenericAutoMapper<Feedback, FeedbackModel>.MapIQueryable(feedbacks);
+            IEnumerable<FeedbackModel> feedbacksModel = AutoMappers<Feedback, FeedbackModel>.MapIQueryable(feedbacks);
             return feedbacksModel;
         }
 
         public FeedbackModel GetFeedbackById(int id)
         {
             var feedback = _UnitOfWork.Feedback.GetById(id);
-            FeedbackModel feedbackModel = GenericAutoMapper<Feedback, FeedbackModel>.Map(feedback);
+            FeedbackModel feedbackModel = AutoMappers<Feedback, FeedbackModel>.Map(feedback);
             return feedbackModel;
         }
 

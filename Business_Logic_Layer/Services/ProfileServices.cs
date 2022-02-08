@@ -18,7 +18,7 @@ namespace Business_Logic_Layer.Services
 
         public void CreateProfile(ProfileModel profile)
         {
-            ProFile profileEntity = GenericAutoMapper<ProfileModel, ProFile>.Map(profile);
+            ProFile profileEntity = AutoMappers<ProfileModel, ProFile>.Map(profile);
             _UnitOfWork.Profile.Add(profileEntity);
             _UnitOfWork.Complete();
         }
@@ -33,14 +33,14 @@ namespace Business_Logic_Layer.Services
         public ProfileModel GetProfileById(int id)
         {
             var profile = _UnitOfWork.Profile.GetById(id);
-            ProfileModel profileModel = GenericAutoMapper<ProFile, ProfileModel>.Map(profile);
+            ProfileModel profileModel = AutoMappers<ProFile, ProfileModel>.Map(profile);
             return profileModel;
         }
 
         public IEnumerable<ProfileModel> GetProfiles()
         {
             var profiles = _UnitOfWork.Profile.GetAll();
-            IEnumerable<ProfileModel> profileModels = GenericAutoMapper<ProFile, ProfileModel>.MapIQueryable(profiles);
+            IEnumerable<ProfileModel> profileModels = AutoMappers<ProFile, ProfileModel>.MapIQueryable(profiles);
             return profileModels;
         }
 

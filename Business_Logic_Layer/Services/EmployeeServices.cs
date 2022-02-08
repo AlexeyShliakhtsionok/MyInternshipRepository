@@ -18,7 +18,7 @@ namespace Business_Logic_Layer.Services
 
         public void CreateEmoloyee(EmployeeModel employee)
         {
-            Employee employeeEntity = GenericAutoMapper<EmployeeModel, Employee>.Map(employee);
+            Employee employeeEntity = AutoMappers<EmployeeModel, Employee>.Map(employee);
 
             _UnitOfWork.Employee.Add(employeeEntity);
             _UnitOfWork.Complete();
@@ -35,14 +35,14 @@ namespace Business_Logic_Layer.Services
         public IEnumerable<EmployeeModel> GetAllEmployees()
         {
             var employees =  _UnitOfWork.Employee.GetAll().Include(x => x.ProFile);
-            IQueryable<EmployeeModel> employeesModel = GenericAutoMapper<Employee, EmployeeModel>.MapIQueryable(employees);
+            IQueryable<EmployeeModel> employeesModel = AutoMappers<Employee, EmployeeModel>.MapIQueryable(employees);
             return employeesModel;
         }
 
         public EmployeeModel GetEmployeeById(int id)
         {
             var employee = _UnitOfWork.Employee.GetAll().Include(e=>e.ProFile).FirstOrDefault(i=>i.EmployeeId ==id);
-            EmployeeModel employeeModel = GenericAutoMapper<Employee, EmployeeModel>.Map(employee);
+            EmployeeModel employeeModel = AutoMappers<Employee, EmployeeModel>.Map(employee);
             return employeeModel;
         }
 
