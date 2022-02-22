@@ -32,12 +32,11 @@ namespace Data_Access_Layer.Entities
         public Role Role { get; set; }
         [Required]
         public Qualification Qualification { get; set; }
-        public Specialization Specializations { get; set; }
+        
+        public virtual ProcedureType? ProcedureType { get; set; }
 
         public int? ProfileId { get; set; }
         public virtual ProFile? ProFile { get; set; }
-        public int? ScheduleId { get; set; }
-        public virtual Schedule? Schedule { get; set; }
         public virtual ICollection<Order>? Orders { get; set; }
     }
 }

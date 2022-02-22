@@ -1,14 +1,9 @@
-﻿using AutoMapper;
-using Business_Logic_Layer.Models;
+﻿using Business_Logic_Layer.Models;
 using Business_Logic_Layer.Services.Interfaces;
 using Business_Logic_Layer.Utilities;
 using Data_Access_Layer.Entities;
 using Data_Access_Layer.RepositoryWithUOW;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace Business_Logic_Layer.Services
 {
@@ -23,6 +18,9 @@ namespace Business_Logic_Layer.Services
         public void CreateOrder(OrderModel order)
         {
             Order orderEntity = AutoMappers<OrderModel,Order>.Map(order);
+            orderEntity.Client = _UnitOfWork.Client.GetById(order.Client.ClientId);
+            orderEntity.Procedure = _UnitOfWork.Procedure.GetById(order.Procedure.ProcedureId);
+            orderEntity.Employee = _UnitOfWork.Employee.GetById(order.Employee.EmployeeId);
              _UnitOfWork.Order.Add(orderEntity);
             _UnitOfWork.Complete();
         }
@@ -36,22 +34,85 @@ namespace Business_Logic_Layer.Services
 
         public IEnumerable<OrderModel> GetOrders()
         {
-            var orders = _UnitOfWork.Order.GetAll();
+            var orders = _UnitOfWork.Order.GetAll()
+                .Include(c => c.Client)
+                .Include(e => e.Employee)
+                .Include(p => p.Procedure);
             IEnumerable<OrderModel> orderModels = AutoMappers<Order, OrderModel>.MapIQueryable(orders);
             return orderModels;
         }
 
-        public OrderModel GetOrdersById(int id)
+        public OrderModel GetOrderById(int id)
         {
-            var orderEntity = _UnitOfWork.Order.GetById(id);
+            var orderEntity = _UnitOfWork.Order.GetAll()
+                .Include(c => c.Client)
+                .Include(e => e.Employee)
+                .Include(p => p.Procedure)
+                .FirstOrDefault(o => o.OrderId == id);
             OrderModel orderModel = AutoMappers<Order, OrderModel>.Map(orderEntity);
             return orderModel;
         }
 
-        public void UpdateOrder()
+        public void UpdateOrder(OrderModel order)
         {
+            Order orderEntity = AutoMappers<OrderModel, Order>.Map(order);
+            orderEntity.Client = _UnitOfWork.Client.GetById(order.Client.ClientId);
+            orderEntity.Procedure = _UnitOfWork.Procedure.GetById(order.Procedure.ProcedureId);
+            orderEntity.Employee = _UnitOfWork.Employee.GetById(order.Employee.EmployeeId);
+            _UnitOfWork.Order.Update(orderEntity);
             _UnitOfWork.Complete();
-            throw new NotImplementedException();
+        }
+
+        public List<DateTime> GetAvaliableServiceTimeOfEmployee(int id, DateTime chosenDate, int procedureId, double open, double close)
+        {
+            List<DateTime> dailySchedule = new List<DateTime>();
+            List<DateTime> resultSchedule = new List<DateTime>();
+
+            List<Order>orders = _UnitOfWork.Order.GetAll()
+                .Include(c => c.Client)
+                .Include(e => e.Employee)
+                .Include(p => p.Procedure)
+                .Where(o => o.Employee.EmployeeId == id).ToList();
+
+            var openTime = chosenDate.AddHours(open); // params
+            var closeTime = chosenDate.AddHours(close);// params
+            var currentTime = openTime;
+            dailySchedule.Add(openTime);
+
+            do              {
+                dailySchedule.Add(currentTime.AddMinutes(30));
+                currentTime = currentTime.AddMinutes(30);
+            } while (currentTime.AddMinutes(30) <= closeTime);
+
+            if (orders != null)
+            {
+                for (int i = dailySchedule.Count-1; i >= 0; i--)
+                { 
+                    for (int j = 0; j < orders.Count; j++)
+                    {
+                        if (dailySchedule[i] >= orders[j].DateOfService &&
+                            dailySchedule[i] < orders[j].DateOfService.AddMinutes(orders[j].Procedure.TimeAmount.TotalMinutes))
+                        {
+                             dailySchedule.Remove(dailySchedule[i]);
+                        }
+                    }
+                }
+
+                var bookingProcedure = _UnitOfWork.Procedure.GetById(procedureId);
+                var bookingProcedureTimeAmount = bookingProcedure.TimeAmount.TotalMinutes;
+                var coefficient = Math.Ceiling(bookingProcedureTimeAmount / 30);
+                
+                for (int i = 0; i < dailySchedule.Count; i++)
+                {
+                    if ((i + (int)coefficient <= dailySchedule.Count - 1)
+                        && (dailySchedule[i].AddMinutes(bookingProcedureTimeAmount) > dailySchedule[i + (int)coefficient -1]))
+                    {
+                        resultSchedule.Add(dailySchedule[i]);
+                    }
+                }
+            }
+            return resultSchedule;
         }
     }
 }
+

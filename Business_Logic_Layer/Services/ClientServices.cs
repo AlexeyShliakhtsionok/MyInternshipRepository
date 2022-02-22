@@ -3,6 +3,7 @@ using Business_Logic_Layer.Services.Interfaces;
 using Business_Logic_Layer.Utilities;
 using Data_Access_Layer.Entities;
 using Data_Access_Layer.RepositoryWithUOW;
+using Microsoft.EntityFrameworkCore;
 
 namespace Business_Logic_Layer.Services
 {
@@ -31,14 +32,29 @@ namespace Business_Logic_Layer.Services
 
         public IEnumerable<ClientModel> GetAllClients()
         {
-            var clients =  _UnitOfWork.Client.GetAll();
+            var clients =  _UnitOfWork.Client.GetAll()
+                .Include(o => o.Orders)
+                .Include(f => f.Feedbacks);
             IEnumerable<ClientModel> clientsModel = AutoMappers<Client, ClientModel>.MapIQueryable(clients);
             return clientsModel;
         }
 
         public ClientModel GetClientById(int id)
         {
-            var client =  _UnitOfWork.Client.GetById(id);
+            var client =  _UnitOfWork.Client.GetAll()
+                .Include(o => o.Orders)
+                .Include(f => f.Feedbacks)
+                .FirstOrDefault(c => c.ClientId == id);
+            ClientModel clientModel = AutoMappers<Client, ClientModel>.Map(client);
+            return clientModel;
+        }
+
+        public ClientModel GetClientByEmail(string email)
+        {
+            var client = _UnitOfWork.Client.GetAll()
+                .Include(o => o.Orders)
+                .Include(f => f.Feedbacks)
+                .FirstOrDefault(c => c.Email == email);
             ClientModel clientModel = AutoMappers<Client, ClientModel>.Map(client);
             return clientModel;
         }
@@ -68,6 +84,5 @@ namespace Business_Logic_Layer.Services
             IEnumerable<OrderModel> orderModels = AutoMappers<Order, OrderModel>.MapIQueryable(orders);
             return orderModels;
         }
-
     }
 }

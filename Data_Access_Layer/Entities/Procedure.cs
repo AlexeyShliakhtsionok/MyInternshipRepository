@@ -15,16 +15,14 @@ namespace Data_Access_Layer.Entities
         [Required]
         [MaxLength(25)]
         public string ProcedureName { get; set; }
+        [MaxLength(250)]
+        public string ProcedureDescription { get; set; }
         [Required]
-        public DateTime TimeAmount { get; set; }
+        public TimeSpan TimeAmount { get; set; }
+
         [Required]
         public float ProcedurePrice { get; set; }
-
-        [JsonConverter(typeof(StringEnumConverter))]
-        public Specialization Specialization { get; set; }
-
+        public virtual ProcedureType? ProcedureType { get; set; }
         public virtual ICollection<Material>? Materials { get; set; }
-        public virtual ICollection<Order>? Orders { get; set; }
-
     }
 }

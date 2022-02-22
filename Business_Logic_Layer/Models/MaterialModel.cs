@@ -13,7 +13,8 @@ namespace Business_Logic_Layer.Models
         public double MaterialAmount { get; set; }
         public DateTime ProductionDate { get; set; }
         public DateTime BestBeforeDate { get; set; }
-        public virtual MaterialManufacturerModel MaterialManufacturer { get; set; }
-        public virtual ICollection<ProcedureModel>? Procedures { get; set; }
+
+        public MaterialManufacturerModel? MaterialManufacturer { get; set; }
+        public ICollection<ProcedureModel>? Procedures { get; set; }
     }
 }

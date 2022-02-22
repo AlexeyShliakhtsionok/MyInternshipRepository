@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data_Access_Layer.Migrations
 {
     [DbContext(typeof(SalonDBContext))]
-    [Migration("20220207084747_feedback+")]
-    partial class feedback
+    [Migration("20220216132749_intermediate")]
+    partial class intermediate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -88,6 +88,9 @@ namespace Data_Access_Layer.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("ProcedureTypeId")
+                        .HasColumnType("int");
+
                     b.Property<int?>("ProfileId")
                         .HasColumnType("int");
 
@@ -97,21 +100,13 @@ namespace Data_Access_Layer.Migrations
                     b.Property<int>("Role")
                         .HasColumnType("int");
 
-                    b.Property<int?>("ScheduleId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Specializations")
-                        .HasColumnType("int");
-
                     b.HasKey("EmployeeId");
+
+                    b.HasIndex("ProcedureTypeId");
 
                     b.HasIndex("ProfileId")
                         .IsUnique()
                         .HasFilter("[ProfileId] IS NOT NULL");
-
-                    b.HasIndex("ScheduleId")
-                        .IsUnique()
-                        .HasFilter("[ScheduleId] IS NOT NULL");
 
                     b.ToTable("Employees");
                 });
@@ -124,18 +119,18 @@ namespace Data_Access_Layer.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("FeedbackId"), 1L, 1);
 
-                    b.Property<int>("ClientId")
+                    b.Property<int?>("ClientId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedOn")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2022, 2, 7, 11, 47, 47, 432, DateTimeKind.Local).AddTicks(4772));
+                        .HasDefaultValue(new DateTime(2022, 2, 16, 16, 27, 48, 970, DateTimeKind.Local).AddTicks(776));
 
                     b.Property<string>("FeedbackText")
                         .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
 
                     b.Property<string>("FeedbackTitle")
                         .IsRequired()
@@ -168,7 +163,7 @@ namespace Data_Access_Layer.Migrations
                     b.Property<double>("MaterialAmount")
                         .HasColumnType("float");
 
-                    b.Property<int>("MaterialManufacturerManufacturerId")
+                    b.Property<int?>("MaterialManufacturerManufacturerId")
                         .HasColumnType("int");
 
                     b.Property<string>("MaterialName")
@@ -251,26 +246,30 @@ namespace Data_Access_Layer.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderId"), 1L, 1);
 
-                    b.Property<int>("ClientId")
+                    b.Property<int?>("ClientId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("DateOfService")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("EmployeeId")
+                        .HasColumnType("int");
+
                     b.Property<bool>("IsCompleted")
-                        .HasColumnType("bit");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
 
-                    b.Property<double>("OrderPrice")
-                        .HasColumnType("float");
-
-                    b.Property<int?>("ScheduleId")
+                    b.Property<int?>("ProcedureId")
                         .HasColumnType("int");
 
                     b.HasKey("OrderId");
 
                     b.HasIndex("ClientId");
 
-                    b.HasIndex("ScheduleId");
+                    b.HasIndex("EmployeeId");
+
+                    b.HasIndex("ProcedureId");
 
                     b.ToTable("Orders");
                 });
@@ -283,6 +282,11 @@ namespace Data_Access_Layer.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProcedureId"), 1L, 1);
 
+                    b.Property<string>("ProcedureDescription")
+                        .IsRequired()
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
+
                     b.Property<string>("ProcedureName")
                         .IsRequired()
                         .HasMaxLength(25)
@@ -291,15 +295,35 @@ namespace Data_Access_Layer.Migrations
                     b.Property<float>("ProcedurePrice")
                         .HasColumnType("real");
 
-                    b.Property<int>("Specialization")
+                    b.Property<int?>("ProcedureTypeId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("TimeAmount")
-                        .HasColumnType("datetime2");
+                    b.Property<TimeSpan>("TimeAmount")
+                        .HasColumnType("time");
 
                     b.HasKey("ProcedureId");
 
+                    b.HasIndex("ProcedureTypeId");
+
                     b.ToTable("Procedures");
+                });
+
+            modelBuilder.Entity("Data_Access_Layer.Entities.ProcedureType", b =>
+                {
+                    b.Property<int>("ProcedureTypeId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProcedureTypeId"), 1L, 1);
+
+                    b.Property<string>("ProcedureTypeName")
+                        .IsRequired()
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
+
+                    b.HasKey("ProcedureTypeId");
+
+                    b.ToTable("ProcedureTypes");
                 });
 
             modelBuilder.Entity("Data_Access_Layer.Entities.ProFile", b =>
@@ -320,42 +344,6 @@ namespace Data_Access_Layer.Migrations
                     b.ToTable("Profiles");
                 });
 
-            modelBuilder.Entity("Data_Access_Layer.Entities.Schedule", b =>
-                {
-                    b.Property<int>("ScheduleId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ScheduleId"), 1L, 1);
-
-                    b.Property<DateTime>("ScheduleDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("ScheduleTitle")
-                        .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)");
-
-                    b.HasKey("ScheduleId");
-
-                    b.ToTable("Schedules");
-                });
-
-            modelBuilder.Entity("EmployeeOrder", b =>
-                {
-                    b.Property<int>("EmployeesEmployeeId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("OrdersOrderId")
-                        .HasColumnType("int");
-
-                    b.HasKey("EmployeesEmployeeId", "OrdersOrderId");
-
-                    b.HasIndex("OrdersOrderId");
-
-                    b.ToTable("EmployeeOrder");
-                });
-
             modelBuilder.Entity("MaterialProcedure", b =>
                 {
                     b.Property<int>("MaterialsMaterialId")
@@ -371,43 +359,26 @@ namespace Data_Access_Layer.Migrations
                     b.ToTable("MaterialProcedure");
                 });
 
-            modelBuilder.Entity("OrderProcedure", b =>
-                {
-                    b.Property<int>("OrdersOrderId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ProceduresProcedureId")
-                        .HasColumnType("int");
-
-                    b.HasKey("OrdersOrderId", "ProceduresProcedureId");
-
-                    b.HasIndex("ProceduresProcedureId");
-
-                    b.ToTable("OrderProcedure");
-                });
-
             modelBuilder.Entity("Data_Access_Layer.Entities.Employee", b =>
                 {
+                    b.HasOne("Data_Access_Layer.Entities.ProcedureType", "ProcedureType")
+                        .WithMany("Employees")
+                        .HasForeignKey("ProcedureTypeId");
+
                     b.HasOne("Data_Access_Layer.Entities.ProFile", "ProFile")
                         .WithOne("Employee")
                         .HasForeignKey("Data_Access_Layer.Entities.Employee", "ProfileId");
 
-                    b.HasOne("Data_Access_Layer.Entities.Schedule", "Schedule")
-                        .WithOne("Employee")
-                        .HasForeignKey("Data_Access_Layer.Entities.Employee", "ScheduleId");
-
                     b.Navigation("ProFile");
 
-                    b.Navigation("Schedule");
+                    b.Navigation("ProcedureType");
                 });
 
             modelBuilder.Entity("Data_Access_Layer.Entities.Feedback", b =>
                 {
                     b.HasOne("Data_Access_Layer.Entities.Client", "Client")
                         .WithMany("Feedbacks")
-                        .HasForeignKey("ClientId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ClientId");
 
                     b.Navigation("Client");
                 });
@@ -416,9 +387,7 @@ namespace Data_Access_Layer.Migrations
                 {
                     b.HasOne("Data_Access_Layer.Entities.MaterialManufacturer", "MaterialManufacturer")
                         .WithMany("Materials")
-                        .HasForeignKey("MaterialManufacturerManufacturerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("MaterialManufacturerManufacturerId");
 
                     b.Navigation("MaterialManufacturer");
                 });
@@ -436,30 +405,30 @@ namespace Data_Access_Layer.Migrations
                 {
                     b.HasOne("Data_Access_Layer.Entities.Client", "Client")
                         .WithMany("Orders")
-                        .HasForeignKey("ClientId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ClientId");
 
-                    b.HasOne("Data_Access_Layer.Entities.Schedule", null)
+                    b.HasOne("Data_Access_Layer.Entities.Employee", "Employee")
                         .WithMany("Orders")
-                        .HasForeignKey("ScheduleId");
+                        .HasForeignKey("EmployeeId");
+
+                    b.HasOne("Data_Access_Layer.Entities.Procedure", "Procedure")
+                        .WithMany()
+                        .HasForeignKey("ProcedureId");
 
                     b.Navigation("Client");
+
+                    b.Navigation("Employee");
+
+                    b.Navigation("Procedure");
                 });
 
-            modelBuilder.Entity("EmployeeOrder", b =>
+            modelBuilder.Entity("Data_Access_Layer.Entities.Procedure", b =>
                 {
-                    b.HasOne("Data_Access_Layer.Entities.Employee", null)
-                        .WithMany()
-                        .HasForeignKey("EmployeesEmployeeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasOne("Data_Access_Layer.Entities.ProcedureType", "ProcedureType")
+                        .WithMany("Procedures")
+                        .HasForeignKey("ProcedureTypeId");
 
-                    b.HasOne("Data_Access_Layer.Entities.Order", null)
-                        .WithMany()
-                        .HasForeignKey("OrdersOrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("ProcedureType");
                 });
 
             modelBuilder.Entity("MaterialProcedure", b =>
@@ -477,25 +446,15 @@ namespace Data_Access_Layer.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("OrderProcedure", b =>
-                {
-                    b.HasOne("Data_Access_Layer.Entities.Order", null)
-                        .WithMany()
-                        .HasForeignKey("OrdersOrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Data_Access_Layer.Entities.Procedure", null)
-                        .WithMany()
-                        .HasForeignKey("ProceduresProcedureId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Data_Access_Layer.Entities.Client", b =>
                 {
                     b.Navigation("Feedbacks");
 
+                    b.Navigation("Orders");
+                });
+
+            modelBuilder.Entity("Data_Access_Layer.Entities.Employee", b =>
+                {
                     b.Navigation("Orders");
                 });
 
@@ -504,20 +463,18 @@ namespace Data_Access_Layer.Migrations
                     b.Navigation("Materials");
                 });
 
-            modelBuilder.Entity("Data_Access_Layer.Entities.ProFile", b =>
+            modelBuilder.Entity("Data_Access_Layer.Entities.ProcedureType", b =>
                 {
-                    b.Navigation("Employee")
-                        .IsRequired();
+                    b.Navigation("Employees");
 
-                    b.Navigation("MediaFiles");
+                    b.Navigation("Procedures");
                 });
 
-            modelBuilder.Entity("Data_Access_Layer.Entities.Schedule", b =>
+            modelBuilder.Entity("Data_Access_Layer.Entities.ProFile", b =>
                 {
-                    b.Navigation("Employee")
-                        .IsRequired();
+                    b.Navigation("Employee");
 
-                    b.Navigation("Orders");
+                    b.Navigation("MediaFiles");
                 });
 #pragma warning restore 612, 618
         }

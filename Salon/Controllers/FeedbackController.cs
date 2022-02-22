@@ -30,10 +30,24 @@ namespace Salon.Controllers
             return Ok(feedbacks);
         }
 
+        [HttpGet]
+        [Route("GetAllApprovedFeedbacks")]
+        public ActionResult<IEnumerable<FeedbackModel>> GetAllApprovedFeedbacks()
+        {
+            var feedbacks = _feedbackServices.GetAllApprovedFeedbacks();
+            return Ok(feedbacks);
+        }
+
         [HttpPost, Route("CreateFeedback")]
         public void CreateFeedback(FeedbackModel feedback)
         {
             _feedbackServices.CreateFeedback(feedback);
+        }
+
+        [HttpPost, Route("UpdateFeedback")]
+        public void UpdateFeedback([FromBody]FeedbackModel feedback)
+        {
+            _feedbackServices.UpdateFeedback(feedback);
         }
 
         [HttpPost, Route("DeleteFeedbackById")]

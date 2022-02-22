@@ -13,11 +13,11 @@ namespace Data_Access_Layer.Entities
         [MaxLength(15)]
         public string FeedbackTitle { get; set; }
         [Required]
-        [MaxLength(255)]
+        [MaxLength(1000)]
         public string FeedbackText { get; set; }
         public DateTime CreatedOn { get; set; }
         public bool IsVerify { get; set; }
 
-        public virtual Client Client { get; set; }
+        public virtual Client? Client { get; set; }
     }
 }

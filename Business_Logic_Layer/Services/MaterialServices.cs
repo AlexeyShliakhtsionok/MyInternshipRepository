@@ -3,6 +3,7 @@ using Business_Logic_Layer.Services.Interfaces;
 using Business_Logic_Layer.Utilities;
 using Data_Access_Layer.Entities;
 using Data_Access_Layer.RepositoryWithUOW;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace Business_Logic_Layer.Services
@@ -34,14 +35,20 @@ namespace Business_Logic_Layer.Services
 
         public IEnumerable<MaterialModel> GetAllMaterials()
         {
-            var materials = _UnitOfWork.Material.GetAll().Include(m => m.MaterialManufacturer);
+            var materials = _UnitOfWork.Material.GetAll()
+                .Include(m => m.MaterialManufacturer)
+                .Include(p => p.Procedures);
+                
             IEnumerable<MaterialModel> materialModels = AutoMappers<Material, MaterialModel>.MapIQueryable(materials);
             return materialModels;
         }
 
         public MaterialModel GetMaterialById(int id)
         {
-            var materialEntity = _UnitOfWork.Material.GetById(id);
+            var materialEntity = _UnitOfWork.Material.GetAll()
+                .Include(m => m.MaterialManufacturer)
+                .Include(p => p.Procedures)
+                .FirstOrDefault(m => m.MaterialId == id);
             MaterialModel materialModel = AutoMappers<Material, MaterialModel>.Map(materialEntity);
             return materialModel;
         }
@@ -55,6 +62,20 @@ namespace Business_Logic_Layer.Services
             _UnitOfWork.Material.Update(materialEntity);
 
             _UnitOfWork.Complete();
+        }
+
+        public SelectList GetMaterialsSelectList(List<MaterialModel> list)
+        {
+            List<SelectListItem> items = new List<SelectListItem>(list.Count);
+            foreach (var item in list)
+            {
+                items.Add(new SelectListItem
+                {
+                    Text = item.MaterialName,
+                    Value = item.MaterialId.ToString()
+                });
+            }
+            return new SelectList(items, "Value", "Text");
         }
     }
 }

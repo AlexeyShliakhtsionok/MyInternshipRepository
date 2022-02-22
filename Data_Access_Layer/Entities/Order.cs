@@ -13,11 +13,11 @@ namespace Data_Access_Layer.Entities
         [Required]
         public DateTime DateOfService { get; set; }
         [Required]
-        public double OrderPrice { get; set; }
         public bool IsCompleted { get; set; }
 
-        public virtual Client Client { get; set; }
-        public virtual ICollection<Procedure> Procedures { get; set; }
-        public virtual ICollection<Employee> Employees { get; set; }
+        public virtual Client? Client { get; set; }
+        public int? ProcedureId { get; set; }
+        public virtual Procedure? Procedure { get; set; }
+        public virtual Employee? Employee { get; set; }
     }
 }

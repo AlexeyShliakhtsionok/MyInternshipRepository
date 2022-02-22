@@ -13,25 +13,50 @@ namespace Business_Logic_Layer.Utilities
             cfg.CreateMap<MaterialModel, Material>()
                 .ForMember(m => m.MaterialManufacturer, opt => opt
                 .Ignore());
-
-
-
-
-
-
-
-
             cfg.CreateMap<Material, MaterialModel>();
-            cfg.CreateMap<Employee, EmployeeModel>().ReverseMap();
-            cfg.CreateMap<ProFile, ProfileModel>().ReverseMap();
+
+            cfg.CreateMap<EmployeeModel, Employee>()
+                .ForMember(dest => dest.ProcedureType, opt => opt
+                .Ignore());
+            cfg.CreateMap<Employee, EmployeeModel>();
+
+            cfg.CreateMap<Order, OrderModel>();
+            cfg.CreateMap<OrderModel, Order>()
+                .ForMember(dest => dest.Client, opt => opt.Ignore())
+                .ForMember(dest => dest.Employee, opt => opt.Ignore())
+                .ForMember(dest => dest.Procedure, opt => opt.Ignore());
+
+            cfg.CreateMap<ProcedureModel, Procedure>()
+                .ForMember(dest => dest.ProcedureType, opt => opt.Ignore())
+                .ForMember(dest => dest.Materials, opt => opt.Ignore());
+            cfg.CreateMap<Procedure, ProcedureModel>();
+
+            cfg.CreateMap<Feedback, FeedbackModel>();
+            cfg.CreateMap<FeedbackModel, Feedback>()
+                .ForMember(dest => dest.Client, opt => opt.Ignore());
+
+            cfg.CreateMap<Feedback, FeedbackModel>();
+                cfg.CreateMap<FeedbackModel, Feedback>()
+                .ForMember(dest => dest.Client, opt => opt.Ignore());
+
+
+
+
+
+
+
+                cfg.CreateMap<ProcedureType, ProcedureTypeModel>();
+            cfg.CreateMap<ProcedureTypeModel, ProcedureType>();
+
+                cfg.CreateMap<ProFile, ProfileModel>().ReverseMap();
             cfg.CreateMap<Order, OrderModel>().ReverseMap();
-            cfg.CreateMap<Schedule, ScheduleModel>().ReverseMap();
             cfg.CreateMap<Client, ClientModel>().ReverseMap();
-            cfg.CreateMap<Feedback, FeedbackModel>().ReverseMap();
+            
             cfg.CreateMap<MaterialManufacturer, MaterialManufacturerModel>().ReverseMap();
             cfg.CreateMap<MediaFile, MediaFileModel>().ReverseMap();
-            cfg.CreateMap<Procedure, ProcedureModel>().ReverseMap();
-           }
+            
+
+            }
      }));
 
         public static TDestination Map(TSource source)

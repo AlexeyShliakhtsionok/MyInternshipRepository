@@ -5,6 +5,7 @@ using Business_Logic_Layer.Utilities;
 using Data_Access_Layer.Entities;
 using Data_Access_Layer.RepositoryWithUOW;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,7 +39,8 @@ namespace Business_Logic_Layer.Services
 
         public IEnumerable<MaterialManufacturerModel> GetAllMaterialManufacturers()
         {
-            var materialManufacturers =  _UnitOfWork.MaterialManufacturer.GetAll();
+            var materialManufacturers =  _UnitOfWork.MaterialManufacturer.GetAll()
+                .Include(m => m.Materials);
             IEnumerable<MaterialManufacturerModel> materialManufacturersModel = AutoMappers<MaterialManufacturer,MaterialManufacturerModel>
                 .MapIQueryable(materialManufacturers);
             return materialManufacturersModel;

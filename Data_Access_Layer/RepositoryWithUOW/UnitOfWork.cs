@@ -15,8 +15,8 @@ namespace Data_Access_Layer.RepositoryWithUOW
         public IOrderRepository Order { get; private set; }
         public IProcedureRepository Procedure { get; private set; }
         public IProfileRepository Profile { get; private set; }
-        public IScheduleRepository Schedule { get; private set; }
-        //public ISpecializationRepository Specialization { get; private set; }
+        public IProcedureTypeRepository ProcedureType { get; private set; }
+
 
         public UnitOfWork(SalonDBContext context)
         {
@@ -30,7 +30,7 @@ namespace Data_Access_Layer.RepositoryWithUOW
             Order = new OrderRepository(context);
             Procedure = new ProcedureRepository(context);
             Profile = new ProfileRepository(context);
-            Schedule = new ScheduleRepository(context);
+            ProcedureType = new ProcedureTypeRepository(context);
         }
 
         public void Complete()

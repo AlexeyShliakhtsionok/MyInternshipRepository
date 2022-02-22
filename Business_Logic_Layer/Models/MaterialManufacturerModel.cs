@@ -11,7 +11,6 @@ namespace Business_Logic_Layer.Models
         public int ManufacturerId { get; set; }
         public string ManufacturerName { get; set; }
         public string MadeIn { get; set; }
-        
-        public virtual ICollection<MaterialModel>? Materials { get; set; }
+        public ICollection<MaterialModel>? Materials { get; set; }
     }
 }

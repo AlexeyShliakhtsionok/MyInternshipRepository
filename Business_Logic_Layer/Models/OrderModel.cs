@@ -10,10 +10,10 @@ namespace Business_Logic_Layer.Models
     {
         public int OrderId { get; set; }
         public DateTime DateOfService { get; set; }
-        public double OrderPrice { get; set; }
         public bool IsCompleted { get; set; }
-        public virtual ClientModel Client { get; set; }
-        public virtual ICollection<EmployeeModel> Employees { get; set; }
-        public virtual ICollection<ProcedureModel> Procedures { get; set; }
+
+        public ClientModel? Client { get; set; }
+        public ProcedureModel? Procedure { get; set; }
+        public EmployeeModel? Employee { get; set; }
     }
 }

@@ -16,7 +16,6 @@ namespace Data_Access_Layer.Entities
         [MaxLength(10)]
         public string MadeIn { get; set; }
 
-
         public virtual ICollection<Material>? Materials { get; set; }
     }
 }

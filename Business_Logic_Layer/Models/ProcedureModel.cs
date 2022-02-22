@@ -10,10 +10,10 @@ namespace Business_Logic_Layer.Models
     {
         public int ProcedureId { get; set; }
         public string ProcedureName { get; set; }
-        public DateTime TimeAmount { get; set; }
+        public string ProcedureDescription { get; set; }
+        public TimeSpan TimeAmount { get; set; }
         public float ProcedurePrice { get; set; }
-        public SpecializationModel SpecializationModel { get; set; }
-        public virtual ICollection<MaterialModel> Materials { get; set; }
-        public virtual ICollection<OrderModel> Orders { get; set; }
+        public ProcedureTypeModel? ProcedureType { get; set; }
+        public ICollection<MaterialModel>? Materials { get; set; }
     }
 }

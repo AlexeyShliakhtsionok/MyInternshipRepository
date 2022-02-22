@@ -1,6 +1,7 @@
 ﻿using Business_Logic_Layer.Models;
 using Business_Logic_Layer.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using System.Reflection.Metadata;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace Salon.Controllers
@@ -29,27 +30,22 @@ namespace Salon.Controllers
         {
             MediaFileModel imageToShow = _mediaFileServices.GetMediaFileById(id);
             var byteArray = imageToShow.FileData;
-            return File(byteArray, "image/png");
+            var result = base.File(byteArray, "image/png");
+            return result;
         }
 
 
         [HttpGet]
-        [Route("GetAllFiles")]
+        [Route("GetAllMediaFiles")]
         public ActionResult GetAllMediaFiles()
         {
-            List<MediaFileModel> models = new();
-            var files = _mediaFileServices.GetMediaFiles();
-
-            foreach (var file in files)
-            {
-                models.Add(file);
-            }
+            List<MediaFileModel> models = _mediaFileServices.GetMediaFiles().ToList();
 
             List<FileContentResult> result = new();
 
-            foreach (var file in files)
+            foreach (var file in models)
             {
-                result.Add(File(file.FileData, "image/png"));
+                result.Add(base.File(file.FileData, "image/png"));
             }
             return Ok(result);
         }
@@ -57,31 +53,66 @@ namespace Salon.Controllers
         [HttpPost]
         public ActionResult UploadImageToDB(IFormFile file)
         {
-            if (file != null)
-            {
-                if(file.Length > 0)
+                if (file != null)
                 {
-                    var fileName = Path.GetFileName(file.FileName);
-                    var fileExtension = Path.GetExtension(fileName);
-                    var newFileName = String.Concat(Convert.ToString(Guid.NewGuid()), fileExtension);
-                    var objFile = new MediaFileModel()
+                    if (file.Length > 0)
                     {
-                        FileName = newFileName,
-                        FileType = fileExtension,
-                        CreatedOn = DateTime.Now,
-                    };
+                        var fileName = Path.GetFileName(file.FileName);
+                        var fileExtension = Path.GetExtension(fileName);
+                        var newFileName = String.Concat(Convert.ToString(Guid.NewGuid()), fileExtension);
+                        var objFile = new MediaFileModel()
+                        {
+                            FileName = newFileName,
+                            FileType = fileExtension,
+                            CreatedOn = DateTime.Now,
+                        };
 
-                    using (var target = new MemoryStream())
-                    {
-                        file.CopyTo(target);
-                        objFile.FileData = target.ToArray();
-                        target.Close();
+                        using (var target = new MemoryStream())
+                        {
+                            file.CopyTo(target);
+                            objFile.FileData = target.ToArray();
+                            target.Close();
+                        }
+                        _mediaFileServices.AddMediaFile(objFile);
                     }
-                    _mediaFileServices.AddMediaFile(objFile);
+                    return Ok();
                 }
-                return Ok();
-            }
             return NoContent();
         }
     }
 }
+
+
+
+
+
+
+//[HttpPost]
+//public ActionResult UploadImageToDB(IFormFile file)
+//{
+//    if (file != null)
+//    {
+//        if (file.Length > 0)
+//        {
+//            var fileName = Path.GetFileName(file.FileName);
+//            var fileExtension = Path.GetExtension(fileName);
+//            var newFileName = String.Concat(Convert.ToString(Guid.NewGuid()), fileExtension);
+//            var objFile = new MediaFileModel()
+//            {
+//                FileName = newFileName,
+//                FileType = fileExtension,
+//                CreatedOn = DateTime.Now,
+//            };
+
+//            using (var target = new MemoryStream())
+//            {
+//                file.CopyTo(target);
+//                objFile.FileData = target.ToArray();
+//                target.Close();
+//            }
+//            _mediaFileServices.AddMediaFile(objFile);
+//        }
+//        return Ok();
+//    }
+//    return NoContent();
+//}

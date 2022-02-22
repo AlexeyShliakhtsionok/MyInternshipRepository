@@ -11,8 +11,8 @@ namespace Business_Logic_Layer.Models
         public int FeedbackId { get; set; }
         public string FeedbackTitle { get; set; }
         public string FeedbackText { get; set; }
-        public bool IsVerify { get; set; }
         public DateTime CreatedOn { get; set; }
-        public virtual ClientModel Client { get; set; }
+        public bool IsVerify { get; set; }
+        public ClientModel? Client { get; set; }
     }
 }

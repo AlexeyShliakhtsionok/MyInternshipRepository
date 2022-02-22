@@ -13,7 +13,7 @@ namespace Data_Access_Layer.RepositoryWithUOW
         IOrderRepository Order { get; }
         IProcedureRepository Procedure { get; }
         IProfileRepository Profile { get; }
-        IScheduleRepository Schedule { get; }
+        IProcedureTypeRepository ProcedureType { get; }
 
         void Complete();
         void Dispose();

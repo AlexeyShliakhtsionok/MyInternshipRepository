@@ -1,13 +1,10 @@
 ﻿using Business_Logic_Layer.Models;
 using Business_Logic_Layer.Services.Interfaces;
-using Microsoft.AspNetCore.Mvc;
-using System.IdentityModel.Tokens.Jwt;
-using Microsoft.IdentityModel.Tokens;
-using System.Security.Claims;
-using System.Text.Json.Serialization;
-using Newtonsoft.Json;
-using Microsoft.AspNetCore.Authorization;
 using Business_Logic_Layer.Utilities;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 
 namespace Salon.Controllers
 {
@@ -16,10 +13,14 @@ namespace Salon.Controllers
     public class EmployeeController : ControllerBase
     {
         private readonly IEmployeeServices _employeeServices;
+        private readonly IProcedureTypeServices _procedureTypeServices;
+        private readonly IOrderServices _orderServices;
 
-        public EmployeeController(IEmployeeServices employeeServices)
+        public EmployeeController(IEmployeeServices employeeServices, IProcedureTypeServices procedureTypeServices, IOrderServices orderServices)
         {
             _employeeServices = employeeServices;
+            _procedureTypeServices = procedureTypeServices;
+            _orderServices = orderServices;
         }
 
         [HttpPost]
@@ -46,10 +47,12 @@ namespace Salon.Controllers
         public ActionResult<IEnumerable<EmployeeModel>> GetEmployees()
         {
             var roles = EnumExtensions.GetValues<RoleModel>();
-            var specialization = EnumExtensions.GetValues<SpecializationModel>();
             var qualification = EnumExtensions.GetValues<QualificationModel>();
             var employees = _employeeServices.GetAllEmployees();
-            return Ok(new { employees, roles, specialization, qualification });
+            var orders = _orderServices.GetOrders();
+            var procedureTypes = _procedureTypeServices.GetProcedureTypes().ToList();
+            var procedureTypesSelectList = _procedureTypeServices.GetProcedureTypesSelectList(procedureTypes);
+            return Ok(new { employees, roles, procedureTypes, procedureTypesSelectList, qualification, orders });
         }
 
         [HttpPost]
@@ -101,9 +104,6 @@ namespace Salon.Controllers
             return null;
         }
 
-
-
-
         [HttpPost]
         [Route("CreateEmployee")]
         public void CreateEmployee([FromBody] EmployeeModel employeeInput)
@@ -117,6 +117,16 @@ namespace Salon.Controllers
         {
             _employeeServices.UpdateEmoloyee(employeeInput);
             
+        }
+
+        [HttpGet]
+        [Route("GetAllByProcedureType")]
+        public ActionResult<IEnumerable<EmployeeModel>> GetAllByProcedureType(int id)
+        {
+            
+            var employees = _employeeServices.GetAllByProcedureType(id);
+           
+            return Ok(employees);
         }
 
 

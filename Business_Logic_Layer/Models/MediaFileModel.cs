@@ -14,6 +14,6 @@ namespace Business_Logic_Layer.Models
         public string FileType { get; set; }
         public DateTime CreatedOn { get; set; }
 
-        public virtual ProfileModel? Profile { get; set; }
+        public ProfileModel? Profile { get; set; }
     }
 }

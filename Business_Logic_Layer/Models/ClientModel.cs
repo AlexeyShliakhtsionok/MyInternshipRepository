@@ -13,7 +13,8 @@ namespace Business_Logic_Layer.Models
         public string LastName { get; set; }
         public string PhoneNumber { get; set; }
         public string Email { get; set; }
-        public virtual ICollection<FeedbackModel>? Feedbacks { get; set; }
-        public virtual ICollection<OrderModel>? Orders { get; set; }
+
+        public ICollection<FeedbackModel>? Feedbacks { get; set; }
+        public ICollection<OrderModel>? Orders { get; set; }
     }
 }

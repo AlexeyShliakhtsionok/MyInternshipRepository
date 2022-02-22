@@ -10,5 +10,6 @@ namespace Business_Logic_Layer.Services.Interfaces
         public void CreateEmoloyee(EmployeeModel employee);
         public void UpdateEmoloyee(EmployeeModel employee);
         public void DeleteEmoloyee(int id);
+        public IEnumerable<EmployeeModel> GetAllByProcedureType(int id);
     }
 }

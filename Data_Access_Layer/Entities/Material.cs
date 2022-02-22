@@ -17,7 +17,7 @@ namespace Data_Access_Layer.Entities
         public DateTime ProductionDate { get; set; }
         public DateTime BestBeforeDate { get; set; }
 
-        public virtual MaterialManufacturer MaterialManufacturer { get; set; }
+        public virtual MaterialManufacturer? MaterialManufacturer { get; set; }
         public virtual ICollection<Procedure>? Procedures { get; set; }
     }
 }

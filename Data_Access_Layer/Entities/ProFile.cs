@@ -15,7 +15,7 @@ namespace Data_Access_Layer.Entities
         [MaxLength(15)]
         public string ProfileTitle { get; set; }
 
-        public virtual Employee Employee { get; set; }
-        public virtual ICollection<MediaFile> MediaFiles { get; set; }
+        public virtual Employee? Employee { get; set; }
+        public virtual ICollection<MediaFile>? MediaFiles { get; set; }
     }
 }

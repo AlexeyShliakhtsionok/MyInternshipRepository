@@ -27,10 +27,10 @@ builder.Services.AddScoped<IFeedbackServices, FeedbackServices>();
 builder.Services.AddScoped<IMaterialManufacturerServices, MaterialManufacturerServices>();
 builder.Services.AddScoped<IMaterialServices, MaterialServices>();
 builder.Services.AddScoped<IOrderServices, OrderServices>();
-builder.Services.AddScoped<IProcesureServices, ProcedureServices>();
+builder.Services.AddScoped<IProcedureServices, ProcedureServices>();
 builder.Services.AddScoped<IProfileServices, ProfileServices>();
-builder.Services.AddScoped<IScheduleServices, ScheduleServices>();
 builder.Services.AddScoped<IMediaFileServices, MediaFileServices>();
+builder.Services.AddScoped<IProcedureTypeServices, ProcedureTypeServices>();
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(
