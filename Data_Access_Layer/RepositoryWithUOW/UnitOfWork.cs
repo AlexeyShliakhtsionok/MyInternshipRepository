@@ -14,7 +14,6 @@ namespace Data_Access_Layer.RepositoryWithUOW
         public IMediaFileRepository MediaFile { get; private set; }
         public IOrderRepository Order { get; private set; }
         public IProcedureRepository Procedure { get; private set; }
-        public IProfileRepository Profile { get; private set; }
         public IProcedureTypeRepository ProcedureType { get; private set; }
 
 
@@ -29,7 +28,6 @@ namespace Data_Access_Layer.RepositoryWithUOW
             MediaFile = new MediaFileRepository(context);
             Order = new OrderRepository(context);
             Procedure = new ProcedureRepository(context);
-            Profile = new ProfileRepository(context);
             ProcedureType = new ProcedureTypeRepository(context);
         }
 

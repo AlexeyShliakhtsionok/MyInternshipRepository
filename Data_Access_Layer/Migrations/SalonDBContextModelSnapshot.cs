@@ -89,9 +89,6 @@ namespace Data_Access_Layer.Migrations
                     b.Property<int?>("ProcedureTypeId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("ProfileId")
-                        .HasColumnType("int");
-
                     b.Property<int>("Qualification")
                         .HasColumnType("int");
 
@@ -101,10 +98,6 @@ namespace Data_Access_Layer.Migrations
                     b.HasKey("EmployeeId");
 
                     b.HasIndex("ProcedureTypeId");
-
-                    b.HasIndex("ProfileId")
-                        .IsUnique()
-                        .HasFilter("[ProfileId] IS NOT NULL");
 
                     b.ToTable("Employees");
                 });
@@ -123,7 +116,7 @@ namespace Data_Access_Layer.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2022, 2, 16, 16, 27, 48, 970, DateTimeKind.Local).AddTicks(776));
+                        .HasDefaultValue(new DateTime(2022, 2, 22, 16, 1, 14, 818, DateTimeKind.Local).AddTicks(7040));
 
                     b.Property<string>("FeedbackText")
                         .IsRequired()
@@ -213,6 +206,9 @@ namespace Data_Access_Layer.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("EmployeeId")
+                        .HasColumnType("int");
+
                     b.Property<byte[]>("FileData")
                         .IsRequired()
                         .HasColumnType("varbinary(max)");
@@ -226,12 +222,14 @@ namespace Data_Access_Layer.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("ProfileId")
-                        .HasColumnType("int");
+                    b.Property<bool>("IsProfilePhoto")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
 
                     b.HasKey("FileId");
 
-                    b.HasIndex("ProfileId");
+                    b.HasIndex("EmployeeId");
 
                     b.ToTable("MediaFiles");
                 });
@@ -324,24 +322,6 @@ namespace Data_Access_Layer.Migrations
                     b.ToTable("ProcedureTypes");
                 });
 
-            modelBuilder.Entity("Data_Access_Layer.Entities.ProFile", b =>
-                {
-                    b.Property<int>("ProfileId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProfileId"), 1L, 1);
-
-                    b.Property<string>("ProfileTitle")
-                        .IsRequired()
-                        .HasMaxLength(15)
-                        .HasColumnType("nvarchar(15)");
-
-                    b.HasKey("ProfileId");
-
-                    b.ToTable("Profiles");
-                });
-
             modelBuilder.Entity("MaterialProcedure", b =>
                 {
                     b.Property<int>("MaterialsMaterialId")
@@ -362,12 +342,6 @@ namespace Data_Access_Layer.Migrations
                     b.HasOne("Data_Access_Layer.Entities.ProcedureType", "ProcedureType")
                         .WithMany("Employees")
                         .HasForeignKey("ProcedureTypeId");
-
-                    b.HasOne("Data_Access_Layer.Entities.ProFile", "ProFile")
-                        .WithOne("Employee")
-                        .HasForeignKey("Data_Access_Layer.Entities.Employee", "ProfileId");
-
-                    b.Navigation("ProFile");
 
                     b.Navigation("ProcedureType");
                 });
@@ -392,11 +366,13 @@ namespace Data_Access_Layer.Migrations
 
             modelBuilder.Entity("Data_Access_Layer.Entities.MediaFile", b =>
                 {
-                    b.HasOne("Data_Access_Layer.Entities.ProFile", "Profile")
+                    b.HasOne("Data_Access_Layer.Entities.Employee", "Employee")
                         .WithMany("MediaFiles")
-                        .HasForeignKey("ProfileId");
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("Profile");
+                    b.Navigation("Employee");
                 });
 
             modelBuilder.Entity("Data_Access_Layer.Entities.Order", b =>
@@ -453,6 +429,8 @@ namespace Data_Access_Layer.Migrations
 
             modelBuilder.Entity("Data_Access_Layer.Entities.Employee", b =>
                 {
+                    b.Navigation("MediaFiles");
+
                     b.Navigation("Orders");
                 });
 
@@ -466,13 +444,6 @@ namespace Data_Access_Layer.Migrations
                     b.Navigation("Employees");
 
                     b.Navigation("Procedures");
-                });
-
-            modelBuilder.Entity("Data_Access_Layer.Entities.ProFile", b =>
-                {
-                    b.Navigation("Employee");
-
-                    b.Navigation("MediaFiles");
                 });
 #pragma warning restore 612, 618
         }

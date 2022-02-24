@@ -17,7 +17,8 @@ namespace Business_Logic_Layer.Utilities
 
             cfg.CreateMap<EmployeeModel, Employee>()
                 .ForMember(dest => dest.ProcedureType, opt => opt
-                .Ignore());
+                .Ignore())
+                .ForMember(dest => dest.MediaFiles, opt => opt.Ignore());
             cfg.CreateMap<Employee, EmployeeModel>();
 
             cfg.CreateMap<Order, OrderModel>();
@@ -35,26 +36,15 @@ namespace Business_Logic_Layer.Utilities
             cfg.CreateMap<FeedbackModel, Feedback>()
                 .ForMember(dest => dest.Client, opt => opt.Ignore());
 
-            cfg.CreateMap<Feedback, FeedbackModel>();
-                cfg.CreateMap<FeedbackModel, Feedback>()
-                .ForMember(dest => dest.Client, opt => opt.Ignore());
-
-
-
-
-
-
-
-                cfg.CreateMap<ProcedureType, ProcedureTypeModel>();
-            cfg.CreateMap<ProcedureTypeModel, ProcedureType>();
-
-                cfg.CreateMap<ProFile, ProfileModel>().ReverseMap();
-            cfg.CreateMap<Order, OrderModel>().ReverseMap();
             cfg.CreateMap<Client, ClientModel>().ReverseMap();
-            
+
+            cfg.CreateMap<ProcedureType, ProcedureTypeModel>().ReverseMap();
+
             cfg.CreateMap<MaterialManufacturer, MaterialManufacturerModel>().ReverseMap();
-            cfg.CreateMap<MediaFile, MediaFileModel>().ReverseMap();
-            
+
+            cfg.CreateMap<MediaFile, MediaFileModel>()
+                .ForMember(dest => dest.Employee, opt => opt.Ignore());
+                cfg.CreateMap<MediaFileModel, MediaFile>();
 
             }
      }));

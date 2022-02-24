@@ -53,27 +53,14 @@ namespace Data_Access_Layer.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Profiles",
-                columns: table => new
-                {
-                    ProfileId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ProfileTitle = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Profiles", x => x.ProfileId);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Feedbacks",
                 columns: table => new
                 {
                     FeedbackId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     FeedbackTitle = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: false),
-                    FeedbackText = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2022, 2, 13, 21, 54, 7, 521, DateTimeKind.Local).AddTicks(4709)),
+                    FeedbackText = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2022, 2, 22, 16, 1, 14, 818, DateTimeKind.Local).AddTicks(7040)),
                     IsVerify = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
                     ClientId = table.Column<int>(type: "int", nullable: true)
                 },
@@ -110,6 +97,32 @@ namespace Data_Access_Layer.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Employees",
+                columns: table => new
+                {
+                    EmployeeId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    FirstName = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    HireDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Role = table.Column<int>(type: "int", nullable: false),
+                    Qualification = table.Column<int>(type: "int", nullable: false),
+                    ProcedureTypeId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Employees", x => x.EmployeeId);
+                    table.ForeignKey(
+                        name: "FK_Employees_ProcedureTypes_ProcedureTypeId",
+                        column: x => x.ProcedureTypeId,
+                        principalTable: "ProcedureTypes",
+                        principalColumn: "ProcedureTypeId");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Procedures",
                 columns: table => new
                 {
@@ -132,38 +145,6 @@ namespace Data_Access_Layer.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Employees",
-                columns: table => new
-                {
-                    EmployeeId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    FirstName = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
-                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    HireDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Role = table.Column<int>(type: "int", nullable: false),
-                    Qualification = table.Column<int>(type: "int", nullable: false),
-                    ProcedureTypeId = table.Column<int>(type: "int", nullable: true),
-                    ProfileId = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Employees", x => x.EmployeeId);
-                    table.ForeignKey(
-                        name: "FK_Employees_ProcedureTypes_ProcedureTypeId",
-                        column: x => x.ProcedureTypeId,
-                        principalTable: "ProcedureTypes",
-                        principalColumn: "ProcedureTypeId");
-                    table.ForeignKey(
-                        name: "FK_Employees_Profiles_ProfileId",
-                        column: x => x.ProfileId,
-                        principalTable: "Profiles",
-                        principalColumn: "ProfileId");
-                });
-
-            migrationBuilder.CreateTable(
                 name: "MediaFiles",
                 columns: table => new
                 {
@@ -173,16 +154,18 @@ namespace Data_Access_Layer.Migrations
                     FileData = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
                     FileType = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ProfileId = table.Column<int>(type: "int", nullable: true)
+                    IsProfilePhoto = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
+                    EmployeeId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_MediaFiles", x => x.FileId);
                     table.ForeignKey(
-                        name: "FK_MediaFiles_Profiles_ProfileId",
-                        column: x => x.ProfileId,
-                        principalTable: "Profiles",
-                        principalColumn: "ProfileId");
+                        name: "FK_MediaFiles_Employees_EmployeeId",
+                        column: x => x.EmployeeId,
+                        principalTable: "Employees",
+                        principalColumn: "EmployeeId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -247,13 +230,6 @@ namespace Data_Access_Layer.Migrations
                 column: "ProcedureTypeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Employees_ProfileId",
-                table: "Employees",
-                column: "ProfileId",
-                unique: true,
-                filter: "[ProfileId] IS NOT NULL");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Feedbacks_ClientId",
                 table: "Feedbacks",
                 column: "ClientId");
@@ -269,9 +245,9 @@ namespace Data_Access_Layer.Migrations
                 column: "MaterialManufacturerManufacturerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MediaFiles_ProfileId",
+                name: "IX_MediaFiles_EmployeeId",
                 table: "MediaFiles",
-                column: "ProfileId");
+                column: "EmployeeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Orders_ClientId",
@@ -322,9 +298,6 @@ namespace Data_Access_Layer.Migrations
 
             migrationBuilder.DropTable(
                 name: "MaterialManufacturers");
-
-            migrationBuilder.DropTable(
-                name: "Profiles");
 
             migrationBuilder.DropTable(
                 name: "ProcedureTypes");

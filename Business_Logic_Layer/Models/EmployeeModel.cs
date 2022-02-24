@@ -12,8 +12,7 @@
         public RoleModel Role { get; set; }
         public QualificationModel Qualification { get; set; }
         public ProcedureTypeModel? ProcedureType { get; set; }
-        public int? ProfileModelId { get; set; }
-        public ProfileModel? Profile { get; set; }
+        public virtual ICollection<MediaFileModel>? MediaFiles { get; set; }
         public ICollection<OrderModel>? Orders { get; set; }
     }
 }

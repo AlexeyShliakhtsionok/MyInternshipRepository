@@ -21,6 +21,7 @@ namespace Data_Access_Layer
             modelBuilder.Entity<Feedback>().Property(f => f.IsVerify).HasDefaultValue(false);
             modelBuilder.Entity<Feedback>().Property(f => f.CreatedOn).HasDefaultValue(DateTime.Now);
             modelBuilder.Entity<Order>().Property( c => c.IsCompleted).HasDefaultValue(false);
+            modelBuilder.Entity<MediaFile>().Property(p => p.IsProfilePhoto).HasDefaultValue(false);
         }
 
         public DbSet<Client> Clients { get; set; }
@@ -29,7 +30,6 @@ namespace Data_Access_Layer
         public DbSet<Feedback> Feedbacks { get; set; }
         public DbSet<Procedure> Procedures { get; set; }
         public DbSet<Material> Materials { get; set; }
-        public DbSet<ProFile> Profiles { get; set; }
         public DbSet<MaterialManufacturer> MaterialManufacturers { get; set; }
         public DbSet<MediaFile> MediaFiles { get; set; }
         public DbSet<ProcedureType> ProcedureTypes { get; set; }

@@ -12,7 +12,6 @@ namespace Data_Access_Layer.RepositoryWithUOW
         IMediaFileRepository MediaFile { get; }
         IOrderRepository Order { get; }
         IProcedureRepository Procedure { get; }
-        IProfileRepository Profile { get; }
         IProcedureTypeRepository ProcedureType { get; }
 
         void Complete();

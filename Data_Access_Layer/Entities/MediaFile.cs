@@ -15,7 +15,7 @@ namespace Data_Access_Layer.Entities
         public byte[] FileData { get; set; }
         public string FileType { get; set; }
         public DateTime CreatedOn { get; set; }
-
-        public virtual ProFile? Profile { get; set; }
+        public bool IsProfilePhoto { get; set; }
+        public virtual Employee Employee { get; set; }
     }
 }

@@ -35,8 +35,7 @@ namespace Data_Access_Layer.Entities
         
         public virtual ProcedureType? ProcedureType { get; set; }
 
-        public int? ProfileId { get; set; }
-        public virtual ProFile? ProFile { get; set; }
         public virtual ICollection<Order>? Orders { get; set; }
+        public virtual ICollection<MediaFile>? MediaFiles { get; set; }
     }
 }

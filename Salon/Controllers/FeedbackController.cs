@@ -9,10 +9,12 @@ namespace Salon.Controllers
     public class FeedbackController : ControllerBase
     {
         private readonly IFeedbackServices _feedbackServices;
+        private readonly IClientServices _clientServices;
 
-        public FeedbackController(IFeedbackServices feedbackServices)
+        public FeedbackController(IFeedbackServices feedbackServices, IClientServices clientServices)
         {
             _feedbackServices = feedbackServices;
+            _clientServices = clientServices;
         }
 
         [HttpGet]
@@ -27,15 +29,17 @@ namespace Salon.Controllers
         [Route("GetAllFeedbacks")]
         public ActionResult<IEnumerable<FeedbackModel>> GetAllFeedbacks() {
             var feedbacks = _feedbackServices.GetAllFeedbacks();
-            return Ok(feedbacks);
+            var clients = _clientServices.GetAllClients();
+            return Ok(new { feedbacks, clients });
         }
 
         [HttpGet]
         [Route("GetAllApprovedFeedbacks")]
         public ActionResult<IEnumerable<FeedbackModel>> GetAllApprovedFeedbacks()
         {
-            var feedbacks = _feedbackServices.GetAllApprovedFeedbacks();
-            return Ok(feedbacks);
+            var feedbacks = _feedbackServices.GetAllFeedbacks();
+            var clients = _clientServices.GetAllClients();
+            return Ok(new { feedbacks, clients });
         }
 
         [HttpPost, Route("CreateFeedback")]

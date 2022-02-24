@@ -28,7 +28,6 @@ builder.Services.AddScoped<IMaterialManufacturerServices, MaterialManufacturerSe
 builder.Services.AddScoped<IMaterialServices, MaterialServices>();
 builder.Services.AddScoped<IOrderServices, OrderServices>();
 builder.Services.AddScoped<IProcedureServices, ProcedureServices>();
-builder.Services.AddScoped<IProfileServices, ProfileServices>();
 builder.Services.AddScoped<IMediaFileServices, MediaFileServices>();
 builder.Services.AddScoped<IProcedureTypeServices, ProcedureTypeServices>();
 builder.Services.AddCors(options =>

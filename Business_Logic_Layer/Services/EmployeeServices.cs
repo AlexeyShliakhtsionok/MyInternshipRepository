@@ -35,7 +35,7 @@ namespace Business_Logic_Layer.Services
         public IEnumerable<EmployeeModel> GetAllEmployees()
         {
             var employees = _UnitOfWork.Employee.GetAll()
-                .Include(x => x.ProFile)
+                .Include(x => x.MediaFiles)
                 .Include(pt => pt.ProcedureType)
                 .Include(o => o.Orders);
            
@@ -46,7 +46,7 @@ namespace Business_Logic_Layer.Services
         public EmployeeModel GetEmployeeById(int id)
         {
             var employee = _UnitOfWork.Employee.GetAll()
-                .Include(e=>e.ProFile)
+                .Include(e=>e.MediaFiles)
                 .Include(pt => pt.ProcedureType)
                 .Include(o => o.Orders)
                 .FirstOrDefault(i=>i.EmployeeId ==id);
@@ -65,7 +65,7 @@ namespace Business_Logic_Layer.Services
         public IEnumerable<EmployeeModel> GetAllByProcedureType(int id)
         {
             var employees = _UnitOfWork.Employee.GetAll()
-                .Include(x => x.ProFile)
+                .Include(x => x.MediaFiles)
                 .Include(pt => pt.ProcedureType)
                 .Include(o => o.Orders)
                 .Where(pt => pt.ProcedureType.ProcedureTypeId == id);

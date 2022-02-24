@@ -13,7 +13,8 @@ namespace Business_Logic_Layer.Models
         public byte[] FileData { get; set; }
         public string FileType { get; set; }
         public DateTime CreatedOn { get; set; }
+        public bool IsProfilePhoto { get; set; }
 
-        public ProfileModel? Profile { get; set; }
+        public virtual EmployeeModel? Employee { get; set; }
     }
 }

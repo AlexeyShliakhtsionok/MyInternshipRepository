@@ -13,7 +13,10 @@ namespace Business_Logic_Layer.Services.Interfaces
     {
         public IEnumerable<MediaFileModel> GetMediaFiles();
         public MediaFileModel GetMediaFileById(int id);
+        public MediaFileModel GetProfilePhotoByEmployeeId(int id);
         public void AddMediaFile(MediaFileModel mediaFile);
+        public void AddProfilePhoto(MediaFileModel mediaFile, int id);
+        public void UpdateProfilePhoto(MediaFileModel mediaFile, int id);
         public void UpdateMediaFile();
         public void DeleteMediaFile(int id);
 
