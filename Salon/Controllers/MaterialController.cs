@@ -51,15 +51,48 @@ namespace Salon.Controllers
             return Ok(material);
         }
 
+        //[HttpGet]
+        //[Route("GetAllMaterials")]
+        //public ActionResult<IEnumerable<MaterialModel>> GetMaterials()
+        //{
+        //    var manufacturers = _materialManufacturerServices.GetAllMaterialManufacturers().ToList();
+        //    var manufacturerSelectList = _materialManufacturerServices.GetManufacturersSelectList(manufacturers);
+        //    var materials = _materialServices.GetAllMaterials();
+
+        //    return Ok(new { materials, manufacturers, manufacturerSelectList });
+        //}
+
         [HttpGet]
         [Route("GetAllMaterials")]
-        public ActionResult<IEnumerable<MaterialModel>> GetMaterials()
+        public ActionResult<IEnumerable<MaterialModel>> GetMaterials(int elementsPerPage)
         {
             var manufacturers = _materialManufacturerServices.GetAllMaterialManufacturers().ToList();
             var manufacturerSelectList = _materialManufacturerServices.GetManufacturersSelectList(manufacturers);
-            var materials = _materialServices.GetAllMaterials();
+            var materials = _materialServices.GetAllMaterials().ToList();
+            double pages = (double)materials.Count() / elementsPerPage;
+            pages = Math.Ceiling(pages);
 
-            return Ok(new { materials, manufacturers, manufacturerSelectList });
+
+            List<MaterialModel>[] pagedMaterials = new List<MaterialModel>[(int)pages];
+            for (int j = 0; j < pagedMaterials.Length; j++)
+            {
+                pagedMaterials[j] = new List<MaterialModel>();
+            }
+
+            for (int i = 0; i < pagedMaterials.Length; i++)
+            {
+                for (int j = 0; j < materials.Count(); j++)
+                {
+                    if (j != 0 && j % elementsPerPage == 0)
+                    {
+                        i++;
+                    };
+                    pagedMaterials[i].Add(materials[j]);
+                }
+            }
+
+
+            return Ok(new { materials, pagedMaterials, manufacturers, manufacturerSelectList, pages });
         }
     }
 }

@@ -39,6 +39,45 @@ namespace Business_Logic_Layer.Services
             return clientsModel;
         }
 
+
+        //======================================== Dividing the Get-method 
+        public IEnumerable<ClientModel> GetAllClientsWithFeedbacks()
+        {
+            var clients = _UnitOfWork.Client.GetAll()
+                .Include(f => f.Feedbacks);
+            IEnumerable<ClientModel> clientsModel = AutoMappers<Client, ClientModel>.MapIQueryable(clients);
+            return clientsModel;
+        }
+
+        public IEnumerable<ClientModel> GetAllClientsWithOrders()
+        {
+            var clients = _UnitOfWork.Client.GetAll()
+                .Include(o => o.Orders);
+            IEnumerable<ClientModel> clientsModel = AutoMappers<Client, ClientModel>.MapIQueryable(clients);
+            return clientsModel;
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         public ClientModel GetClientById(int id)
         {
             var client =  _UnitOfWork.Client.GetAll()
