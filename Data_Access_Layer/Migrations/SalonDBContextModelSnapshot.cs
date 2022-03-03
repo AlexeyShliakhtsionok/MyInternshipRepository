@@ -86,7 +86,7 @@ namespace Data_Access_Layer.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("ProcedureTypeId")
+                    b.Property<int>("ProcedureTypeId")
                         .HasColumnType("int");
 
                     b.Property<int>("Qualification")
@@ -110,13 +110,13 @@ namespace Data_Access_Layer.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("FeedbackId"), 1L, 1);
 
-                    b.Property<int?>("ClientId")
+                    b.Property<int>("ClientId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedOn")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2022, 2, 22, 16, 1, 14, 818, DateTimeKind.Local).AddTicks(7040));
+                        .HasDefaultValue(new DateTime(2022, 2, 26, 8, 51, 32, 556, DateTimeKind.Local).AddTicks(1793));
 
                     b.Property<string>("FeedbackText")
                         .IsRequired()
@@ -154,7 +154,7 @@ namespace Data_Access_Layer.Migrations
                     b.Property<double>("MaterialAmount")
                         .HasColumnType("float");
 
-                    b.Property<int?>("MaterialManufacturerManufacturerId")
+                    b.Property<int>("MaterialManufacturerManufacturerId")
                         .HasColumnType("int");
 
                     b.Property<string>("MaterialName")
@@ -222,10 +222,16 @@ namespace Data_Access_Layer.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("IsEmployeePhoto")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("IsProfilePhoto")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
                         .HasDefaultValue(false);
+
+                    b.Property<bool>("IsPromoPhoto")
+                        .HasColumnType("bit");
 
                     b.HasKey("FileId");
 
@@ -242,13 +248,13 @@ namespace Data_Access_Layer.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderId"), 1L, 1);
 
-                    b.Property<int?>("ClientId")
+                    b.Property<int>("ClientId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("DateOfService")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("EmployeeId")
+                    b.Property<int>("EmployeeId")
                         .HasColumnType("int");
 
                     b.Property<bool>("IsCompleted")
@@ -256,7 +262,7 @@ namespace Data_Access_Layer.Migrations
                         .HasColumnType("bit")
                         .HasDefaultValue(false);
 
-                    b.Property<int?>("ProcedureId")
+                    b.Property<int>("ProcedureId")
                         .HasColumnType("int");
 
                     b.HasKey("OrderId");
@@ -291,7 +297,7 @@ namespace Data_Access_Layer.Migrations
                     b.Property<float>("ProcedurePrice")
                         .HasColumnType("real");
 
-                    b.Property<int?>("ProcedureTypeId")
+                    b.Property<int>("ProcedureTypeId")
                         .HasColumnType("int");
 
                     b.Property<TimeSpan>("TimeAmount")
@@ -341,7 +347,9 @@ namespace Data_Access_Layer.Migrations
                 {
                     b.HasOne("Data_Access_Layer.Entities.ProcedureType", "ProcedureType")
                         .WithMany("Employees")
-                        .HasForeignKey("ProcedureTypeId");
+                        .HasForeignKey("ProcedureTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("ProcedureType");
                 });
@@ -350,7 +358,9 @@ namespace Data_Access_Layer.Migrations
                 {
                     b.HasOne("Data_Access_Layer.Entities.Client", "Client")
                         .WithMany("Feedbacks")
-                        .HasForeignKey("ClientId");
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Client");
                 });
@@ -359,7 +369,9 @@ namespace Data_Access_Layer.Migrations
                 {
                     b.HasOne("Data_Access_Layer.Entities.MaterialManufacturer", "MaterialManufacturer")
                         .WithMany("Materials")
-                        .HasForeignKey("MaterialManufacturerManufacturerId");
+                        .HasForeignKey("MaterialManufacturerManufacturerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("MaterialManufacturer");
                 });
@@ -379,15 +391,21 @@ namespace Data_Access_Layer.Migrations
                 {
                     b.HasOne("Data_Access_Layer.Entities.Client", "Client")
                         .WithMany("Orders")
-                        .HasForeignKey("ClientId");
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Data_Access_Layer.Entities.Employee", "Employee")
                         .WithMany("Orders")
-                        .HasForeignKey("EmployeeId");
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Data_Access_Layer.Entities.Procedure", "Procedure")
                         .WithMany()
-                        .HasForeignKey("ProcedureId");
+                        .HasForeignKey("ProcedureId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Client");
 
@@ -400,7 +418,9 @@ namespace Data_Access_Layer.Migrations
                 {
                     b.HasOne("Data_Access_Layer.Entities.ProcedureType", "ProcedureType")
                         .WithMany("Procedures")
-                        .HasForeignKey("ProcedureTypeId");
+                        .HasForeignKey("ProcedureTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("ProcedureType");
                 });

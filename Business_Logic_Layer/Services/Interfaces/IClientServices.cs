@@ -1,19 +1,24 @@
-﻿using Business_Logic_Layer.Models;
+﻿using Business_Logic_Layer.DBO.Clients;
+using Business_Logic_Layer.DBO.Feedbacks;
+using Business_Logic_Layer.DBO.Orders;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Business_Logic_Layer.Services.Interfaces
 {
     public interface IClientServices
     {
-        public IEnumerable<ClientModel> GetAllClients();
-        public ClientModel GetClientById(int id);
-        public ClientModel GetClientByEmail(string email);
-        public void CreateClient(ClientModel client);
-        public void UpdateClient(ClientModel client);
+        public IEnumerable<ClientsInformationViewModel> GetAllClients();
+        public ClientViewModel GetClientById(int id);
+        public ClientViewModel GetClientByEmail(string email);
+        public void CreateClient(ClientViewModel client);
+        public void UpdateClient(ClientViewModel client);
         public void DeleteClient(int id);
+        public IEnumerable<ClientViewModel> GetAllClientsWithFeedbacks();
+        public IEnumerable<ClientViewModel> GetAllClientsWithOrders();
 
         // Additional methods
-        public IEnumerable<FeedbackModel> GetAllClientFeedbacks(int id);
-        public IEnumerable<OrderModel> GetAllClientOrders(int id);
-
+        public SelectList GetClientsSelectList();
+        public IEnumerable<FeedbackViewModel> GetAllClientFeedbacks(int id);
+        public IEnumerable<OrderViewModel> GetAllClientOrders(int id);
     }
 }

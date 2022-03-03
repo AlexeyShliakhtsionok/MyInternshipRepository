@@ -1,14 +1,16 @@
-﻿using Business_Logic_Layer.Models;
+﻿using Business_Logic_Layer.DBO.Procedures;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Business_Logic_Layer.Services.Interfaces
 {
     public interface IProcedureServices
     {
-        public IEnumerable<ProcedureModel> GetAllProcedures();
-        public ProcedureModel GetProcedureById(int id);
-        public void CreateProcedure(ProcedureModel procedure);
-        public void UpdateProcedure(ProcedureModel procedure);
+        public IEnumerable<ProceduresInformationViewModel> GetAllProcedures();
+        public ProcedureViewModel GetProcedureById(int id);
+        public void CreateProcedure(ProcedureViewModel procedure);
+        public void UpdateProcedure(ProcedureViewModel procedure);
         public void DeleteProcedure(int id);
-        public IEnumerable<ProcedureModel> GetAllProceduresByType(int id);
+        public IEnumerable<ProcedureViewModel> GetAllProceduresByType(int id);
+        public SelectList GetProceduresSelectList();
     }
 }

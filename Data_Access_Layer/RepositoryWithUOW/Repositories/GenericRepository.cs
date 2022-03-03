@@ -21,7 +21,7 @@ namespace Data_Access_Layer.RepositoryWithUOW.Repositories
 
         public virtual T GetById(int id)
         {
-            return dbSet.Find(id);
+            return context.Find<T>(id);
         }
 
         public virtual void Add(T entity)

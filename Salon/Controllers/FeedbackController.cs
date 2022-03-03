@@ -1,4 +1,4 @@
-﻿using Business_Logic_Layer.Models;
+﻿using Business_Logic_Layer.DBO.Feedbacks;
 using Business_Logic_Layer.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,7 +19,7 @@ namespace Salon.Controllers
 
         [HttpGet]
         [Route("GetFeedbackById")]
-        public ActionResult<FeedbackModel> GetFeedbackById(int id)
+        public ActionResult<FeedbackViewModel> GetFeedbackById(int id)
         {
             var feedback = _feedbackServices.GetFeedbackById(id);
             return Ok(feedback);
@@ -27,29 +27,69 @@ namespace Salon.Controllers
 
         [HttpGet]
         [Route("GetAllFeedbacks")]
-        public ActionResult<IEnumerable<FeedbackModel>> GetAllFeedbacks() {
-            var feedbacks = _feedbackServices.GetAllFeedbacks();
-            var clients = _clientServices.GetAllClients();
-            return Ok(new { feedbacks, clients });
+        public ActionResult<IEnumerable<FeedbackInformationViewModel>> GetAllFeedbacks(int elementsPerPage, int pageNumber) {
+            var allFeedbacks = _feedbackServices.GetAllFeedbacks().ToList();
+            double pagesCount = (double)allFeedbacks.Count() / elementsPerPage;
+            pagesCount = Math.Ceiling(pagesCount);
+
+            List<FeedbackInformationViewModel>[] pagedOrders = new List<FeedbackInformationViewModel>[(int)pagesCount];
+            for (int j = 0; j < pagedOrders.Length; j++)
+            {
+                pagedOrders[j] = new List<FeedbackInformationViewModel>();
+            }
+
+            for (int i = 0; i < pagedOrders.Length; i++)
+            {
+                for (int j = 0; j < allFeedbacks.Count(); j++)
+                {
+                    if (j != 0 && j % elementsPerPage == 0)
+                    {
+                        i++;
+                    };
+                    pagedOrders[i].Add(allFeedbacks[j]);
+                }
+            }
+            var feedbacks = pagedOrders[pageNumber - 1];
+            return Ok(new { feedbacks, pagesCount, elementsPerPage, pageNumber });
         }
 
         [HttpGet]
         [Route("GetAllApprovedFeedbacks")]
-        public ActionResult<IEnumerable<FeedbackModel>> GetAllApprovedFeedbacks()
+        public ActionResult<IEnumerable<FeedbackInformationViewModel>> GetAllApprovedFeedbacks(int elementsPerPage, int pageNumber)
         {
-            var feedbacks = _feedbackServices.GetAllFeedbacks();
-            var clients = _clientServices.GetAllClients();
-            return Ok(new { feedbacks, clients });
+            var allFeedbacks = _feedbackServices.GetAllFeedbacks().Where(f => f.IsVerify == true).ToList();
+            double pagesCount = (double)allFeedbacks.Count() / elementsPerPage;
+            pagesCount = Math.Ceiling(pagesCount);
+
+            List<FeedbackInformationViewModel>[] pagedOrders = new List<FeedbackInformationViewModel>[(int)pagesCount];
+            for (int j = 0; j < pagedOrders.Length; j++)
+            {
+                pagedOrders[j] = new List<FeedbackInformationViewModel>();
+            }
+
+            for (int i = 0; i < pagedOrders.Length; i++)
+            {
+                for (int j = 0; j < allFeedbacks.Count(); j++)
+                {
+                    if (j != 0 && j % elementsPerPage == 0)
+                    {
+                        i++;
+                    };
+                    pagedOrders[i].Add(allFeedbacks[j]);
+                }
+            }
+            var feedbacks = pagedOrders[pageNumber - 1];
+            return Ok(new { feedbacks, pagesCount, elementsPerPage, pageNumber });
         }
 
         [HttpPost, Route("CreateFeedback")]
-        public void CreateFeedback(FeedbackModel feedback)
+        public void CreateFeedback(FeedbackViewModel feedback)
         {
             _feedbackServices.CreateFeedback(feedback);
         }
 
         [HttpPost, Route("UpdateFeedback")]
-        public void UpdateFeedback([FromBody]FeedbackModel feedback)
+        public void UpdateFeedbackStatus([FromBody] FeedbackInformationViewModel feedback)
         {
             _feedbackServices.UpdateFeedback(feedback);
         }

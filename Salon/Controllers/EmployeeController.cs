@@ -1,4 +1,6 @@
-﻿using Business_Logic_Layer.Models;
+﻿using Business_Logic_Layer.DBO.Employees;
+using Business_Logic_Layer.DBO.Qualifications;
+using Business_Logic_Layer.DBO.Roles;
 using Business_Logic_Layer.Services.Interfaces;
 using Business_Logic_Layer.Utilities;
 using Microsoft.AspNetCore.Mvc;
@@ -30,9 +32,10 @@ namespace Salon.Controllers
             _employeeServices.DeleteEmoloyee(id);
         }
 
+
         [HttpGet]
         [Route("GetEmployeeById")]
-        public ActionResult<EmployeeModel> GetEmployeeById(int id)
+        public ActionResult<EmployeeInformationViewModel> GetEmployeeById(int id)
         {
             var employee = _employeeServices.GetEmployeeById(id);
             if (employee == null)
@@ -44,17 +47,19 @@ namespace Salon.Controllers
 
         [HttpGet]
         [Route("GetAllEmployees")]
-        public ActionResult<IEnumerable<EmployeeModel>> GetEmployees()
+        public ActionResult<IEnumerable<EmployeeViewModel>> GetEmployees()
         {
-            var roles = EnumExtensions.GetValues<RoleModel>();
-            var qualification = EnumExtensions.GetValues<QualificationModel>();
-            var employees = _employeeServices.GetAllEmployees();
-            var orders = _orderServices.GetOrders();
-            var procedureTypes = _procedureTypeServices.GetProcedureTypes().ToList();
-            var procedureTypesSelectList = _procedureTypeServices.GetProcedureTypesSelectList(procedureTypes);
-            return Ok(new { employees, roles, procedureTypes, procedureTypesSelectList, qualification, orders });
-        }
+           var employees = _employeeServices.GetAllEmployees();
 
+            var roles = EnumExtensions.GetValues<RoleViewModel>();
+
+            var qualification = EnumExtensions.GetValues<QualificationViewModel>();
+
+            var procedureTypesSelectList = _procedureTypeServices.GetProcedureTypesSelectList();
+
+            return Ok(new { employees, roles, qualification, procedureTypesSelectList });
+        }
+       
         [HttpPost]
         [Route("GetToken")]
         public IActionResult Token(string employeeEmail, string password)
@@ -85,7 +90,7 @@ namespace Salon.Controllers
 
         private ClaimsIdentity GetIdentity(string email, string password)
         {
-            IEnumerable<EmployeeModel> employees = _employeeServices.GetAllEmployees();
+            IEnumerable<EmployeesAuthenticationModel> employees = _employeeServices.GetEmployeesCredentials();
 
             var employee = employees.FirstOrDefault(e => e.Email == email && e.Password == password);
 
@@ -106,29 +111,24 @@ namespace Salon.Controllers
 
         [HttpPost]
         [Route("CreateEmployee")]
-        public void CreateEmployee([FromBody] EmployeeModel employeeInput)
+        public void CreateEmployee([FromBody] EmployeeViewModel employeeInput)
         {
           _employeeServices.CreateEmoloyee(employeeInput);
         }
 
         [HttpPost]
         [Route("UpdateEmployee")]
-        public void UpdateEmployee([FromBody]EmployeeModel employeeInput)
+        public void UpdateEmployee([FromBody] EmployeeInformationViewModel employeeInput)
         {
             _employeeServices.UpdateEmoloyee(employeeInput);
-            
         }
 
         [HttpGet]
         [Route("GetAllByProcedureType")]
-        public ActionResult<IEnumerable<EmployeeModel>> GetAllByProcedureType(int id)
+        public ActionResult<IEnumerable<EmployeeViewModel>> GetAllByProcedureType(int id)
         {
-            
             var employees = _employeeServices.GetAllByProcedureType(id);
-           
             return Ok(employees);
         }
-
-
     }
 }

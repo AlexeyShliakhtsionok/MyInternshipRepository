@@ -22,7 +22,7 @@ namespace Data_Access_Layer.Entities
 
         [Required]
         public float ProcedurePrice { get; set; }
-        public virtual ProcedureType? ProcedureType { get; set; }
-        public virtual ICollection<Material>? Materials { get; set; }
+        public virtual ProcedureType ProcedureType { get; set; }
+        public virtual ICollection<Material> Materials { get; set; }
     }
 }

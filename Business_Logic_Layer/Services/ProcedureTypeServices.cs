@@ -1,15 +1,10 @@
-﻿using Business_Logic_Layer.Models;
+﻿using Business_Logic_Layer.DBO.ProcedureTypes;
 using Business_Logic_Layer.Services.Interfaces;
 using Business_Logic_Layer.Utilities;
 using Data_Access_Layer.Entities;
 using Data_Access_Layer.RepositoryWithUOW;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Business_Logic_Layer.Services
 {
@@ -21,9 +16,9 @@ namespace Business_Logic_Layer.Services
             _UnitOfWork = UnitOfWork;
         }
 
-        public void CreateProcedureType(ProcedureTypeModel procedureTypeModel)
+        public void CreateProcedureType(ProcedureTypeViewModel procedureTypeModel)
         {
-            ProcedureType procedureTypeEntity = AutoMappers<ProcedureTypeModel, ProcedureType>.Map(procedureTypeModel);
+            ProcedureType procedureTypeEntity = AutoMappers<ProcedureTypeViewModel, ProcedureType>.Map(procedureTypeModel);
             _UnitOfWork.ProcedureType.Add(procedureTypeEntity);
             _UnitOfWork.Complete();
         }
@@ -35,35 +30,39 @@ namespace Business_Logic_Layer.Services
             _UnitOfWork.Complete();
         }
 
-        public ProcedureTypeModel GetProcedureTypeById(int id)
+        public ProcedureTypeViewModel GetProcedureTypeById(int id)
         {
             var procedureType = _UnitOfWork.ProcedureType.GetAll()
                 .Include(p => p.Procedures)
                 .Include(e => e.Employees)
                 .FirstOrDefault(p => p.ProcedureTypeId == id);
-            ProcedureTypeModel procedureTypeModel = AutoMappers<ProcedureType, ProcedureTypeModel>.Map(procedureType);
+            ProcedureTypeViewModel procedureTypeModel = AutoMappers<ProcedureType, ProcedureTypeViewModel>.Map(procedureType);
             return procedureTypeModel;
         }
 
-        public IEnumerable<ProcedureTypeModel> GetProcedureTypes()
+        public IEnumerable<ProcedureTypeViewModel> GetProcedureTypes()
         {
             var proceduresTypes = _UnitOfWork.ProcedureType.GetAll()
                 .Include(p => p.Procedures)
                 .Include(e => e.Employees);
-            IEnumerable<ProcedureTypeModel> procedureTypeModels = AutoMappers<ProcedureType, ProcedureTypeModel>.MapIQueryable(proceduresTypes);
+            IEnumerable<ProcedureTypeViewModel> procedureTypeModels =
+                AutoMappers<ProcedureType, ProcedureTypeViewModel>.MapIQueryable(proceduresTypes);
             return procedureTypeModels;
         }
 
-        public void UpdateProcedureType(ProcedureTypeModel procedureTypeModel)
+        public void UpdateProcedureType(ProcedureTypeViewModel procedureTypeModel)
         {
             _UnitOfWork.Complete();
             throw new NotImplementedException();
         }
 
-        public SelectList GetProcedureTypesSelectList(List<ProcedureTypeModel> list)
+        public SelectList GetProcedureTypesSelectList()
         {
-            List<SelectListItem> items = new List<SelectListItem>(list.Count);
-            foreach (var item in list)
+            var procedureTypes = _UnitOfWork.ProcedureType.GetAll();
+            List<ProcedureTypeViewModel> procedureTypesModel = AutoMappers<ProcedureType, ProcedureTypeViewModel>.MapIQueryable(procedureTypes).ToList();
+
+            List<SelectListItem> items = new List<SelectListItem>(procedureTypesModel.Count);
+            foreach (var item in procedureTypesModel)
             {
                 items.Add(new SelectListItem
                 {

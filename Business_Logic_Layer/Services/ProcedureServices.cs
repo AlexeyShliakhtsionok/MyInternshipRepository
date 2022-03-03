@@ -1,15 +1,10 @@
-﻿using AutoMapper;
-using Business_Logic_Layer.Models;
+﻿using Business_Logic_Layer.DBO.Procedures;
 using Business_Logic_Layer.Services.Interfaces;
 using Business_Logic_Layer.Utilities;
 using Data_Access_Layer.Entities;
 using Data_Access_Layer.RepositoryWithUOW;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Business_Logic_Layer.Services
 {
@@ -21,14 +16,14 @@ namespace Business_Logic_Layer.Services
             _UnitOfWork = UnitOfWork;
         }
 
-        public void CreateProcedure(ProcedureModel procedure)
+        public void CreateProcedure(ProcedureViewModel procedure)
         {
-            Procedure procedureEntity = AutoMappers<ProcedureModel, Procedure>.Map(procedure);
-            procedureEntity.ProcedureType = _UnitOfWork.ProcedureType.GetById(procedure.ProcedureType.ProcedureTypeId);
+            Procedure procedureEntity = AutoMappers<ProcedureViewModel, Procedure>.Map(procedure);
+            procedureEntity.ProcedureType = _UnitOfWork.ProcedureType.GetById(Convert.ToInt32(procedure.ProcedureType));
             List<Material> materials = new List<Material>();
             foreach (var item in procedure.Materials)
             {
-                materials.Add(_UnitOfWork.Material.GetById(item.MaterialId));
+                materials.Add(_UnitOfWork.Material.GetById(item));
             }
             procedureEntity.Materials = materials;
             _UnitOfWork.Procedure.Add(procedureEntity);
@@ -42,48 +37,65 @@ namespace Business_Logic_Layer.Services
             _UnitOfWork.Complete();
         }
 
-        public ProcedureModel GetProcedureById(int id)
+        public ProcedureViewModel GetProcedureById(int id)
         {
             var procedure = _UnitOfWork.Procedure.GetAll()
                 .Include(m => m.Materials)
                 .Include(t => t.ProcedureType)
                 .FirstOrDefault(p => p.ProcedureId == id);
-            ProcedureModel procedureModel = AutoMappers<Procedure, ProcedureModel>.Map(procedure);
+            ProcedureViewModel procedureModel = AutoMappers<Procedure, ProcedureViewModel>.Map(procedure);
             return procedureModel;
         }
 
-        public IEnumerable<ProcedureModel> GetAllProcedures()
+        public IEnumerable<ProceduresInformationViewModel> GetAllProcedures()
         {
             var procedures = _UnitOfWork.Procedure.GetAll()
                 .Include(p => p.ProcedureType)
                 .Include(m => m.Materials);
-            IEnumerable<ProcedureModel> procedureModels = AutoMappers<Procedure, ProcedureModel>.MapIQueryable(procedures);
+            IEnumerable<ProceduresInformationViewModel> procedureModels
+                = AutoMappers<Procedure, ProceduresInformationViewModel>.MapIQueryable(procedures);
             return procedureModels;
         }
 
-        public void UpdateProcedure(ProcedureModel procedure)
+        public void UpdateProcedure(ProcedureViewModel procedure)
         {
-            Procedure procedureEntity = AutoMappers<ProcedureModel, Procedure>.Map(procedure);
+            Procedure procedureEntity = AutoMappers<ProcedureViewModel, Procedure>.Map(procedure);
             List<Material> materials = new List<Material>();
 
             foreach (var item in procedure.Materials)
             {
-                materials.Add(_UnitOfWork.Material.GetById(item.MaterialId));
+                materials.Add(_UnitOfWork.Material.GetById(item));
             }
             procedureEntity.Materials = materials;
-            procedureEntity.ProcedureType = _UnitOfWork.ProcedureType.GetById(procedure.ProcedureType.ProcedureTypeId);
+            procedureEntity.ProcedureType = _UnitOfWork.ProcedureType.GetById(Convert.ToInt32(procedure.ProcedureType));
 
             _UnitOfWork.Procedure.Update(procedureEntity);
             _UnitOfWork.Complete();
         }
 
-        public IEnumerable<ProcedureModel> GetAllProceduresByType(int id)
+        public IEnumerable<ProcedureViewModel> GetAllProceduresByType(int id)
         {
             var procedures = _UnitOfWork.Procedure.GetAll()
                 .Include(p => p.ProcedureType)
                 .Include(m => m.Materials).Where(i => i.ProcedureType.ProcedureTypeId == id);
-            IEnumerable<ProcedureModel> procedureModels = AutoMappers<Procedure, ProcedureModel>.MapIQueryable(procedures);
+            IEnumerable<ProcedureViewModel> procedureModels = AutoMappers<Procedure, ProcedureViewModel>.MapIQueryable(procedures);
             return procedureModels;
+        }
+
+        public SelectList GetProceduresSelectList()
+        {
+            var procedures = _UnitOfWork.Procedure.GetAll();
+            List<ProcedureViewModel> proceduresModel = AutoMappers<Procedure, ProcedureViewModel>.MapIQueryable(procedures).ToList();
+            List<SelectListItem> items = new List<SelectListItem>(proceduresModel.Count);
+            foreach (var item in proceduresModel)
+            {
+                items.Add(new SelectListItem
+                {
+                    Text = item.ProcedureName,
+                    Value = item.ProcedureId.ToString()
+                });
+            }
+            return new SelectList(items, "Value", "Text");
         }
     }
 }

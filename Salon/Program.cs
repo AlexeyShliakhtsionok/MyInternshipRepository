@@ -21,7 +21,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<SalonDBContext>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-builder.Services.AddTransient<IEmployeeServices, EmployeeServices>();
+builder.Services.AddScoped<IEmployeeServices, EmployeeServices>();
 builder.Services.AddScoped<IClientServices, ClientServices>();
 builder.Services.AddScoped<IFeedbackServices, FeedbackServices>();
 builder.Services.AddScoped<IMaterialManufacturerServices, MaterialManufacturerServices>();

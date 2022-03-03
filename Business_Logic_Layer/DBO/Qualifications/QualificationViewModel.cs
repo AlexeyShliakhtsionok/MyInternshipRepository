@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Business_Logic_Layer.Models
+namespace Business_Logic_Layer.DBO.Qualifications
 {
-    public enum QualificationModel
+    public enum QualificationViewModel
     {
         [Description("First class")]
         FirstClass = 0,

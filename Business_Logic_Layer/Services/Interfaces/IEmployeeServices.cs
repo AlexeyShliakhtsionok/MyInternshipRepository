@@ -1,15 +1,17 @@
-﻿using Business_Logic_Layer.Models;
-using Data_Access_Layer.Entities;
+﻿using Business_Logic_Layer.DBO.Employees;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Business_Logic_Layer.Services.Interfaces
 {
     public interface IEmployeeServices
     {
-        public IEnumerable<EmployeeModel> GetAllEmployees();
-        public EmployeeModel GetEmployeeById(int id);
-        public void CreateEmoloyee(EmployeeModel employee);
-        public void UpdateEmoloyee(EmployeeModel employee);
+        public IEnumerable<EmployeesAuthenticationModel> GetEmployeesCredentials();
+        public IEnumerable<EmployeesInformationViewModel> GetAllEmployees();
+        public EmployeeInformationViewModel GetEmployeeById(int id);
+        public void CreateEmoloyee(EmployeeViewModel employee);
+        public void UpdateEmoloyee(EmployeeInformationViewModel employee);
         public void DeleteEmoloyee(int id);
-        public IEnumerable<EmployeeModel> GetAllByProcedureType(int id);
+        public IEnumerable<EmployeeViewModel> GetAllByProcedureType(int id);
+        public SelectList GetEmployeesSelectList();
     }
 }

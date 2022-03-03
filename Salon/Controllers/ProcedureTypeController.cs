@@ -1,4 +1,4 @@
-﻿using Business_Logic_Layer.Models;
+﻿using Business_Logic_Layer.DBO.ProcedureTypes;
 using Business_Logic_Layer.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,6 +15,16 @@ namespace Salon.Controllers
             _procedureTypeServices = procedureTypeServices;
         }
 
+
+        [HttpGet]
+        [Route("GetProcedureTypeById")]
+        public ActionResult GetProcedureTypeById(int id)
+        {
+            var procedureType = _procedureTypeServices.GetProcedureTypeById(id);
+            return Ok(procedureType);
+        }
+
+
         [HttpPost]
         [Route("DeleteProcedureTypeById")]
         public void DeleteProcedure(int id)
@@ -24,7 +34,7 @@ namespace Salon.Controllers
 
         [HttpGet]
         [Route("GetAllProcedureTypes")]
-        public ActionResult<IEnumerable<ProcedureTypeModel>> GetAllProcedureTypes()
+        public ActionResult<IEnumerable<ProcedureTypeViewModel>> GetAllProcedureTypes()
         {
             var procedures = _procedureTypeServices.GetProcedureTypes();
             return Ok(procedures);

@@ -16,6 +16,8 @@ namespace Data_Access_Layer.Entities
         public string FileType { get; set; }
         public DateTime CreatedOn { get; set; }
         public bool IsProfilePhoto { get; set; }
+        public bool IsEmployeePhoto { get; set; }
+        public bool IsPromoPhoto { get; set; }
         public virtual Employee Employee { get; set; }
     }
 }

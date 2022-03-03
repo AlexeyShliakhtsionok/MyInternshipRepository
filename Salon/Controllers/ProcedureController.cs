@@ -1,4 +1,4 @@
-﻿using Business_Logic_Layer.Models;
+﻿using Business_Logic_Layer.DBO.Procedures;
 using Business_Logic_Layer.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -27,26 +27,45 @@ namespace Salon.Controllers
         }
 
         [HttpPost, Route("CreateProcedure")]
-        public void CreateProcedure([FromBody] ProcedureModel procedure)
+        public void CreateProcedure([FromBody] ProcedureViewModel procedure)
         {
             _procesureServices.CreateProcedure(procedure);
         }
 
         [HttpGet]
         [Route("GetAllProcedures")]
-        public ActionResult<IEnumerable<ProcedureModel>> GetAllProcedures()
+        public ActionResult<IEnumerable<ProceduresInformationViewModel>> GetAllProcedures(int elementsPerPage, int pageNumber)
         {
-            var procedures = _procesureServices.GetAllProcedures();
-            var procedureTypesList = _procedureTypeServices.GetProcedureTypesSelectList(_procedureTypeServices.GetProcedureTypes().ToList());
-            var materialsList = _materialServices.GetMaterialsSelectList(_materialServices.GetAllMaterials().ToList());
-            var procedureTypes = _procedureTypeServices.GetProcedureTypes();
-            var materials = _materialServices.GetAllMaterials();
-            return Ok(new { procedures, procedureTypesList, materialsList, procedureTypes, materials});
+            var allProcedures = _procesureServices.GetAllProcedures().ToList();
+            var procedureTypesSelectList = _procedureTypeServices.GetProcedureTypesSelectList();
+            var materialsSelectList = _materialServices.GetMaterialsSelectList();
+            double pagesCount = (double)allProcedures.Count() / elementsPerPage;
+            pagesCount = Math.Ceiling(pagesCount);
+
+            List<ProceduresInformationViewModel>[] pagedProcedures = new List<ProceduresInformationViewModel>[(int)pagesCount];
+            for (int j = 0; j < pagedProcedures.Length; j++)
+            {
+                pagedProcedures[j] = new List<ProceduresInformationViewModel>();
+            }
+
+            for (int i = 0; i < pagedProcedures.Length; i++)
+            {
+                for (int j = 0; j < allProcedures.Count(); j++)
+                {
+                    if (j != 0 && j % elementsPerPage == 0)
+                    {
+                        i++;
+                    };
+                    pagedProcedures[i].Add(allProcedures[j]);
+                }
+            }
+            var procedures = pagedProcedures[pageNumber - 1];
+            return Ok(new { procedures, procedureTypesSelectList, materialsSelectList, pagesCount, elementsPerPage, pageNumber });
         }
 
         [HttpGet]
         [Route("GetAllProceduresByType")]
-        public ActionResult<IEnumerable<ProcedureModel>> GetAllProceduresByType(int id)
+        public ActionResult<IEnumerable<ProcedureViewModel>> GetAllProceduresByType(int id)
         {
             var procedures = _procesureServices.GetAllProceduresByType(id);
             return Ok(procedures);
@@ -54,7 +73,7 @@ namespace Salon.Controllers
 
         [HttpGet]
         [Route("GetServiceById")]
-        public ActionResult<ProcedureModel> GetServiceById(int id)
+        public ActionResult<ProcedureViewModel> GetServiceById(int id)
         {
             var procedure = _procesureServices.GetProcedureById( id);
             if (procedure == null)
@@ -65,7 +84,7 @@ namespace Salon.Controllers
         }
 
         [HttpPost, Route("UpdateService")]
-        public void UpdateService([FromBody]ProcedureModel service)
+        public void UpdateService([FromBody] ProcedureViewModel service)
         {
             _procesureServices.UpdateProcedure(service);
         }

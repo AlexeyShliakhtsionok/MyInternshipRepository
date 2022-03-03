@@ -1,21 +1,14 @@
-﻿using Business_Logic_Layer.Models;
-using Data_Access_Layer.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Business_Logic_Layer.DBO.Orders;
 
 namespace Business_Logic_Layer.Services.Interfaces
 {
     public interface IOrderServices
     {
-        public IEnumerable<OrderModel> GetOrders();
-        public OrderModel GetOrderById(int id);
-        public void CreateOrder(OrderModel order);
-        public void UpdateOrder(OrderModel order);
+        public IEnumerable<OrdersInformationViewModel> GetAllOrders();
+        public OrderViewModel GetOrderById(int id);
+        public void CreateOrder(OrderViewModel order);
+        public void UpdateOrder(OrderViewModel order);
         public void DeleteOrder(int id);
-
         public List<DateTime> GetAvaliableServiceTimeOfEmployee(int id, DateTime chosenDate, int procedureId, double open, double close);
     }
 }

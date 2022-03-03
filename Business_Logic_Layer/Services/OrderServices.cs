@@ -1,4 +1,4 @@
-﻿using Business_Logic_Layer.Models;
+﻿using Business_Logic_Layer.DBO.Orders;
 using Business_Logic_Layer.Services.Interfaces;
 using Business_Logic_Layer.Utilities;
 using Data_Access_Layer.Entities;
@@ -15,9 +15,9 @@ namespace Business_Logic_Layer.Services
             _UnitOfWork = UnitOfWork;
         }
 
-        public void CreateOrder(OrderModel order)
+        public void CreateOrder(OrderViewModel order)
         {
-            Order orderEntity = AutoMappers<OrderModel,Order>.Map(order);
+            Order orderEntity = AutoMappers<OrderViewModel, Order>.Map(order);
             orderEntity.Client = _UnitOfWork.Client.GetById(order.Client.ClientId);
             orderEntity.Procedure = _UnitOfWork.Procedure.GetById(order.Procedure.ProcedureId);
             orderEntity.Employee = _UnitOfWork.Employee.GetById(order.Employee.EmployeeId);
@@ -32,30 +32,34 @@ namespace Business_Logic_Layer.Services
             _UnitOfWork.Complete();
         }
 
-        public IEnumerable<OrderModel> GetOrders()
+        public IEnumerable<OrdersInformationViewModel> GetAllOrders()
         {
             var orders = _UnitOfWork.Order.GetAll()
                 .Include(c => c.Client)
                 .Include(e => e.Employee)
                 .Include(p => p.Procedure);
-            IEnumerable<OrderModel> orderModels = AutoMappers<Order, OrderModel>.MapIQueryable(orders);
+
+            IEnumerable<OrdersInformationViewModel> orderModels =
+                AutoMappers<Order, OrdersInformationViewModel>.MapIQueryable(orders);
             return orderModels;
         }
 
-        public OrderModel GetOrderById(int id)
+        public OrderViewModel GetOrderById(int id)
         {
+            var test = _UnitOfWork.Order.GetById(id);
+
             var orderEntity = _UnitOfWork.Order.GetAll()
                 .Include(c => c.Client)
                 .Include(e => e.Employee)
                 .Include(p => p.Procedure)
                 .FirstOrDefault(o => o.OrderId == id);
-            OrderModel orderModel = AutoMappers<Order, OrderModel>.Map(orderEntity);
+            OrderViewModel orderModel = AutoMappers<Order, OrderViewModel>.Map(orderEntity);
             return orderModel;
         }
 
-        public void UpdateOrder(OrderModel order)
+        public void UpdateOrder(OrderViewModel order)
         {
-            Order orderEntity = AutoMappers<OrderModel, Order>.Map(order);
+            Order orderEntity = AutoMappers<OrderViewModel, Order>.Map(order);
             orderEntity.Client = _UnitOfWork.Client.GetById(order.Client.ClientId);
             orderEntity.Procedure = _UnitOfWork.Procedure.GetById(order.Procedure.ProcedureId);
             orderEntity.Employee = _UnitOfWork.Employee.GetById(order.Employee.EmployeeId);
@@ -74,12 +78,12 @@ namespace Business_Logic_Layer.Services
                 .Include(p => p.Procedure)
                 .Where(o => o.Employee.EmployeeId == id).ToList();
 
-            var openTime = chosenDate.AddHours(open); // params
-            var closeTime = chosenDate.AddHours(close);// params
+            var openTime = chosenDate.AddHours(open);
+            var closeTime = chosenDate.AddHours(close);
             var currentTime = openTime;
             dailySchedule.Add(openTime);
 
-            do              {
+            do{
                 dailySchedule.Add(currentTime.AddMinutes(30));
                 currentTime = currentTime.AddMinutes(30);
             } while (currentTime.AddMinutes(30) <= closeTime);

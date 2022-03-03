@@ -1,18 +1,19 @@
-﻿using System;
+﻿using Business_Logic_Layer.DBO.Clients;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Business_Logic_Layer.Models
+namespace Business_Logic_Layer.DBO.Feedbacks
 {
-    public class FeedbackModel
+    public class FeedbackViewModel
     {
         public int FeedbackId { get; set; }
         public string FeedbackTitle { get; set; }
         public string FeedbackText { get; set; }
         public DateTime CreatedOn { get; set; }
         public bool IsVerify { get; set; }
-        public ClientModel? Client { get; set; }
+        public ClientViewModel? Client { get; set; }
     }
 }

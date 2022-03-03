@@ -1,6 +1,13 @@
 ﻿using AutoMapper;
-using Business_Logic_Layer.Models;
-using Data_Access_Layer;
+using Business_Logic_Layer.DBO.Clients;
+using Business_Logic_Layer.DBO.Employees;
+using Business_Logic_Layer.DBO.Feedbacks;
+using Business_Logic_Layer.DBO.MaterialManufacturers;
+using Business_Logic_Layer.DBO.Materials;
+using Business_Logic_Layer.DBO.Mediafiles;
+using Business_Logic_Layer.DBO.Orders;
+using Business_Logic_Layer.DBO.Procedures;
+using Business_Logic_Layer.DBO.ProcedureTypes;
 using Data_Access_Layer.Entities;
 
 namespace Business_Logic_Layer.Utilities
@@ -9,45 +16,131 @@ namespace Business_Logic_Layer.Utilities
     {
         private static Mapper _autoMapper = new Mapper(new MapperConfiguration(cfg =>
         {
-           {
-            cfg.CreateMap<MaterialModel, Material>()
-                .ForMember(m => m.MaterialManufacturer, opt => opt
-                .Ignore());
-            cfg.CreateMap<Material, MaterialModel>();
+            {
+                // Employee Mapping =============================================
 
-            cfg.CreateMap<EmployeeModel, Employee>()
-                .ForMember(dest => dest.ProcedureType, opt => opt
-                .Ignore())
-                .ForMember(dest => dest.MediaFiles, opt => opt.Ignore());
-            cfg.CreateMap<Employee, EmployeeModel>();
+                cfg.CreateMap<Employee, EmployeesInformationViewModel>()
+                .ForMember(dest => dest.FullName,
+                opt => opt.MapFrom(src => src.FirstName + " " + src.LastName));
 
-            cfg.CreateMap<Order, OrderModel>();
-            cfg.CreateMap<OrderModel, Order>()
-                .ForMember(dest => dest.Client, opt => opt.Ignore())
-                .ForMember(dest => dest.Employee, opt => opt.Ignore())
-                .ForMember(dest => dest.Procedure, opt => opt.Ignore());
+                cfg.CreateMap<Employee, EmployeeViewModel>();
 
-            cfg.CreateMap<ProcedureModel, Procedure>()
-                .ForMember(dest => dest.ProcedureType, opt => opt.Ignore())
-                .ForMember(dest => dest.Materials, opt => opt.Ignore());
-            cfg.CreateMap<Procedure, ProcedureModel>();
+                cfg.CreateMap<Employee, EmployeeInformationViewModel>()
+                .ForMember(dest => dest.ProcedureType, opt =>
+                opt.MapFrom(src => src.ProcedureType.ProcedureTypeName))
+                .ForMember(dest => dest.Role, opt => opt.MapFrom(src => src.Role.ToString()))
+                .ForMember(dest => dest.Qualification, opt => 
+                opt.MapFrom(src => src.Qualification.ToString()));
 
-            cfg.CreateMap<Feedback, FeedbackModel>();
-            cfg.CreateMap<FeedbackModel, Feedback>()
-                .ForMember(dest => dest.Client, opt => opt.Ignore());
+                cfg.CreateMap<Employee, EmployeesAuthenticationModel>();
 
-            cfg.CreateMap<Client, ClientModel>().ReverseMap();
+                cfg.CreateMap<Employee, EmployeeInformationViewModel>()
+                .ForMember(dest => dest.ProcedureType, opt => opt.MapFrom(src => src.ProcedureType.ProcedureTypeName));
+                
+                cfg.CreateMap<EmployeeInformationViewModel, Employee>()
+                .ForMember(dest => dest.Orders, opt => opt.Ignore())
+                .ForMember(dest => dest.MediaFiles, opt => opt.Ignore())
+                .ForMember(dest => dest.ProcedureType, opt => opt.Ignore());
 
-            cfg.CreateMap<ProcedureType, ProcedureTypeModel>().ReverseMap();
+                cfg.CreateMap<EmployeeViewModel, Employee>();
 
-            cfg.CreateMap<MaterialManufacturer, MaterialManufacturerModel>().ReverseMap();
+                // Client Mapping ===============================================
 
-            cfg.CreateMap<MediaFile, MediaFileModel>()
-                .ForMember(dest => dest.Employee, opt => opt.Ignore());
-                cfg.CreateMap<MediaFileModel, MediaFile>();
+                cfg.CreateMap<Client, ClientsInformationViewModel>()
+                .ForMember(dest => dest.FullName,
+                opt => opt.MapFrom(src => src.FirstName + " " + src.LastName));
+
+                cfg.CreateMap<Client, ClientViewModel>();
+
+                cfg.CreateMap<ClientViewModel, Client>();
+
+                // Order Mapping ================================================
+
+                cfg.CreateMap<Order, OrdersInformationViewModel>()
+                    .ForMember(dest => dest.ClientFullName,
+                    opt => opt.MapFrom(src => src.Client.FirstName + ' ' + src.Client.LastName))
+                    .ForMember(dest => dest.ClientEmail, opt => opt.MapFrom(src => src.Client.Email))
+                    .ForMember(dest => dest.ClientPhoneNumber, opt => opt.MapFrom(src => src.Client.PhoneNumber))
+                    .ForMember(dest => dest.ProcedureName, opt => opt.MapFrom(src => src.Procedure.ProcedureName))
+                    .ForMember(dest => dest.ProcedureCost, opt => opt.MapFrom(src => src.Procedure.ProcedurePrice))
+                    .ForMember(dest => dest.EmployeeFullName, opt => opt.MapFrom(src => src.Employee.FirstName + ' ' + src.Employee.LastName))
+                    .ForMember(dest => dest.EmployeeId, opt => opt.MapFrom(src => src.Employee.EmployeeId))
+                    .ForMember(dest => dest.ProcedureId, opt => opt.MapFrom(src => src.Procedure.ProcedureId));
+
+                cfg.CreateMap<Order, OrderViewModel>();
+
+                cfg.CreateMap<OrderViewModel, Order>()
+                    .ForMember(dest => dest.Client, opt => opt.Ignore())
+                    .ForMember(dest => dest.Employee, opt => opt.Ignore())
+                    .ForMember(dest => dest.Procedure, opt => opt.Ignore());
+
+                // Feedback Mapping =============================================
+
+                cfg.CreateMap<Feedback, FeedbackInformationViewModel>()
+                .ForMember(dest => dest.ClientFullName,
+                opt => opt.MapFrom(src => src.Client.FirstName + " " + src.Client.LastName));
+
+                // Material Mapping =============================================  ?????????????????????
+
+                cfg.CreateMap<Material, MaterialsInformationViewModel>()
+                .ForMember(dest => dest.MaterialName, opt => opt.MapFrom(src => src.MaterialName))
+                .ForMember(dest => dest.ProductionDate, opt => opt.MapFrom(src => src.ProductionDate))
+                .ForMember(dest => dest.BestBeforeDate, opt => opt.MapFrom(src => src.BestBeforeDate))
+                .ForMember(dest => dest.MaterialAmount, opt => opt.MapFrom(src => src.MaterialAmount))
+                .ForMember(dest => dest.MaterialManufacturer, opt => opt.MapFrom(src => src.MaterialManufacturer.ManufacturerName))
+                .ForMember(dest => dest.Procedures, opt => opt.Ignore());
+
+                cfg.CreateMap<Material, MaterialViewModel>()
+                .ForMember(dest => dest.MaterialManufacturer, opt => opt.MapFrom(m => m.MaterialManufacturer.ManufacturerId))
+                .ForMember(dest => dest.Procedures, opt => opt.Ignore());
+
+                cfg.CreateMap<MaterialViewModel, Material>()
+                .ForMember(dest => dest.Procedures, opt => opt.Ignore())
+                .ForMember(dest => dest.MaterialManufacturer, opt => opt.Ignore());
+
+
+                // MaterialManufacturer Mapping =================================
+
+                cfg.CreateMap<MaterialManufacturer, MaterialManufacturerViewModel>().ReverseMap();
+
+
+                // Procedure Mapping ============================================
+
+                cfg.CreateMap<Procedure, ProceduresInformationViewModel>()
+                .ForMember(dest => dest.ProcedureType, 
+                opt => opt.MapFrom(src => src.ProcedureType.ProcedureTypeName));
+
+
+                cfg.CreateMap<Procedure, ProcedureViewModel>()
+                .ForMember(dest => dest.ProcedureType, opt =>
+                opt.MapFrom(src => src.ProcedureType.ProcedureTypeId))
+                .ForMember(dest => dest.Materials, opt =>
+                opt.Ignore());
+
+
+                cfg.CreateMap<ProcedureViewModel, Procedure>()
+                .ForMember(dest => dest.Materials, opt => opt.Ignore())
+                .ForMember(dest => dest.ProcedureType, opt => opt.Ignore());
+
+
+                // ProcedureType Mapping ========================================
+
+
+                cfg.CreateMap<ProcedureType, ProcedureTypeViewModel>();
+                
+                cfg.CreateMap<ProcedureTypeViewModel, ProcedureType>();
+
+                // Mediafiles Mapping ========================================
+
+                cfg.CreateMap<MediaFile, MediafileViewModel>()
+                .ForMember(dest => dest.EmployeeFullname, opt =>
+                opt.MapFrom(src => src.Employee.FirstName + " " + src.Employee.LastName))
+                .ForMember(dest => dest.EmployeeId, opt => opt.MapFrom(src => src.Employee.EmployeeId));
+
+                cfg.CreateMap<MediafileViewModel, MediaFile>();
 
             }
-     }));
+        }));
 
         public static TDestination Map(TSource source)
         {

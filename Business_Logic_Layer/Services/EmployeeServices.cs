@@ -1,9 +1,9 @@
-﻿using AutoMapper;
-using Business_Logic_Layer.Models;
+﻿using Business_Logic_Layer.DBO.Employees;
 using Business_Logic_Layer.Services.Interfaces;
 using Business_Logic_Layer.Utilities;
 using Data_Access_Layer.Entities;
 using Data_Access_Layer.RepositoryWithUOW;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace Business_Logic_Layer.Services
@@ -16,9 +16,9 @@ namespace Business_Logic_Layer.Services
             _UnitOfWork = UnitOfWork;
         }
 
-        public void CreateEmoloyee(EmployeeModel employee)
+        public void CreateEmoloyee(EmployeeViewModel employee)
         {
-            Employee employeeEntity = AutoMappers<EmployeeModel, Employee>.Map(employee);
+            Employee employeeEntity = AutoMappers<EmployeeViewModel, Employee>.Map(employee);
             employeeEntity.ProcedureType = _UnitOfWork.ProcedureType.GetById(employee.ProcedureType.ProcedureTypeId);
             _UnitOfWork.Employee.Add(employeeEntity);
             _UnitOfWork.Complete();
@@ -32,45 +32,85 @@ namespace Business_Logic_Layer.Services
             _UnitOfWork.Complete();
         }
 
-        public IEnumerable<EmployeeModel> GetAllEmployees()
+        public IEnumerable<EmployeesInformationViewModel> GetAllEmployees()
         {
             var employees = _UnitOfWork.Employee.GetAll()
-                .Include(x => x.MediaFiles)
-                .Include(pt => pt.ProcedureType)
-                .Include(o => o.Orders);
+                .Include(x => x.MediaFiles);
            
-            IQueryable<EmployeeModel> employeesModel = AutoMappers<Employee, EmployeeModel>.MapIQueryable(employees);
+            IQueryable<EmployeesInformationViewModel> employeesModel =
+                AutoMappers<Employee, EmployeesInformationViewModel>.MapIQueryable(employees);
+
             return employeesModel;
         }
 
-        public EmployeeModel GetEmployeeById(int id)
+        public EmployeeInformationViewModel GetEmployeeById(int id)
         {
             var employee = _UnitOfWork.Employee.GetAll()
-                .Include(e=>e.MediaFiles)
+                .Include(m => m.MediaFiles)
                 .Include(pt => pt.ProcedureType)
                 .Include(o => o.Orders)
-                .FirstOrDefault(i=>i.EmployeeId ==id);
-            EmployeeModel employeeModel = AutoMappers<Employee, EmployeeModel>.Map(employee);
+                .ThenInclude(c => c.Client)
+                .Include(o => o.Orders)
+                .ThenInclude(p => p.Procedure)
+                .FirstOrDefault(i => i.EmployeeId == id);
+            EmployeeInformationViewModel employeeModel = AutoMappers<Employee, EmployeeInformationViewModel>.Map(employee);
             return employeeModel;
         }
 
-        public void UpdateEmoloyee(EmployeeModel employee)
+        public void UpdateEmoloyee(EmployeeInformationViewModel employee)
         {
-            Employee employeeEntity = AutoMappers<EmployeeModel, Employee>.Map(employee);
-            employeeEntity.ProcedureType = _UnitOfWork.ProcedureType.GetById(employee.ProcedureType.ProcedureTypeId);
-            _UnitOfWork.Employee.Update(employeeEntity);
+            Employee employeeEntity = AutoMappers<EmployeeInformationViewModel, Employee>.Map(employee);        
+            var employeeToUpdate = _UnitOfWork.Employee.GetAll()
+                .Include(m => m.MediaFiles)
+                .Include(o => o.Orders)
+                .Include(pr => pr.ProcedureType)
+                .FirstOrDefault(e => e.EmployeeId == employee.EmployeeId);
+            
+            employeeToUpdate.ProcedureType = _UnitOfWork.ProcedureType.GetAll().FirstOrDefault(n => n.ProcedureTypeName == employee.ProcedureType);
+            employeeToUpdate.FirstName = employeeEntity.FirstName;
+            employeeToUpdate.LastName = employeeEntity.LastName;
+            employeeToUpdate.Email = employeeEntity.Email;
+            employeeToUpdate.HireDate = employeeEntity.HireDate;
+            employeeToUpdate.PhoneNumber = employeeEntity.PhoneNumber;
+            employeeToUpdate.Role = employeeEntity.Role;
+            employeeToUpdate.Qualification = employeeEntity.Qualification;
+            _UnitOfWork.Employee.Update(employeeToUpdate);
             _UnitOfWork.Complete();
          }
 
-        public IEnumerable<EmployeeModel> GetAllByProcedureType(int id)
+        public IEnumerable<EmployeeViewModel> GetAllByProcedureType(int id)
         {
             var employees = _UnitOfWork.Employee.GetAll()
                 .Include(x => x.MediaFiles)
                 .Include(pt => pt.ProcedureType)
                 .Include(o => o.Orders)
                 .Where(pt => pt.ProcedureType.ProcedureTypeId == id);
-            IQueryable<EmployeeModel> employeesModel = AutoMappers<Employee, EmployeeModel>.MapIQueryable(employees);
+            IQueryable<EmployeeViewModel> employeesModel = AutoMappers<Employee, EmployeeViewModel>.MapIQueryable(employees);
             return employeesModel;
+        }
+
+        public IEnumerable<EmployeesAuthenticationModel> GetEmployeesCredentials()
+        {
+            var employees = _UnitOfWork.Employee.GetAll();
+            IQueryable <EmployeesAuthenticationModel > authenticationInfo =
+                AutoMappers<Employee, EmployeesAuthenticationModel>.MapIQueryable(employees);
+            return authenticationInfo;
+        }
+
+        public SelectList GetEmployeesSelectList()
+        {
+            var employees = _UnitOfWork.Employee.GetAll();
+            List<EmployeeViewModel> employeeModel = AutoMappers<Employee, EmployeeViewModel>.MapIQueryable(employees).ToList();
+            List<SelectListItem> items = new List<SelectListItem>(employeeModel.Count);
+            foreach (var item in employeeModel)
+            {
+                items.Add(new SelectListItem
+                {
+                    Text = item.FirstName + " " + item.LastName,
+                    Value = item.EmployeeId.ToString()
+                });
+            }
+            return new SelectList(items, "Value", "Text");
         }
     }
 }

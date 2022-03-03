@@ -22,6 +22,8 @@ namespace Data_Access_Layer
             modelBuilder.Entity<Feedback>().Property(f => f.CreatedOn).HasDefaultValue(DateTime.Now);
             modelBuilder.Entity<Order>().Property( c => c.IsCompleted).HasDefaultValue(false);
             modelBuilder.Entity<MediaFile>().Property(p => p.IsProfilePhoto).HasDefaultValue(false);
+            modelBuilder.Entity<MediaFile>().Property(p => p.IsEmployeePhoto).HasDefaultValue(false);
+            modelBuilder.Entity<MediaFile>().Property(p => p.IsPromoPhoto).HasDefaultValue(false);
         }
 
         public DbSet<Client> Clients { get; set; }

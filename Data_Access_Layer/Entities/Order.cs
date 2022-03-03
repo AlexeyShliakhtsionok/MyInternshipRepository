@@ -15,9 +15,9 @@ namespace Data_Access_Layer.Entities
         [Required]
         public bool IsCompleted { get; set; }
 
-        public virtual Client? Client { get; set; }
-        public int? ProcedureId { get; set; }
-        public virtual Procedure? Procedure { get; set; }
-        public virtual Employee? Employee { get; set; }
+        public virtual Client Client { get; set; }
+        public int ProcedureId { get; set; }
+        public virtual Procedure Procedure { get; set; }
+        public virtual Employee Employee { get; set; }
     }
 }

@@ -20,6 +20,7 @@ namespace Data_Access_Layer.Entities
         [Required]
         [Phone]
         public string PhoneNumber { get; set; }
+        [Required]
         [EmailAddress]
         public string Email { get; set; }
         [Required]
@@ -33,7 +34,7 @@ namespace Data_Access_Layer.Entities
         [Required]
         public Qualification Qualification { get; set; }
         
-        public virtual ProcedureType? ProcedureType { get; set; }
+        public virtual ProcedureType ProcedureType { get; set; }
 
         public virtual ICollection<Order>? Orders { get; set; }
         public virtual ICollection<MediaFile>? MediaFiles { get; set; }

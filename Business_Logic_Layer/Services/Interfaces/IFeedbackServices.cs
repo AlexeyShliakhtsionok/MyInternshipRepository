@@ -1,20 +1,14 @@
-﻿using Business_Logic_Layer.Models;
-using Data_Access_Layer.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Business_Logic_Layer.DBO.Feedbacks;
 
 namespace Business_Logic_Layer.Services.Interfaces
 {
     public interface IFeedbackServices
     {
-        public IEnumerable<FeedbackModel> GetAllFeedbacks();
-        public IEnumerable<FeedbackModel> GetAllApprovedFeedbacks();
-        public FeedbackModel GetFeedbackById(int id);
-        public void CreateFeedback(FeedbackModel feedback);
-        public void UpdateFeedback(FeedbackModel feedback);
+        public IEnumerable<FeedbackInformationViewModel> GetAllFeedbacks();
+        public IEnumerable<FeedbackInformationViewModel> GetAllApprovedFeedbacks();
+        public FeedbackViewModel GetFeedbackById(int id);
+        public void CreateFeedback(FeedbackViewModel feedback);
+        public void UpdateFeedback(FeedbackInformationViewModel feedback);
         public void DeleteFeedback(int id);
     }
 }

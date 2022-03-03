@@ -1,22 +1,16 @@
-﻿using Business_Logic_Layer.Models;
-using Data_Access_Layer.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Business_Logic_Layer.DBO.Mediafiles;
 
 
 namespace Business_Logic_Layer.Services.Interfaces
 {
     public interface IMediaFileServices
     {
-        public IEnumerable<MediaFileModel> GetMediaFiles();
-        public MediaFileModel GetMediaFileById(int id);
-        public MediaFileModel GetProfilePhotoByEmployeeId(int id);
-        public void AddMediaFile(MediaFileModel mediaFile);
-        public void AddProfilePhoto(MediaFileModel mediaFile, int id);
-        public void UpdateProfilePhoto(MediaFileModel mediaFile, int id);
+        public IEnumerable<MediafileViewModel> GetMediaFiles();
+        public MediafileViewModel GetMediaFileById(int id);
+        public MediafileViewModel GetProfilePhotoByEmployeeId(int id);
+        public void AddMediaFile(MediafileViewModel mediaFile);
+        public void AddProfilePhoto(MediafileViewModel mediaFile, int id);
+        public void UpdateProfilePhoto(MediafileViewModel mediaFile, int id);
         public void UpdateMediaFile();
         public void DeleteMediaFile(int id);
 

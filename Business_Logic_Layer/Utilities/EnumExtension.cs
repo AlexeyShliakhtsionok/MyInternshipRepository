@@ -1,4 +1,6 @@
-﻿using Business_Logic_Layer.Models;
+﻿
+
+using Business_Logic_Layer.DBO;
 
 namespace Business_Logic_Layer.Utilities
 {

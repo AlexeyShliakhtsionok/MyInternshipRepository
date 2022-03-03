@@ -1,7 +1,6 @@
-﻿using Business_Logic_Layer.Models;
+﻿using Business_Logic_Layer.DBO.Materials;
 using Business_Logic_Layer.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using Business_Logic_Layer.Utilities;
 
 namespace Salon.Controllers
 {
@@ -19,7 +18,7 @@ namespace Salon.Controllers
 
         [HttpPost]
         [Route("CreateMaterial")]
-        public void CreateMaterial([FromBody] MaterialModel materialInput)
+        public void CreateMaterial([FromBody] MaterialViewModel materialInput)
         {
             _materialServices.CreateMaterial(materialInput);
         }
@@ -33,66 +32,51 @@ namespace Salon.Controllers
 
         [HttpPost]
         [Route("UpdateMaterial")]
-        public void UpdateMaterial([FromBody] MaterialModel materialInput)
+        public void UpdateMaterial([FromBody] MaterialViewModel materialInput)
         {
             _materialServices.UpdateMaterial(materialInput);
         }
 
         [HttpGet]
         [Route("GetMaterialById")]
-        public ActionResult<MaterialModel> GetMaterialById(int id)
+        public ActionResult<MaterialViewModel> GetMaterialById(int id)
         {
             var material = _materialServices.GetMaterialById(id);
             if (material == null)
             {
                 return NotFound("InvalidId");
             }
-
             return Ok(material);
         }
 
-        //[HttpGet]
-        //[Route("GetAllMaterials")]
-        //public ActionResult<IEnumerable<MaterialModel>> GetMaterials()
-        //{
-        //    var manufacturers = _materialManufacturerServices.GetAllMaterialManufacturers().ToList();
-        //    var manufacturerSelectList = _materialManufacturerServices.GetManufacturersSelectList(manufacturers);
-        //    var materials = _materialServices.GetAllMaterials();
-
-        //    return Ok(new { materials, manufacturers, manufacturerSelectList });
-        //}
-
         [HttpGet]
         [Route("GetAllMaterials")]
-        public ActionResult<IEnumerable<MaterialModel>> GetMaterials(int elementsPerPage)
+        public ActionResult<IEnumerable<MaterialsInformationViewModel>> GetMaterials(int elementsPerPage, int pageNumber)
         {
-            var manufacturers = _materialManufacturerServices.GetAllMaterialManufacturers().ToList();
-            var manufacturerSelectList = _materialManufacturerServices.GetManufacturersSelectList(manufacturers);
-            var materials = _materialServices.GetAllMaterials().ToList();
-            double pages = (double)materials.Count() / elementsPerPage;
-            pages = Math.Ceiling(pages);
+            var allMaterials = _materialServices.GetAllMaterials().ToList();
+            var materialManufacturersSelectList = _materialManufacturerServices.GetManufacturersSelectList();
+            double pagesCount = (double)allMaterials.Count() / elementsPerPage;
+            pagesCount = Math.Ceiling(pagesCount);
 
-
-            List<MaterialModel>[] pagedMaterials = new List<MaterialModel>[(int)pages];
+            List<MaterialsInformationViewModel>[] pagedMaterials = new List<MaterialsInformationViewModel>[(int)pagesCount];
             for (int j = 0; j < pagedMaterials.Length; j++)
             {
-                pagedMaterials[j] = new List<MaterialModel>();
+                pagedMaterials[j] = new List<MaterialsInformationViewModel>();
             }
 
             for (int i = 0; i < pagedMaterials.Length; i++)
             {
-                for (int j = 0; j < materials.Count(); j++)
+                for (int j = 0; j < allMaterials.Count(); j++)
                 {
                     if (j != 0 && j % elementsPerPage == 0)
                     {
                         i++;
                     };
-                    pagedMaterials[i].Add(materials[j]);
+                    pagedMaterials[i].Add(allMaterials[j]);
                 }
             }
-
-
-            return Ok(new { materials, pagedMaterials, manufacturers, manufacturerSelectList, pages });
+            var materials = pagedMaterials[pageNumber - 1];
+            return Ok(new { materials, materialManufacturersSelectList,  pagesCount, elementsPerPage, pageNumber });
         }
     }
 }

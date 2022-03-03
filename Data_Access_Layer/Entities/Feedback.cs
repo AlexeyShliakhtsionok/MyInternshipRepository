@@ -18,6 +18,6 @@ namespace Data_Access_Layer.Entities
         public DateTime CreatedOn { get; set; }
         public bool IsVerify { get; set; }
 
-        public virtual Client? Client { get; set; }
+        public virtual Client Client { get; set; }
     }
 }

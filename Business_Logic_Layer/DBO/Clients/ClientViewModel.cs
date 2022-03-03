@@ -1,12 +1,14 @@
-﻿using System;
+﻿using Business_Logic_Layer.DBO.Feedbacks;
+using Business_Logic_Layer.DBO.Orders;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Business_Logic_Layer.Models
+namespace Business_Logic_Layer.DBO.Clients
 {
-    public class ClientModel
+    public class ClientViewModel
     {
         public int ClientId { get; set; }
         public string FirstName { get; set; }
@@ -14,7 +16,7 @@ namespace Business_Logic_Layer.Models
         public string PhoneNumber { get; set; }
         public string Email { get; set; }
 
-        public ICollection<FeedbackModel>? Feedbacks { get; set; }
-        public ICollection<OrderModel>? Orders { get; set; }
+        public ICollection<FeedbackViewModel>? Feedbacks { get; set; }
+        public ICollection<OrdersInformationViewModel>? Orders { get; set; }
     }
 }

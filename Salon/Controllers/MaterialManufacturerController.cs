@@ -1,4 +1,4 @@
-﻿using Business_Logic_Layer.Models;
+﻿using Business_Logic_Layer.DBO.MaterialManufacturers;
 using Business_Logic_Layer.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -24,7 +24,7 @@ namespace Salon.Controllers
 
         [HttpGet]
         [Route("GetAllManufacturers")]
-        public ActionResult<IEnumerable<MaterialManufacturerModel>> GetAllManufacturers()
+        public ActionResult<IEnumerable<MaterialManufacturerViewModel>> GetAllManufacturers()
         {
             var manufacrurers = _materialManufacturerServices.GetAllMaterialManufacturers();
             return Ok(manufacrurers);

@@ -1,8 +1,6 @@
-﻿using Business_Logic_Layer.Models;
+﻿using Business_Logic_Layer.DBO.Mediafiles;
 using Business_Logic_Layer.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using System.Reflection.Metadata;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace Salon.Controllers
 {
@@ -30,7 +28,7 @@ namespace Salon.Controllers
         [Route("GetFileById")]
         public ActionResult GetImageFromDB(int id)
         {
-            MediaFileModel imageToShow = _mediaFileServices.GetMediaFileById(id);
+            MediafileViewModel imageToShow = _mediaFileServices.GetMediaFileById(id);
             var byteArray = imageToShow.FileData;
             var result = base.File(byteArray, "image/png");
             return result;
@@ -49,24 +47,41 @@ namespace Salon.Controllers
                 return result;
             }
             return NoContent();
-           
         }
-
-
 
         [HttpGet]
         [Route("GetAllMediaFiles")]
-        public ActionResult GetAllMediaFiles()
+        public ActionResult GetAllMediaFiles(string type, int employeeId)
         {
-            List<MediaFileModel> models = _mediaFileServices.GetMediaFiles().ToList();
+            var employeesSelectList = _employeeServices.GetEmployeesSelectList();
+            List<MediafileViewModel> allMediaFiles = _mediaFileServices.GetMediaFiles().ToList();
+            List<FileContentResult> mediafiles = new List<FileContentResult>();
 
-            List<FileContentResult> result = new();
-
-            foreach (var file in models)
-            {
-                result.Add(base.File(file.FileData, "image/png"));
+            if (employeeId != 0) {
+                allMediaFiles = _employeeServices.GetEmployeeById(employeeId).MediaFiles.ToList();
             }
-            return Ok(result);
+            
+            if (type == "profile")
+            {
+                allMediaFiles = allMediaFiles.Where(b => b.IsProfilePhoto == true).ToList();
+            }
+            else if (type == "employeeGallery")
+            {
+                allMediaFiles = allMediaFiles.Where(b => b.IsEmployeePhoto).ToList();
+            }
+            else if(type == "promo")
+            {
+                allMediaFiles = allMediaFiles.Where(b => b.IsPromoPhoto == true).ToList();
+            }
+
+            if (allMediaFiles.Count() != 0)
+            {
+                for (int i = 0; i < allMediaFiles.Count(); i++)
+                {
+                    mediafiles.Add(base.File(allMediaFiles[i].FileData, "image/png"));
+                }
+            }
+            return Ok(new { mediafiles, employeesSelectList });
         }
 
         [HttpPost, Route("UploadMediaFile")]
@@ -79,7 +94,7 @@ namespace Salon.Controllers
                         var fileName = Path.GetFileName(file.FileName);
                         var fileExtension = Path.GetExtension(fileName);
                         var newFileName = String.Concat(Convert.ToString(Guid.NewGuid()), fileExtension);
-                        var objFile = new MediaFileModel()
+                        var objFile = new MediafileViewModel()
                         {
                             FileName = newFileName,
                             FileType = fileExtension,
@@ -110,7 +125,7 @@ namespace Salon.Controllers
                     var fileName = Path.GetFileName(profilePhoto.FileName);
                     var fileExtension = Path.GetExtension(fileName);
                     var newFileName = String.Concat(Convert.ToString(Guid.NewGuid()), fileExtension);
-                    var objFile = new MediaFileModel()
+                    var objFile = new MediafileViewModel()
                     {
                         FileName = newFileName,
                         FileType = fileExtension,
@@ -129,7 +144,6 @@ namespace Salon.Controllers
 
                     if(isProfilePhoto != null)
                     {
-                        //_mediaFileServices.DeleteMediaFile(isProfilePhoto)
                         _mediaFileServices.UpdateProfilePhoto(objFile, employeeId);
                     }
                     else

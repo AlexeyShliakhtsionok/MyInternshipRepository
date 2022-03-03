@@ -14,10 +14,12 @@ namespace Data_Access_Layer.Entities
         public string MaterialName { get; set; }
         [Required]
         public double MaterialAmount { get; set; }
+        [Required]
         public DateTime ProductionDate { get; set; }
+        [Required]
         public DateTime BestBeforeDate { get; set; }
 
-        public virtual MaterialManufacturer? MaterialManufacturer { get; set; }
+        public virtual MaterialManufacturer MaterialManufacturer { get; set; }
         public virtual ICollection<Procedure>? Procedures { get; set; }
     }
 }

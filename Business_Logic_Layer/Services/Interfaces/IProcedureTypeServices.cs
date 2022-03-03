@@ -1,20 +1,15 @@
-﻿using Business_Logic_Layer.Models;
+﻿using Business_Logic_Layer.DBO.ProcedureTypes;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Business_Logic_Layer.Services.Interfaces
 {
     public interface IProcedureTypeServices
     {
-        public IEnumerable<ProcedureTypeModel> GetProcedureTypes();
-        public ProcedureTypeModel GetProcedureTypeById(int id);
-        public void CreateProcedureType(ProcedureTypeModel procedureType);
-        public void UpdateProcedureType(ProcedureTypeModel procedureType);
+        public IEnumerable<ProcedureTypeViewModel> GetProcedureTypes();
+        public ProcedureTypeViewModel GetProcedureTypeById(int id);
+        public void CreateProcedureType(ProcedureTypeViewModel procedureType);
+        public void UpdateProcedureType(ProcedureTypeViewModel procedureType);
         public void DeleteProcedureType(int id);
-        public SelectList GetProcedureTypesSelectList(List<ProcedureTypeModel> list);
+        public SelectList GetProcedureTypesSelectList();
     }
 }

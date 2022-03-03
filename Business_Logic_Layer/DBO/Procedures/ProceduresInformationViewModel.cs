@@ -1,19 +1,19 @@
-﻿using System;
+﻿using Business_Logic_Layer.DBO.Materials;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Business_Logic_Layer.Models
+namespace Business_Logic_Layer.DBO.Procedures
 {
-    public class ProcedureModel
+    public class ProceduresInformationViewModel
     {
         public int ProcedureId { get; set; }
         public string ProcedureName { get; set; }
         public string ProcedureDescription { get; set; }
         public TimeSpan TimeAmount { get; set; }
         public float ProcedurePrice { get; set; }
-        public ProcedureTypeModel? ProcedureType { get; set; }
-        public ICollection<MaterialModel>? Materials { get; set; }
+        public string ProcedureType { get; set; }
     }
 }

@@ -1,8 +1,11 @@
-﻿using Business_Logic_Layer.Models;
+﻿using Business_Logic_Layer.DBO.Clients;
+using Business_Logic_Layer.DBO.Feedbacks;
+using Business_Logic_Layer.DBO.Orders;
 using Business_Logic_Layer.Services.Interfaces;
 using Business_Logic_Layer.Utilities;
 using Data_Access_Layer.Entities;
 using Data_Access_Layer.RepositoryWithUOW;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace Business_Logic_Layer.Services
@@ -16,89 +19,61 @@ namespace Business_Logic_Layer.Services
             _UnitOfWork = UnitOfWork;
         }
 
-        public void CreateClient(ClientModel client)
+        public void CreateClient(ClientViewModel client)
         {
-            Client clientEntity = AutoMappers<ClientModel, Client>.Map(client);
+            Client clientEntity = AutoMappers<ClientViewModel, Client>.Map(client);
             _UnitOfWork.Client.Add(clientEntity);
             _UnitOfWork.Complete();
         }
-
-        public void DeleteClient(int id)
+        public ClientViewModel GetClientById(int id)
         {
-            var clientToDelete = _UnitOfWork.Client.GetById(id);
-             _UnitOfWork.Client.Delete(clientToDelete);
-            _UnitOfWork.Complete();
-        }
-
-        public IEnumerable<ClientModel> GetAllClients()
-        {
-            var clients =  _UnitOfWork.Client.GetAll()
+            var client = _UnitOfWork.Client.GetAll()
                 .Include(o => o.Orders)
-                .Include(f => f.Feedbacks);
-            IEnumerable<ClientModel> clientsModel = AutoMappers<Client, ClientModel>.MapIQueryable(clients);
-            return clientsModel;
-        }
-
-
-        //======================================== Dividing the Get-method 
-        public IEnumerable<ClientModel> GetAllClientsWithFeedbacks()
-        {
-            var clients = _UnitOfWork.Client.GetAll()
-                .Include(f => f.Feedbacks);
-            IEnumerable<ClientModel> clientsModel = AutoMappers<Client, ClientModel>.MapIQueryable(clients);
-            return clientsModel;
-        }
-
-        public IEnumerable<ClientModel> GetAllClientsWithOrders()
-        {
-            var clients = _UnitOfWork.Client.GetAll()
-                .Include(o => o.Orders);
-            IEnumerable<ClientModel> clientsModel = AutoMappers<Client, ClientModel>.MapIQueryable(clients);
-            return clientsModel;
-        }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        public ClientModel GetClientById(int id)
-        {
-            var client =  _UnitOfWork.Client.GetAll()
+                .ThenInclude(e => e.Employee)
                 .Include(o => o.Orders)
-                .Include(f => f.Feedbacks)
+                .ThenInclude(p => p.Procedure)
                 .FirstOrDefault(c => c.ClientId == id);
-            ClientModel clientModel = AutoMappers<Client, ClientModel>.Map(client);
+            ClientViewModel clientModel = AutoMappers<Client, ClientViewModel>.Map(client);
             return clientModel;
         }
 
-        public ClientModel GetClientByEmail(string email)
+        public ClientViewModel GetClientByEmail(string email)
         {
             var client = _UnitOfWork.Client.GetAll()
                 .Include(o => o.Orders)
                 .Include(f => f.Feedbacks)
                 .FirstOrDefault(c => c.Email == email);
-            ClientModel clientModel = AutoMappers<Client, ClientModel>.Map(client);
+            ClientViewModel clientModel = AutoMappers<Client, ClientViewModel>.Map(client);
             return clientModel;
         }
 
-        public void UpdateClient(ClientModel client)
+        public IEnumerable<ClientsInformationViewModel> GetAllClients()
+        {
+            var clients = _UnitOfWork.Client.GetAll()
+                .Include(o => o.Orders)
+                .Include(f => f.Feedbacks);
+            IEnumerable<ClientsInformationViewModel> clientsModel =
+                AutoMappers<Client, ClientsInformationViewModel>.MapIQueryable(clients);
+            return clientsModel;
+        }
+
+        public IEnumerable<ClientViewModel> GetAllClientsWithFeedbacks()
+        {
+            var clients = _UnitOfWork.Client.GetAll()
+                .Include(f => f.Feedbacks);
+            IEnumerable<ClientViewModel> clientsModel = AutoMappers<Client, ClientViewModel>.MapIQueryable(clients);
+            return clientsModel;
+        }
+
+        public IEnumerable<ClientViewModel> GetAllClientsWithOrders()
+        {
+            var clients = _UnitOfWork.Client.GetAll()
+                .Include(o => o.Orders);
+            IEnumerable<ClientViewModel> clientsModel = AutoMappers<Client, ClientViewModel>.MapIQueryable(clients);
+            return clientsModel;
+        }
+
+        public void UpdateClient(ClientViewModel client)
         {
             var clientToUpdate = _UnitOfWork.Client.GetById(client.ClientId);
             clientToUpdate.FirstName = client.FirstName;
@@ -108,19 +83,42 @@ namespace Business_Logic_Layer.Services
             _UnitOfWork.Complete();
         }
 
-        // Additional methods -----------------------------------------------
+        public void DeleteClient(int id)
+        {
+            var clientToDelete = _UnitOfWork.Client.GetById(id);
+            _UnitOfWork.Client.Delete(clientToDelete);
+            _UnitOfWork.Complete();
+        }
 
-        public IEnumerable<FeedbackModel> GetAllClientFeedbacks(int id)
+        //// Additional methods -----------------------------------------------
+
+        public SelectList GetClientsSelectList()
+        {
+            var clients = _UnitOfWork.Client.GetAll();
+            List<ClientViewModel> clientsModel = AutoMappers<Client, ClientViewModel>.MapIQueryable(clients).ToList();
+            List<SelectListItem> items = new List<SelectListItem>(clientsModel.Count);
+            foreach (var item in clientsModel)
+            {
+                items.Add(new SelectListItem
+                {
+                    Text = item.FirstName + " " + item.LastName,
+                    Value = item.ClientId.ToString()
+                });
+            }
+            return new SelectList(items, "Value", "Text");
+        }
+
+        public IEnumerable<FeedbackViewModel> GetAllClientFeedbacks(int id)
         {
             var feedbacks = _UnitOfWork.Feedback.GetAll().Where(c => c.Client.ClientId == id);
-            IEnumerable<FeedbackModel> feedbackModels = AutoMappers<Feedback, FeedbackModel>.MapIQueryable(feedbacks);
+            IEnumerable<FeedbackViewModel> feedbackModels = AutoMappers<Feedback, FeedbackViewModel>.MapIQueryable(feedbacks);
             return feedbackModels;
         }
 
-        public IEnumerable<OrderModel> GetAllClientOrders(int id)
+        public IEnumerable<OrderViewModel> GetAllClientOrders(int id)
         {
             var orders = _UnitOfWork.Order.GetAll().Where(o => o.Client.ClientId == id);
-            IEnumerable<OrderModel> orderModels = AutoMappers<Order, OrderModel>.MapIQueryable(orders);
+            IEnumerable<OrderViewModel> orderModels = AutoMappers<Order, OrderViewModel>.MapIQueryable(orders);
             return orderModels;
         }
     }

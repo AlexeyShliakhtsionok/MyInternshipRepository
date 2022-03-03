@@ -1,4 +1,4 @@
-﻿using Business_Logic_Layer.Models;
+﻿using Business_Logic_Layer.DBO.Materials;
 using Business_Logic_Layer.Services.Interfaces;
 using Business_Logic_Layer.Utilities;
 using Data_Access_Layer.Entities;
@@ -16,14 +16,23 @@ namespace Business_Logic_Layer.Services
             _UnitOfWork = UnitOfWork;
         }
 
-        public void CreateMaterial(MaterialModel material)
+        public void CreateMaterial(MaterialViewModel material)
         {
-            Material materialEntity = AutoMappers<MaterialModel, Material>.Map(material);
+            Material materialEntity = AutoMappers<MaterialViewModel, Material>.Map(material);
             materialEntity.MaterialManufacturer = _UnitOfWork.MaterialManufacturer
-                .GetById(material.MaterialManufacturer.ManufacturerId);
+                .GetById(material.MaterialManufacturer);
            
             _UnitOfWork.Material.Add(materialEntity);
             _UnitOfWork.Complete();
+        }
+
+        public IEnumerable<MaterialsInformationViewModel> GetAllMaterials()
+        {
+            var materials = _UnitOfWork.Material.GetAll()
+                .Include(manuf => manuf.MaterialManufacturer);
+            IEnumerable<MaterialsInformationViewModel> materialModels =
+                AutoMappers<Material, MaterialsInformationViewModel>.MapIQueryable(materials);
+            return materialModels;
         }
 
         public void DeleteMaterial(int id)
@@ -33,39 +42,30 @@ namespace Business_Logic_Layer.Services
             _UnitOfWork.Complete();
         }
 
-        public IEnumerable<MaterialModel> GetAllMaterials()
-        {
-            var materials = _UnitOfWork.Material.GetAll()
-                .Include(m => m.MaterialManufacturer)
-                .Include(p => p.Procedures);
-                
-            IEnumerable<MaterialModel> materialModels = AutoMappers<Material, MaterialModel>.MapIQueryable(materials);
-            return materialModels;
-        }
-
-        public MaterialModel GetMaterialById(int id)
+        public MaterialViewModel GetMaterialById(int id)
         {
             var materialEntity = _UnitOfWork.Material.GetAll()
                 .Include(m => m.MaterialManufacturer)
                 .Include(p => p.Procedures)
                 .FirstOrDefault(m => m.MaterialId == id);
-            MaterialModel materialModel = AutoMappers<Material, MaterialModel>.Map(materialEntity);
+            MaterialViewModel materialModel =
+                AutoMappers<Material, MaterialViewModel>.Map(materialEntity);
             return materialModel;
         }
 
-        public void UpdateMaterial(MaterialModel material)
+        public void UpdateMaterial(MaterialViewModel material)
         {
-            Material materialEntity = AutoMappers<MaterialModel, Material>.Map(material);
+            Material materialEntity = AutoMappers<MaterialViewModel, Material>.Map(material);
             materialEntity.MaterialManufacturer = _UnitOfWork.MaterialManufacturer
-                .GetById(material.MaterialManufacturer.ManufacturerId);
+                .GetById(material.MaterialManufacturer);
            
             _UnitOfWork.Material.Update(materialEntity);
-
             _UnitOfWork.Complete();
         }
 
-        public SelectList GetMaterialsSelectList(List<MaterialModel> list)
+        public SelectList GetMaterialsSelectList()
         {
+            List<Material> list = _UnitOfWork.Material.GetAll().ToList();
             List<SelectListItem> items = new List<SelectListItem>(list.Count);
             foreach (var item in list)
             {

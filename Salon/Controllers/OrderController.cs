@@ -1,4 +1,5 @@
-﻿using Business_Logic_Layer.Models;
+﻿using Business_Logic_Layer.DBO.Clients;
+using Business_Logic_Layer.DBO.Orders;
 using Business_Logic_Layer.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -32,20 +33,8 @@ namespace Salon.Controllers
         }
 
         [HttpGet]
-        [Route("GetAllOrders")]
-        public ActionResult<IEnumerable<OrderModel>> GetAllOrders()
-        {
-            var orders = _orderServices.GetOrders();
-            var employees = _employeeServices.GetAllEmployees();
-            var clients = _clientServices.GetAllClients();
-            var procedures = _procedureServices.GetAllProcedures();
-            var procedureTypes = _procedureTypeServices.GetProcedureTypesSelectList(_procedureTypeServices.GetProcedureTypes().ToList());
-            return Ok( new { orders, employees, clients, procedures, procedureTypes});
-        }
-
-        [HttpGet]
         [Route("GetOrderById")]
-        public ActionResult<OrderModel> GetOrderById(int id)
+        public ActionResult<OrderViewModel> GetOrderById(int id)
         {
             var order = _orderServices.GetOrderById(id);
             if (order == null)
@@ -56,13 +45,13 @@ namespace Salon.Controllers
         }
 
         [HttpPost, Route("UpdateOrder")]
-        public void UpdateOrder([FromBody]OrderModel order)
+        public void UpdateOrder([FromBody]OrderViewModel order)
         {
             _orderServices.UpdateOrder(order);
         }
 
         [HttpPost, Route("CreateOrder")]
-        public void CreateOrder([FromBody]OrderModel order)
+        public void CreateOrder([FromBody] OrderViewModel order)
         {
             _orderServices.CreateOrder(order);
         }
@@ -75,6 +64,37 @@ namespace Salon.Controllers
             return Ok( avaliableSchedule);
         }
 
+        [HttpGet]
+        [Route("GetAllOrders")]
+        public ActionResult<IEnumerable<OrdersInformationViewModel>> GetPagedOrders(int elementsPerPage, int pageNumber)
+        {
+            var allOrders = _orderServices.GetAllOrders().ToList();
+            var clientsSelectList = _clientServices.GetClientsSelectList();
+            var procedureTypesSelectList = _procedureTypeServices.GetProcedureTypesSelectList();
+            double pagesCount = (double)allOrders.Count() / elementsPerPage;
+            pagesCount = Math.Ceiling(pagesCount);
 
+            List<OrdersInformationViewModel>[] pagedOrders = new List<OrdersInformationViewModel>[(int)pagesCount];
+            for (int j = 0; j < pagedOrders.Length; j++)
+            {
+                pagedOrders[j] = new List<OrdersInformationViewModel>();
+            }
+
+            for (int i = 0; i < pagedOrders.Length; i++)
+            {
+                for (int j = 0; j < allOrders.Count(); j++)
+                {
+                    if (j != 0 && j % elementsPerPage == 0)
+                    {
+                        i++;
+                    };
+                    pagedOrders[i].Add(allOrders[j]);
+                }
+            }
+
+            var orders = pagedOrders[pageNumber-1];
+
+            return Ok(new { orders, clientsSelectList, procedureTypesSelectList, pagesCount, elementsPerPage, pageNumber });
+        }
     }
 }
