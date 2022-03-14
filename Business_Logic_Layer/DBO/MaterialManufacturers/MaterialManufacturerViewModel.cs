@@ -12,6 +12,6 @@ namespace Business_Logic_Layer.DBO.MaterialManufacturers
         public int ManufacturerId { get; set; }
         public string ManufacturerName { get; set; }
         public string MadeIn { get; set; }
-        public ICollection<MaterialViewModel>? Materials { get; set; }
+        //public ICollection<MaterialViewModel>? Materials { get; set; }
     }
 }

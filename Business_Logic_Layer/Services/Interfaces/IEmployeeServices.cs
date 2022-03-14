@@ -8,6 +8,8 @@ namespace Business_Logic_Layer.Services.Interfaces
         public IEnumerable<EmployeesAuthenticationModel> GetEmployeesCredentials();
         public IEnumerable<EmployeesInformationViewModel> GetAllEmployees();
         public EmployeeInformationViewModel GetEmployeeById(int id);
+        public EmployeeViewModel GetEmployeeViewModelById(int id);
+        public EmployeeViewModel GetEmployeeByEmail(string email);
         public void CreateEmoloyee(EmployeeViewModel employee);
         public void UpdateEmoloyee(EmployeeInformationViewModel employee);
         public void DeleteEmoloyee(int id);

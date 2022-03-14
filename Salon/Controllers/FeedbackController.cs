@@ -28,7 +28,7 @@ namespace Salon.Controllers
         [HttpGet]
         [Route("GetAllFeedbacks")]
         public ActionResult<IEnumerable<FeedbackInformationViewModel>> GetAllFeedbacks(int elementsPerPage, int pageNumber) {
-            var allFeedbacks = _feedbackServices.GetAllFeedbacks().ToList();
+            var allFeedbacks = _feedbackServices.GetAllFeedbacks().OrderByDescending(f => f.CreatedOn).ToList();
             double pagesCount = (double)allFeedbacks.Count() / elementsPerPage;
             pagesCount = Math.Ceiling(pagesCount);
 
@@ -60,6 +60,7 @@ namespace Salon.Controllers
             var allFeedbacks = _feedbackServices.GetAllFeedbacks().Where(f => f.IsVerify == true).ToList();
             double pagesCount = (double)allFeedbacks.Count() / elementsPerPage;
             pagesCount = Math.Ceiling(pagesCount);
+            var clients = _clientServices.GetAllClients();
 
             List<FeedbackInformationViewModel>[] pagedOrders = new List<FeedbackInformationViewModel>[(int)pagesCount];
             for (int j = 0; j < pagedOrders.Length; j++)
@@ -79,7 +80,7 @@ namespace Salon.Controllers
                 }
             }
             var feedbacks = pagedOrders[pageNumber - 1];
-            return Ok(new { feedbacks, pagesCount, elementsPerPage, pageNumber });
+            return Ok(new { feedbacks, clients, pagesCount, elementsPerPage, pageNumber });
         }
 
         [HttpPost, Route("CreateFeedback")]

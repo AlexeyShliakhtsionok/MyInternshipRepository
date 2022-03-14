@@ -13,6 +13,7 @@ namespace Data_Access_Layer.Entities
         public string ProcedureTypeName { get; set; }
         public virtual ICollection<Procedure>? Procedures { get; set; }
         public virtual ICollection<Employee>? Employees { get; set; }
+        public virtual MediaFile? MediaFile { get; set; }
     }
 }
 

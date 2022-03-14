@@ -1,10 +1,5 @@
-﻿using Business_Logic_Layer.DBO.Employees;
+﻿using Business_Logic_Layer.DBO.Mediafiles;
 using Business_Logic_Layer.DBO.Procedures;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Business_Logic_Layer.DBO.ProcedureTypes
 {
@@ -12,5 +7,7 @@ namespace Business_Logic_Layer.DBO.ProcedureTypes
     {
         public int ProcedureTypeId { get; set; }
         public string ProcedureTypeName { get; set; }
+        public MediafileViewModel? MediaFile { get; set; }
+        public ICollection<ProcedureViewModel>? Procedures { get; set; }
     }
 }

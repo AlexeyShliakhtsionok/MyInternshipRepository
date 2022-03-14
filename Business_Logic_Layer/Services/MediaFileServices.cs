@@ -59,19 +59,11 @@ namespace Business_Logic_Layer.Services
             var employee = _UnitOfWork.Employee.GetById(id);
             var profilePhoto = employee.MediaFiles.FirstOrDefault(p => p.IsProfilePhoto == true);
             employee.MediaFiles.Remove(profilePhoto);
-            //_UnitOfWork.MediaFile.Delete(profilePhoto);
             employee.MediaFiles.Add(mediaFileEntity);
             _UnitOfWork.Employee.Update(employee);
             _UnitOfWork.Complete();
         }
 
-        public void AddMediaFile(MediafileViewModel mediaFile)
-        {
-            MediaFile mediafile = AutoMappers<MediafileViewModel, MediaFile>.Map(mediaFile);
-            _UnitOfWork.MediaFile.Add(mediafile);
-            _UnitOfWork.Complete();
-        }
-        
         public void AddProfilePhoto(MediafileViewModel mediaFile, int id)
         {
             MediaFile mediafileEntity = AutoMappers<MediafileViewModel, MediaFile>.Map(mediaFile);
@@ -79,6 +71,33 @@ namespace Business_Logic_Layer.Services
             Employee employee = _UnitOfWork.Employee.GetById(id);
             employee.MediaFiles.Add(mediafileEntity);
             _UnitOfWork.Employee.Update(employee);
+            _UnitOfWork.Complete();
+        }
+
+        public void UpdateProcedureTypePhoto(MediafileViewModel mediaFileModel, int id)
+        {
+            MediaFile mediaFileEntity = AutoMappers<MediafileViewModel, MediaFile>.Map(mediaFileModel);
+            var procedureType = _UnitOfWork.ProcedureType.GetById(id);
+            var previousPhoto = procedureType.MediaFile;
+            _UnitOfWork.MediaFile.Delete(previousPhoto);
+            _UnitOfWork.MediaFile.Add(mediaFileEntity);
+            procedureType.MediaFile = mediaFileEntity;
+            _UnitOfWork.Complete();
+        }
+
+        public void AddProcedureTypePhoto(MediafileViewModel mediaFile, int id)
+        {
+            MediaFile mediafileEntity = AutoMappers<MediafileViewModel, MediaFile>.Map(mediaFile);
+            var procedureType = _UnitOfWork.ProcedureType.GetById(id);
+            _UnitOfWork.MediaFile.Add(mediafileEntity);
+            procedureType.MediaFile = mediafileEntity;
+            _UnitOfWork.Complete();
+        }
+
+        public void AddMediaFile(MediafileViewModel mediaFile)
+        {
+            MediaFile mediafile = AutoMappers<MediafileViewModel, MediaFile>.Map(mediaFile);
+            _UnitOfWork.MediaFile.Add(mediafile);
             _UnitOfWork.Complete();
         }
     }

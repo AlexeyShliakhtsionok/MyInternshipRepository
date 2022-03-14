@@ -22,6 +22,13 @@ namespace Salon.Controllers
             _materialManufacturerServices.DeleteMaterialManufacturer(id);
         }
 
+        [HttpPost]
+        [Route("CreateMaterialManufacturer")]
+        public void CreateMaterialManufacturer(MaterialManufacturerViewModel manufacturer)
+        {
+            _materialManufacturerServices.CreateMaterialManufacturer(manufacturer);
+        }
+
         [HttpGet]
         [Route("GetAllManufacturers")]
         public ActionResult<IEnumerable<MaterialManufacturerViewModel>> GetAllManufacturers()

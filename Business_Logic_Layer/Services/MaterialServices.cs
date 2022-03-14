@@ -29,7 +29,8 @@ namespace Business_Logic_Layer.Services
         public IEnumerable<MaterialsInformationViewModel> GetAllMaterials()
         {
             var materials = _UnitOfWork.Material.GetAll()
-                .Include(manuf => manuf.MaterialManufacturer);
+                .Include(manuf => manuf.MaterialManufacturer)
+                .Include(proc => proc.Procedures);
             IEnumerable<MaterialsInformationViewModel> materialModels =
                 AutoMappers<Material, MaterialsInformationViewModel>.MapIQueryable(materials);
             return materialModels;
@@ -51,6 +52,15 @@ namespace Business_Logic_Layer.Services
             MaterialViewModel materialModel =
                 AutoMappers<Material, MaterialViewModel>.Map(materialEntity);
             return materialModel;
+        }
+
+        public void UpdateMaterialAmount(int id, int amount)
+        {
+            var material = _UnitOfWork.Material.GetAll()
+                .FirstOrDefault(n => n.MaterialId == id);
+            material.MaterialAmount = material.MaterialAmount - amount;
+            _UnitOfWork.Material.Update(material);
+            _UnitOfWork.Complete();
         }
 
         public void UpdateMaterial(MaterialViewModel material)

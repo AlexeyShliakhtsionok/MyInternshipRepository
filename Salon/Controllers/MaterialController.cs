@@ -31,6 +31,19 @@ namespace Salon.Controllers
         }
 
         [HttpPost]
+        [Route("UpdateMaterialAmount")]
+        public void UpdateMaterialAmount([FromBody] string[][] materialsAmount)
+        {
+
+            for (int i = 0; i < materialsAmount.Length; i++)
+            {
+                _materialServices.UpdateMaterialAmount(Convert.ToInt32(materialsAmount[i][0]), Convert.ToInt32(materialsAmount[i][1]));
+            }
+        }
+
+
+
+        [HttpPost]
         [Route("UpdateMaterial")]
         public void UpdateMaterial([FromBody] MaterialViewModel materialInput)
         {
@@ -51,9 +64,9 @@ namespace Salon.Controllers
 
         [HttpGet]
         [Route("GetAllMaterials")]
-        public ActionResult<IEnumerable<MaterialsInformationViewModel>> GetMaterials(int elementsPerPage, int pageNumber)
+        public ActionResult<IEnumerable<MaterialsInformationViewModel>> GetMaterials(int elementsPerPage, int pageNumber, string sortBy)
         {
-            var allMaterials = _materialServices.GetAllMaterials().ToList();
+            var allMaterials = _materialServices.GetAllMaterials().OrderByDescending(d => d.ProductionDate).ToList();
             var materialManufacturersSelectList = _materialManufacturerServices.GetManufacturersSelectList();
             double pagesCount = (double)allMaterials.Count() / elementsPerPage;
             pagesCount = Math.Ceiling(pagesCount);

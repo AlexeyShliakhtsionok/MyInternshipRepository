@@ -9,7 +9,7 @@ namespace Business_Logic_Layer.Services.Interfaces
     {
         public IEnumerable<ClientsInformationViewModel> GetAllClients();
         public ClientViewModel GetClientById(int id);
-        public ClientViewModel GetClientByEmail(string email);
+        public ClientToFeedbackCreationViewModel GetClientByEmail(string email);
         public void CreateClient(ClientViewModel client);
         public void UpdateClient(ClientViewModel client);
         public void DeleteClient(int id);

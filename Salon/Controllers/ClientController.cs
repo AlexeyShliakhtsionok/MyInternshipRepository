@@ -39,7 +39,7 @@ namespace Salon.Controllers
 
         [HttpGet]
         [Route("GetClientByEmail")]
-        public ActionResult<ClientViewModel> GetClientByEmail(string email)
+        public ActionResult<ClientToFeedbackCreationViewModel> GetClientByEmail(string email)
         {
             var client = _clientServices.GetClientByEmail(email);
             if (client == null)
@@ -52,19 +52,25 @@ namespace Salon.Controllers
 
         [HttpGet]
         [Route("GetAllClients")]
-        public ActionResult<IEnumerable<ClientsInformationViewModel>> GetClients(int elementsPerPage, int pageNumber)
+        public ActionResult<IEnumerable<ClientsInformationViewModel>> GetClients(int elementsPerPage, int pageNumber, string sortBy)
         {
-            var allClients = _clientServices.GetAllClients().ToList();
+
+            var allClients = _clientServices.GetAllClients().OrderByDescending(n => n.FullName).ToList();
+            if (sortBy == "asc")
+            {
+                allClients = _clientServices.GetAllClients().OrderBy(n => n.FullName).ToList();
+            }
+
             double pagesCount = (double)allClients.Count() / elementsPerPage;
             pagesCount = Math.Ceiling(pagesCount);
 
-            List<ClientsInformationViewModel>[] pagedOrders = new List<ClientsInformationViewModel>[(int)pagesCount];
-            for (int j = 0; j < pagedOrders.Length; j++)
+            List<ClientsInformationViewModel>[] pagedClients = new List<ClientsInformationViewModel>[(int)pagesCount];
+            for (int j = 0; j < pagedClients.Length; j++)
             {
-                pagedOrders[j] = new List<ClientsInformationViewModel>();
+                pagedClients[j] = new List<ClientsInformationViewModel>();
             }
 
-            for (int i = 0; i < pagedOrders.Length; i++)
+            for (int i = 0; i < pagedClients.Length; i++)
             {
                 for (int j = 0; j < allClients.Count(); j++)
                 {
@@ -72,12 +78,12 @@ namespace Salon.Controllers
                     {
                         i++;
                     };
-                    pagedOrders[i].Add(allClients[j]);
+                    pagedClients[i].Add(allClients[j]);
                 }
             }
-            var clients = pagedOrders[pageNumber - 1];
-            return Ok(new { clients, pagesCount, elementsPerPage, pageNumber });
 
+            var clients = pagedClients[pageNumber - 1];
+            return Ok(new { clients, pagesCount, elementsPerPage, pageNumber, sortBy });
         }
 
         [HttpPost]

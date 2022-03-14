@@ -54,6 +54,8 @@ namespace Business_Logic_Layer.Utilities
 
                 cfg.CreateMap<ClientViewModel, Client>();
 
+                cfg.CreateMap<Client, ClientToFeedbackCreationViewModel>();
+
                 // Order Mapping ================================================
 
                 cfg.CreateMap<Order, OrdersInformationViewModel>()
@@ -80,6 +82,10 @@ namespace Business_Logic_Layer.Utilities
                 .ForMember(dest => dest.ClientFullName,
                 opt => opt.MapFrom(src => src.Client.FirstName + " " + src.Client.LastName));
 
+                cfg.CreateMap<FeedbackViewModel, Feedback>()
+                .ForMember(dest => dest.Client, opt => opt.Ignore());
+
+
                 // Material Mapping =============================================  ?????????????????????
 
                 cfg.CreateMap<Material, MaterialsInformationViewModel>()
@@ -87,8 +93,7 @@ namespace Business_Logic_Layer.Utilities
                 .ForMember(dest => dest.ProductionDate, opt => opt.MapFrom(src => src.ProductionDate))
                 .ForMember(dest => dest.BestBeforeDate, opt => opt.MapFrom(src => src.BestBeforeDate))
                 .ForMember(dest => dest.MaterialAmount, opt => opt.MapFrom(src => src.MaterialAmount))
-                .ForMember(dest => dest.MaterialManufacturer, opt => opt.MapFrom(src => src.MaterialManufacturer.ManufacturerName))
-                .ForMember(dest => dest.Procedures, opt => opt.Ignore());
+                .ForMember(dest => dest.MaterialManufacturer, opt => opt.MapFrom(src => src.MaterialManufacturer.ManufacturerName));
 
                 cfg.CreateMap<Material, MaterialViewModel>()
                 .ForMember(dest => dest.MaterialManufacturer, opt => opt.MapFrom(m => m.MaterialManufacturer.ManufacturerId))

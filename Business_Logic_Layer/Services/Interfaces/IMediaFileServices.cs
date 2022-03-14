@@ -11,6 +11,8 @@ namespace Business_Logic_Layer.Services.Interfaces
         public void AddMediaFile(MediafileViewModel mediaFile);
         public void AddProfilePhoto(MediafileViewModel mediaFile, int id);
         public void UpdateProfilePhoto(MediafileViewModel mediaFile, int id);
+        public void AddProcedureTypePhoto(MediafileViewModel mediaFile, int id);
+        public void UpdateProcedureTypePhoto(MediafileViewModel mediaFileModel, int id);
         public void UpdateMediaFile();
         public void DeleteMediaFile(int id);
 

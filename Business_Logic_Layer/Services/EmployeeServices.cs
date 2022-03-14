@@ -48,12 +48,29 @@ namespace Business_Logic_Layer.Services
             var employee = _UnitOfWork.Employee.GetAll()
                 .Include(m => m.MediaFiles)
                 .Include(pt => pt.ProcedureType)
-                .Include(o => o.Orders)
+                .Include(o => o.Orders.Where(c => c.IsCompleted == false).Where(d => d.DateOfService > DateTime.Now))
                 .ThenInclude(c => c.Client)
                 .Include(o => o.Orders)
                 .ThenInclude(p => p.Procedure)
                 .FirstOrDefault(i => i.EmployeeId == id);
             EmployeeInformationViewModel employeeModel = AutoMappers<Employee, EmployeeInformationViewModel>.Map(employee);
+            return employeeModel;
+        }
+
+        public EmployeeViewModel GetEmployeeByEmail(string email)
+        {
+            var employee = _UnitOfWork.Employee.GetAll()
+                .FirstOrDefault(i => i.Email == email);
+            EmployeeViewModel employeeModel = AutoMappers<Employee, EmployeeViewModel>.Map(employee);
+            return employeeModel;
+        }
+
+        public EmployeeViewModel GetEmployeeViewModelById(int id)
+        {
+            var employee = _UnitOfWork.Employee.GetAll()
+                .Include(p => p.ProcedureType)
+                .FirstOrDefault(i => i.EmployeeId == id);
+            EmployeeViewModel employeeModel = AutoMappers<Employee, EmployeeViewModel>.Map(employee);
             return employeeModel;
         }
 

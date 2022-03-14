@@ -28,6 +28,10 @@ namespace Business_Logic_Layer.Services
         public void DeleteOrder(int id)
         {
             var orderToDelete = _UnitOfWork.Order.GetById(id);
+            var employee = _UnitOfWork.Employee.GetAll().FirstOrDefault(o => o.Orders.Contains(orderToDelete));
+            employee.Orders.Remove(orderToDelete);
+            var client = _UnitOfWork.Client.GetAll().FirstOrDefault(o => o.Orders.Contains(orderToDelete));
+            client.Orders.Remove(orderToDelete);
              _UnitOfWork.Order.Delete(orderToDelete);
             _UnitOfWork.Complete();
         }
@@ -116,6 +120,14 @@ namespace Business_Logic_Layer.Services
                 }
             }
             return resultSchedule;
+        }
+
+        public void UpdateOrderStatus(int id)
+        {
+            var order = _UnitOfWork.Order.GetById(id);
+            order.IsCompleted = true;
+            _UnitOfWork.Order.Update(order);
+            _UnitOfWork.Complete();
         }
     }
 }

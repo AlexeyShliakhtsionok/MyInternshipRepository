@@ -4,6 +4,7 @@ using Data_Access_Layer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data_Access_Layer.Migrations
 {
     [DbContext(typeof(SalonDBContext))]
-    partial class SalonDBContextModelSnapshot : ModelSnapshot
+    [Migration("20220308073308_proceduretypemedia")]
+    partial class proceduretypemedia
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -116,7 +118,7 @@ namespace Data_Access_Layer.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2022, 3, 8, 14, 35, 57, 160, DateTimeKind.Local).AddTicks(5277));
+                        .HasDefaultValue(new DateTime(2022, 3, 8, 10, 33, 8, 709, DateTimeKind.Local).AddTicks(9588));
 
                     b.Property<string>("FeedbackText")
                         .IsRequired()
@@ -206,7 +208,7 @@ namespace Data_Access_Layer.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("EmployeeId")
+                    b.Property<int>("EmployeeId")
                         .HasColumnType("int");
 
                     b.Property<byte[]>("FileData")
@@ -389,7 +391,9 @@ namespace Data_Access_Layer.Migrations
                 {
                     b.HasOne("Data_Access_Layer.Entities.Employee", "Employee")
                         .WithMany("MediaFiles")
-                        .HasForeignKey("EmployeeId");
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Employee");
                 });

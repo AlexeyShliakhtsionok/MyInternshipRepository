@@ -19,9 +19,9 @@ namespace Business_Logic_Layer.DBO.Employees
         public string LastName { get; set; }
         public string PhoneNumber { get; set; }
         public string Email { get; set; }
-        //public string Password { get; set; }
+        public string Password { get; set; }
         public DateTime HireDate { get; set; }
-        public RoleViewModel Role { get; set; }
+        public int Role { get; set; }
         public QualificationViewModel Qualification { get; set; }
         public ProcedureTypeViewModel ProcedureType { get; set; }
         public ICollection<MediafileViewModel>? MediaFiles { get; set; }

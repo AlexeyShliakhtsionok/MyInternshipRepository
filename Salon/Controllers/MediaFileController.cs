@@ -10,11 +10,13 @@ namespace Salon.Controllers
     {
         private readonly IMediaFileServices _mediaFileServices;
         private readonly IEmployeeServices _employeeServices;
+        private readonly IProcedureTypeServices _procedureTypeServices;
 
-        public MediaFileController(IMediaFileServices mediaFileServices, IEmployeeServices employeeServices)
+        public MediaFileController(IMediaFileServices mediaFileServices, IEmployeeServices employeeServices, IProcedureTypeServices procedureTypeServices)
         {
             _mediaFileServices = mediaFileServices;
             _employeeServices = employeeServices;
+            _procedureTypeServices = procedureTypeServices;
         }
 
         [HttpPost]
@@ -43,6 +45,22 @@ namespace Salon.Controllers
             if(profilePhpto != null)
             {
                 var byteArray = profilePhpto.FileData;
+                var result = base.File(byteArray, "image/png");
+                return result;
+            }
+            return NoContent();
+        }
+
+
+        [HttpGet]
+        [Route("GetProcedureTypePhotoById")]
+        public ActionResult GetProcedureTypePhotoById(int id)
+        {
+            var procedureType = _procedureTypeServices.GetProcedureTypeById(id);
+            var procedureTypePhoto = procedureType.MediaFile;
+            if (procedureTypePhoto != null)
+            {
+                var byteArray = procedureTypePhoto.FileData;
                 var result = base.File(byteArray, "image/png");
                 return result;
             }
@@ -85,7 +103,7 @@ namespace Salon.Controllers
         }
 
         [HttpPost, Route("UploadMediaFile")]
-        public ActionResult UploadImageToDB(IFormFile file)
+        public ActionResult UploadImageToDB(IFormFile file, int id)
         {
                 if (file != null)
                 {
@@ -149,6 +167,47 @@ namespace Salon.Controllers
                     else
                     {
                         _mediaFileServices.AddProfilePhoto(objFile, employeeId);
+                    }
+                }
+                return Ok();
+            }
+            return NoContent();
+        }
+
+        [HttpPost, Route("UploadProcedureTypePhoto")]
+        public ActionResult UploadServiceTypePhotoToDB([FromForm]IFormFile procedureTypePhoto, int procedureTypeId)
+        {
+            if (procedureTypePhoto != null)
+            {
+                if (procedureTypePhoto.Length > 0)
+                {
+                    var fileName = Path.GetFileName(procedureTypePhoto.FileName);
+                    var fileExtension = Path.GetExtension(fileName);
+                    var newFileName = String.Concat(Convert.ToString(Guid.NewGuid()), fileExtension);
+                    var objFile = new MediafileViewModel()
+                    {
+                        FileName = newFileName,
+                        FileType = fileExtension,
+                        CreatedOn = DateTime.Now,
+                    };
+
+                    using (var target = new MemoryStream())
+                    {
+                        procedureTypePhoto.CopyTo(target);
+                        objFile.FileData = target.ToArray();
+                        target.Close();
+                    }
+
+                    var serviceType = _procedureTypeServices.GetProcedureTypeById(procedureTypeId);
+                    var photo = serviceType.MediaFile;
+
+                    if (photo != null)
+                    {
+                        _mediaFileServices.UpdateProcedureTypePhoto(objFile, procedureTypeId);
+                    }
+                    else
+                    {
+                        _mediaFileServices.AddProcedureTypePhoto(objFile, procedureTypeId);
                     }
                 }
                 return Ok();

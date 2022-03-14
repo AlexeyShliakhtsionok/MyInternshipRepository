@@ -14,6 +14,6 @@ namespace Business_Logic_Layer.DBO.Feedbacks
         public string FeedbackText { get; set; }
         public DateTime CreatedOn { get; set; }
         public bool IsVerify { get; set; }
-        public ClientViewModel? Client { get; set; }
+        public ClientToFeedbackCreationViewModel? Client { get; set; }
     }
 }

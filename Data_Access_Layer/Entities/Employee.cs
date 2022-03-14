@@ -33,7 +33,7 @@ namespace Data_Access_Layer.Entities
         public Role Role { get; set; }
         [Required]
         public Qualification Qualification { get; set; }
-        
+        //public bool IsDeleted { get; set; }//!!!!!!!!!!!!!!!НЕ СМИГРИРОВАНО
         public virtual ProcedureType ProcedureType { get; set; }
 
         public virtual ICollection<Order>? Orders { get; set; }

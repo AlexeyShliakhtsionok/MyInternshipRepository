@@ -45,6 +45,12 @@ namespace Salon.Controllers
             return Ok(employee);
         }
 
+        [HttpGet, Route("GetEmployeeViewModelById")]
+        public ActionResult<EmployeeViewModel> GetEmployeeViewModelById(int id)
+        {
+            return Ok(_employeeServices.GetEmployeeViewModelById(id));
+        }
+
         [HttpGet]
         [Route("GetAllEmployees")]
         public ActionResult<IEnumerable<EmployeeViewModel>> GetEmployees()
@@ -80,10 +86,13 @@ namespace Salon.Controllers
                     signingCredentials: new SigningCredentials(AuthOptions.AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
             var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
 
+            var role = _employeeServices.GetEmployeeByEmail(employeeEmail).Role;
+
             var response = new
             {
                 access_token = encodedJwt,
                 employeeEmail = identity.Name,
+                employeeRole = role,
             };
             return Ok(response);
         }

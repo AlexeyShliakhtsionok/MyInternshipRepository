@@ -37,13 +37,13 @@ namespace Business_Logic_Layer.Services
             return clientModel;
         }
 
-        public ClientViewModel GetClientByEmail(string email)
+        public ClientToFeedbackCreationViewModel GetClientByEmail(string email)
         {
             var client = _UnitOfWork.Client.GetAll()
                 .Include(o => o.Orders)
                 .Include(f => f.Feedbacks)
                 .FirstOrDefault(c => c.Email == email);
-            ClientViewModel clientModel = AutoMappers<Client, ClientViewModel>.Map(client);
+            ClientToFeedbackCreationViewModel clientModel = AutoMappers<Client, ClientToFeedbackCreationViewModel>.Map(client);
             return clientModel;
         }
 

@@ -59,15 +59,43 @@ namespace Business_Logic_Layer.Services
 
         public void UpdateProcedure(ProcedureViewModel procedure)
         {
-            Procedure procedureEntity = AutoMappers<ProcedureViewModel, Procedure>.Map(procedure);
-            List<Material> materials = new List<Material>();
+          var procedureEntity = _UnitOfWork.Procedure.GetAll()
+                .Include(m => m.Materials)
+                .FirstOrDefault(i => i.ProcedureId == procedure.ProcedureId);
 
-            foreach (var item in procedure.Materials)
+          procedureEntity.ProcedureType = _UnitOfWork.ProcedureType.GetById(Convert.ToInt32(procedure.ProcedureType));
+          procedureEntity.ProcedureDescription = procedure.ProcedureDescription;
+          procedureEntity.ProcedureName = procedure.ProcedureName;
+          procedureEntity.ProcedurePrice = procedure.ProcedurePrice;
+          procedureEntity.TimeAmount = procedure.TimeAmount;
+
+          List<Material> newMaterials = new List<Material>();
+            foreach (var itemToAdd in procedure.Materials)
             {
-                materials.Add(_UnitOfWork.Material.GetById(item));
+                newMaterials.Add(_UnitOfWork.Material.GetById(itemToAdd));
             }
-            procedureEntity.Materials = materials;
-            procedureEntity.ProcedureType = _UnitOfWork.ProcedureType.GetById(Convert.ToInt32(procedure.ProcedureType));
+
+            foreach (var selected in newMaterials)
+            {
+                if (!procedureEntity.Materials.Any(o => o.MaterialId == selected.MaterialId))
+                {
+                    procedureEntity.Materials.Add(selected);
+                }
+            }
+
+            List<int> materialToRemove = new List<int>();
+            foreach (var existed in procedureEntity.Materials)
+            {
+                if (!newMaterials.Any(o => o.MaterialId == existed.MaterialId))
+                {
+                    materialToRemove.Add(existed.MaterialId);
+                }
+            }
+
+            for (int i = 0; materialToRemove != null && i < materialToRemove.Count; i++)
+            {
+                procedureEntity.Materials.Remove(_UnitOfWork.Material.GetById(materialToRemove[i]));
+            }
 
             _UnitOfWork.Procedure.Update(procedureEntity);
             _UnitOfWork.Complete();

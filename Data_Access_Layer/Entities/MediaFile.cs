@@ -18,6 +18,6 @@ namespace Data_Access_Layer.Entities
         public bool IsProfilePhoto { get; set; }
         public bool IsEmployeePhoto { get; set; }
         public bool IsPromoPhoto { get; set; }
-        public virtual Employee Employee { get; set; }
+        public virtual Employee? Employee { get; set; }
     }
 }

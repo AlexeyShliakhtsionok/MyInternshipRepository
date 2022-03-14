@@ -32,12 +32,25 @@ namespace Salon.Controllers
             _procedureTypeServices.DeleteProcedureType(id);
         }
 
+        [HttpPost]
+        [Route("CreateProcedureType")]
+        public void CreateProcedureType([FromBody]ProcedureTypeViewModel procedureType)
+        {
+            _procedureTypeServices.CreateProcedureType(procedureType);
+        }
+
         [HttpGet]
         [Route("GetAllProcedureTypes")]
         public ActionResult<IEnumerable<ProcedureTypeViewModel>> GetAllProcedureTypes()
         {
             var procedures = _procedureTypeServices.GetProcedureTypes();
             return Ok(procedures);
+        }
+
+        [HttpPost, Route("UpdateProcedureType")]
+        public void UpdateProcedureType(ProcedureTypeViewModel procedureType)
+        {
+            _procedureTypeServices.UpdateProcedureType(procedureType);
         }
     }
 }

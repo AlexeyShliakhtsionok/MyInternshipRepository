@@ -11,18 +11,16 @@ namespace Salon.Controllers
     {
         private readonly IOrderServices _orderServices;
         private readonly IClientServices _clientServices;
-        private readonly IEmployeeServices _employeeServices;
-        private readonly IProcedureServices _procedureServices;
         private readonly IProcedureTypeServices _procedureTypeServices;
+        private readonly IMaterialServices _materialServices;
 
         public OrderController(IOrderServices orderServices, IClientServices clientServices,
-            IEmployeeServices employeeServices, IProcedureServices procedureServices, IProcedureTypeServices procedureTypeServices)
+            IProcedureTypeServices procedureTypeServices, IMaterialServices materialServices)
         {
             _orderServices = orderServices;
             _clientServices = clientServices;
-            _employeeServices = employeeServices;
-            _procedureServices = procedureServices;
             _procedureTypeServices = procedureTypeServices;
+            _materialServices = materialServices;
         }
 
         [HttpPost]
@@ -50,8 +48,16 @@ namespace Salon.Controllers
             _orderServices.UpdateOrder(order);
         }
 
+        [HttpPost, Route("UpdateOrderStatus")]
+        public void UpdateOrderStatus([FromBody] int orderId)
+        {
+            _orderServices.UpdateOrderStatus(orderId);
+        }
+
+        
+
         [HttpPost, Route("CreateOrder")]
-        public void CreateOrder([FromBody] OrderViewModel order)
+        public void CreateOrder([FromBody]OrderViewModel order)
         {
             _orderServices.CreateOrder(order);
         }
@@ -66,9 +72,9 @@ namespace Salon.Controllers
 
         [HttpGet]
         [Route("GetAllOrders")]
-        public ActionResult<IEnumerable<OrdersInformationViewModel>> GetPagedOrders(int elementsPerPage, int pageNumber)
+        public ActionResult<IEnumerable<OrdersInformationViewModel>> GetPagedOrders(int elementsPerPage, int pageNumber, string sortBy)
         {
-            var allOrders = _orderServices.GetAllOrders().ToList();
+            var allOrders = _orderServices.GetAllOrders().Where(d => d.DateOfService > DateTime.Now).OrderByDescending(d => d.DateOfService).ToList();
             var clientsSelectList = _clientServices.GetClientsSelectList();
             var procedureTypesSelectList = _procedureTypeServices.GetProcedureTypesSelectList();
             double pagesCount = (double)allOrders.Count() / elementsPerPage;
@@ -92,9 +98,47 @@ namespace Salon.Controllers
                 }
             }
 
-            var orders = pagedOrders[pageNumber-1];
+            if(pagedOrders.Length == 0)
+            {
+                return Ok(new { pagedOrders, clientsSelectList, procedureTypesSelectList, pagesCount, elementsPerPage, pageNumber });
+            }
+            else
+            {
+                var orders = pagedOrders[pageNumber - 1];
+                return Ok(new { orders, clientsSelectList, procedureTypesSelectList, pagesCount, elementsPerPage, pageNumber });
+            }
+        }
 
-            return Ok(new { orders, clientsSelectList, procedureTypesSelectList, pagesCount, elementsPerPage, pageNumber });
+        [HttpGet]
+        [Route("GetAllDonedOrders")]
+        public ActionResult<IEnumerable<OrdersInformationViewModel>> GetDonedPagedOrders(int elementsPerPage, int pageNumber, string sortBy)
+        {
+            var materials = _materialServices.GetAllMaterials();
+            var allOrders = _orderServices.GetAllOrders().Where(c => c.IsCompleted == false).Where(d => d.DateOfService < DateTime.Now).OrderByDescending(d => d.DateOfService).ToList();
+            double pagesCount = (double)allOrders.Count() / elementsPerPage;
+            pagesCount = Math.Ceiling(pagesCount);
+
+            List<OrdersInformationViewModel>[] pagedOrders = new List<OrdersInformationViewModel>[(int)pagesCount];
+            for (int j = 0; j < pagedOrders.Length; j++)
+            {
+                pagedOrders[j] = new List<OrdersInformationViewModel>();
+            }
+
+            for (int i = 0; i < pagedOrders.Length; i++)
+            {
+                for (int j = 0; j < allOrders.Count(); j++)
+                {
+                    if (j != 0 && j % elementsPerPage == 0)
+                    {
+                        i++;
+                    };
+                    pagedOrders[i].Add(allOrders[j]);
+                }
+            }
+
+            var orders = pagedOrders[pageNumber - 1];
+
+            return Ok(new { orders, materials, pagesCount, elementsPerPage, pageNumber });
         }
     }
 }

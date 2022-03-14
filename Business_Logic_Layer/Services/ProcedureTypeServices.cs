@@ -35,6 +35,7 @@ namespace Business_Logic_Layer.Services
             var procedureType = _UnitOfWork.ProcedureType.GetAll()
                 .Include(p => p.Procedures)
                 .Include(e => e.Employees)
+                .Include(m => m.MediaFile)
                 .FirstOrDefault(p => p.ProcedureTypeId == id);
             ProcedureTypeViewModel procedureTypeModel = AutoMappers<ProcedureType, ProcedureTypeViewModel>.Map(procedureType);
             return procedureTypeModel;
@@ -44,7 +45,8 @@ namespace Business_Logic_Layer.Services
         {
             var proceduresTypes = _UnitOfWork.ProcedureType.GetAll()
                 .Include(p => p.Procedures)
-                .Include(e => e.Employees);
+                .Include(e => e.Employees)
+                .Include(m => m.MediaFile);
             IEnumerable<ProcedureTypeViewModel> procedureTypeModels =
                 AutoMappers<ProcedureType, ProcedureTypeViewModel>.MapIQueryable(proceduresTypes);
             return procedureTypeModels;
@@ -52,8 +54,9 @@ namespace Business_Logic_Layer.Services
 
         public void UpdateProcedureType(ProcedureTypeViewModel procedureTypeModel)
         {
+            var procedureTypeEntity = AutoMappers<ProcedureTypeViewModel, ProcedureType>.Map(procedureTypeModel);
+            _UnitOfWork.ProcedureType.Update(procedureTypeEntity);
             _UnitOfWork.Complete();
-            throw new NotImplementedException();
         }
 
         public SelectList GetProcedureTypesSelectList()
@@ -72,5 +75,7 @@ namespace Business_Logic_Layer.Services
             }
             return new SelectList(items, "Value", "Text");
         }
+
     }
+
 }

@@ -34,7 +34,7 @@ namespace Salon.Controllers
 
         [HttpGet]
         [Route("GetAllProcedures")]
-        public ActionResult<IEnumerable<ProceduresInformationViewModel>> GetAllProcedures(int elementsPerPage, int pageNumber)
+        public ActionResult<IEnumerable<ProceduresInformationViewModel>> GetAllProcedures(int elementsPerPage, int pageNumber, string sortBy)
         {
             var allProcedures = _procesureServices.GetAllProcedures().ToList();
             var procedureTypesSelectList = _procedureTypeServices.GetProcedureTypesSelectList();
