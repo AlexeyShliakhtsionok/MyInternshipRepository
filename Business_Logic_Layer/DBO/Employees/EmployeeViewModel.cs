@@ -22,8 +22,9 @@ namespace Business_Logic_Layer.DBO.Employees
         public string Password { get; set; }
         public DateTime HireDate { get; set; }
         public int Role { get; set; }
+        public int ProcedureTypeId { get; set; }
         public QualificationViewModel Qualification { get; set; }
-        public ProcedureTypeViewModel ProcedureType { get; set; }
+        public ProcedureTypeViewModel? ProcedureType { get; set; }
         public ICollection<MediafileViewModel>? MediaFiles { get; set; }
         public ICollection<OrdersInformationViewModel>? Orders { get; set; }
     }

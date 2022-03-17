@@ -103,13 +103,14 @@ namespace Salon.Controllers
         }
 
         [HttpPost, Route("UploadMediaFile")]
-        public ActionResult UploadImageToDB(IFormFile file, int id)
+        public ActionResult UploadImageToDB([FromForm]IFormFile mediafile, int employeeId, string type)
         {
-                if (file != null)
+
+                if (mediafile != null)
                 {
-                    if (file.Length > 0)
+                    if (mediafile.Length > 0)
                     {
-                        var fileName = Path.GetFileName(file.FileName);
+                        var fileName = Path.GetFileName(mediafile.FileName);
                         var fileExtension = Path.GetExtension(fileName);
                         var newFileName = String.Concat(Convert.ToString(Guid.NewGuid()), fileExtension);
                         var objFile = new MediafileViewModel()
@@ -121,11 +122,11 @@ namespace Salon.Controllers
 
                         using (var target = new MemoryStream())
                         {
-                            file.CopyTo(target);
+                            mediafile.CopyTo(target);
                             objFile.FileData = target.ToArray();
                             target.Close();
                         }
-                        _mediaFileServices.AddMediaFile(objFile);
+                        _mediaFileServices.AddMediaFile(objFile, employeeId, type);
                     }
                     return Ok();
                 }

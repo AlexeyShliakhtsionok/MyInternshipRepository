@@ -54,7 +54,13 @@ namespace Salon.Controllers
             _orderServices.UpdateOrderStatus(orderId);
         }
 
-        
+        [HttpPost, Route("ConfirmOrder")]
+        public void ConfirmOrder([FromBody] int orderId)
+        {
+            _orderServices.ConfirmOrder(orderId);
+        }
+
+
 
         [HttpPost, Route("CreateOrder")]
         public void CreateOrder([FromBody]OrderViewModel order)
@@ -110,11 +116,11 @@ namespace Salon.Controllers
         }
 
         [HttpGet]
-        [Route("GetAllDonedOrders")]
-        public ActionResult<IEnumerable<OrdersInformationViewModel>> GetDonedPagedOrders(int elementsPerPage, int pageNumber, string sortBy)
+        [Route("GetAllStagedOrders")]
+        public ActionResult<IEnumerable<OrdersInformationViewModel>> GetStagedPagedOrders(int elementsPerPage, int pageNumber, string sortBy)
         {
             var materials = _materialServices.GetAllMaterials();
-            var allOrders = _orderServices.GetAllOrders().Where(c => c.IsCompleted == false).Where(d => d.DateOfService < DateTime.Now).OrderByDescending(d => d.DateOfService).ToList();
+            var allOrders = _orderServices.GetAllOrders().Where(c => c.IsCompleted == false).Where(d => d.DateOfService < DateTime.Now).Where(p => p.ProcessedByAdmimistrator == false).OrderByDescending(d => d.DateOfService).ToList();
             double pagesCount = (double)allOrders.Count() / elementsPerPage;
             pagesCount = Math.Ceiling(pagesCount);
 
@@ -136,9 +142,67 @@ namespace Salon.Controllers
                 }
             }
 
-            var orders = pagedOrders[pageNumber - 1];
-
-            return Ok(new { orders, materials, pagesCount, elementsPerPage, pageNumber });
+            if (pagedOrders.Length == 0)
+            {
+                var orders = pagedOrders;
+                return Ok(new { orders, pagesCount, elementsPerPage, pageNumber });
+            }
+            else
+            {
+                var orders = pagedOrders[pageNumber - 1];
+                return Ok(new { orders, materials, pagesCount, elementsPerPage, pageNumber });
+            }
+            
         }
+
+        [HttpGet]
+        [Route("GetAllDonedOrders")]
+        public ActionResult<IEnumerable<OrdersInformationViewModel>> GetDonedPagedOrders(int elementsPerPage, int pageNumber, string sortBy)
+        {
+            var materials = _materialServices.GetAllMaterials();
+            var allOrders = _orderServices.GetAllOrders().Where(c => c.IsCompleted == true).OrderByDescending(d => d.DateOfService).ToList();
+            double pagesCount = (double)allOrders.Count() / elementsPerPage;
+            pagesCount = Math.Ceiling(pagesCount);
+
+            List<OrdersInformationViewModel>[] pagedOrders = new List<OrdersInformationViewModel>[(int)pagesCount];
+            for (int j = 0; j < pagedOrders.Length; j++)
+            {
+                pagedOrders[j] = new List<OrdersInformationViewModel>();
+            }
+
+            for (int i = 0; i < pagedOrders.Length; i++)
+            {
+                for (int j = 0; j < allOrders.Count(); j++)
+                {
+                    if (j != 0 && j % elementsPerPage == 0)
+                    {
+                        i++;
+                    };
+                    pagedOrders[i].Add(allOrders[j]);
+                }
+            }
+
+            if (pagedOrders.Length == 0)
+            {
+                var orders = pagedOrders;
+                return Ok(new { orders, pagesCount, elementsPerPage, pageNumber });
+            }
+            else
+            {
+                var orders = pagedOrders[pageNumber - 1];
+                return Ok(new { orders, pagesCount, elementsPerPage, pageNumber });
+            }
+        }
+
+        [HttpGet, Route("CheckUnprocessedOrders")]
+        public ActionResult CheckUnwachedFeedbacks()
+        {
+            var allOrders = _orderServices.GetAllOrders().Where(d => d.DateOfService > DateTime.Now);
+            bool check = allOrders.Any(v => v.ProcessedByAdmimistrator == false);
+
+            return Ok(check);
+        }
+
+
     }
 }

@@ -5,6 +5,8 @@
         public int OrderId { get; set; }
         public DateTime DateOfService { get; set; }
         public bool IsCompleted { get; set; }
+        public bool ProcessedByAdmimistrator { get; set; }
+        public bool? CreatedByClient { get; set; }
         public string ClientFullName { get; set; }
         public int ProcedureId { get; set; }
         public string ProcedureName { get; set; }

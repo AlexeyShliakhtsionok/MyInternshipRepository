@@ -122,6 +122,15 @@ namespace Business_Logic_Layer.Services
             return resultSchedule;
         }
 
+        public void ConfirmOrder(int id)
+        {
+            var order = _UnitOfWork.Order.GetById(id);
+            order.ProcessedByAdmimistrator = true;
+            _UnitOfWork.Order.Update(order);
+            _UnitOfWork.Complete();
+        }
+
+
         public void UpdateOrderStatus(int id)
         {
             var order = _UnitOfWork.Order.GetById(id);

@@ -4,6 +4,7 @@ using Data_Access_Layer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data_Access_Layer.Migrations
 {
     [DbContext(typeof(SalonDBContext))]
-    partial class SalonDBContextModelSnapshot : ModelSnapshot
+    [Migration("20220316221838_ordersadditional")]
+    partial class ordersadditional
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -116,7 +118,7 @@ namespace Data_Access_Layer.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2022, 3, 17, 1, 48, 25, 446, DateTimeKind.Local).AddTicks(5059));
+                        .HasDefaultValue(new DateTime(2022, 3, 17, 1, 18, 37, 936, DateTimeKind.Local).AddTicks(4023));
 
                     b.Property<string>("FeedbackText")
                         .IsRequired()
@@ -255,7 +257,8 @@ namespace Data_Access_Layer.Migrations
                     b.Property<int>("ClientId")
                         .HasColumnType("int");
 
-                    b.Property<bool>("CreatedByClient")
+                    b.Property<bool?>("CreatedByClient")
+                        .IsRequired()
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
                         .HasDefaultValue(false);
@@ -273,11 +276,6 @@ namespace Data_Access_Layer.Migrations
 
                     b.Property<int>("ProcedureId")
                         .HasColumnType("int");
-
-                    b.Property<bool>("ProcessedByAdmimistrator")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(false);
 
                     b.HasKey("OrderId");
 

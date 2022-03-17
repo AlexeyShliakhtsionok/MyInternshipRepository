@@ -8,7 +8,7 @@ namespace Business_Logic_Layer.Services.Interfaces
         public IEnumerable<MediafileViewModel> GetMediaFiles();
         public MediafileViewModel GetMediaFileById(int id);
         public MediafileViewModel GetProfilePhotoByEmployeeId(int id);
-        public void AddMediaFile(MediafileViewModel mediaFile);
+        public void AddMediaFile(MediafileViewModel mediaFile, int id, string type);
         public void AddProfilePhoto(MediafileViewModel mediaFile, int id);
         public void UpdateProfilePhoto(MediafileViewModel mediaFile, int id);
         public void AddProcedureTypePhoto(MediafileViewModel mediaFile, int id);

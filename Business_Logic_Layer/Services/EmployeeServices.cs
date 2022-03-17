@@ -19,7 +19,7 @@ namespace Business_Logic_Layer.Services
         public void CreateEmoloyee(EmployeeViewModel employee)
         {
             Employee employeeEntity = AutoMappers<EmployeeViewModel, Employee>.Map(employee);
-            employeeEntity.ProcedureType = _UnitOfWork.ProcedureType.GetById(employee.ProcedureType.ProcedureTypeId);
+            employeeEntity.ProcedureType = _UnitOfWork.ProcedureType.GetById(employee.ProcedureTypeId);
             _UnitOfWork.Employee.Add(employeeEntity);
             _UnitOfWork.Complete();
         }
@@ -82,7 +82,7 @@ namespace Business_Logic_Layer.Services
                 .Include(o => o.Orders)
                 .Include(pr => pr.ProcedureType)
                 .FirstOrDefault(e => e.EmployeeId == employee.EmployeeId);
-            
+
             employeeToUpdate.ProcedureType = _UnitOfWork.ProcedureType.GetAll().FirstOrDefault(n => n.ProcedureTypeName == employee.ProcedureType);
             employeeToUpdate.FirstName = employeeEntity.FirstName;
             employeeToUpdate.LastName = employeeEntity.LastName;

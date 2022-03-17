@@ -101,6 +101,13 @@ namespace Salon.Controllers
             _feedbackServices.DeleteFeedback(id);
         }
 
-
+        [HttpGet, Route("CheckUnwachedFeedbacks")]
+        public ActionResult CheckUnwachedFeedbacks()
+        {
+            var allFeedbacks = _feedbackServices.GetAllFeedbacks();
+            bool check = allFeedbacks.Any(v => v.IsVerify == false);
+            
+            return Ok(check);
+        }
     }
 }

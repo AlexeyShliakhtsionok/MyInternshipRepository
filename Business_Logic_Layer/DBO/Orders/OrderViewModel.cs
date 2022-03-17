@@ -9,6 +9,8 @@ namespace Business_Logic_Layer.DBO.Orders
         public int OrderId { get; set; }
         public DateTime DateOfService { get; set; }
         public bool IsCompleted { get; set; }
+        public bool CreatedByClient { get; set; }
+        public bool ProcessedByAdmimistrator { get; set; }
         public ClientViewModel Client { get; set; }
         public ProcedureViewModel Procedure { get; set; }
         public EmployeeViewModel Employee { get; set; }

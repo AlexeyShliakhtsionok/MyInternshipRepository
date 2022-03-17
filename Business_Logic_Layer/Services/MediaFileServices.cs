@@ -94,10 +94,21 @@ namespace Business_Logic_Layer.Services
             _UnitOfWork.Complete();
         }
 
-        public void AddMediaFile(MediafileViewModel mediaFile)
+        public void AddMediaFile(MediafileViewModel mediaFile, int id, string type)
         {
-            MediaFile mediafile = AutoMappers<MediafileViewModel, MediaFile>.Map(mediaFile);
-            _UnitOfWork.MediaFile.Add(mediafile);
+            MediaFile mediafileEntity = AutoMappers<MediafileViewModel, MediaFile>.Map(mediaFile);
+            if(type == "promo")
+            {
+                mediafileEntity.IsPromoPhoto = true;
+            }
+            else
+            {
+                mediafileEntity.IsEmployeePhoto = true;
+            }
+            Employee employee = _UnitOfWork.Employee.GetById(id);
+            mediafileEntity.Employee = employee;
+            _UnitOfWork.MediaFile.Add(mediafileEntity);
+            
             _UnitOfWork.Complete();
         }
     }

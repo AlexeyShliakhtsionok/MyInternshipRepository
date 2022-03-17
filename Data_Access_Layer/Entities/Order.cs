@@ -14,7 +14,9 @@ namespace Data_Access_Layer.Entities
         public DateTime DateOfService { get; set; }
         [Required]
         public bool IsCompleted { get; set; }
-
+        [Required]
+        public bool CreatedByClient { get; set; }
+        public bool ProcessedByAdmimistrator { get; set; }
         public virtual Client Client { get; set; }
         public int ProcedureId { get; set; }
         public virtual Procedure Procedure { get; set; }

@@ -9,6 +9,7 @@ namespace Business_Logic_Layer.Services.Interfaces
         public void CreateOrder(OrderViewModel order);
         public void UpdateOrder(OrderViewModel order);
         public void UpdateOrderStatus(int id);
+        public void ConfirmOrder(int id);
         public void DeleteOrder(int id);
         public List<DateTime> GetAvaliableServiceTimeOfEmployee(int id, DateTime chosenDate, int procedureId, double open, double close);
     }

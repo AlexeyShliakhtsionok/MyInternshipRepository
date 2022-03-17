@@ -24,6 +24,8 @@ namespace Data_Access_Layer
             modelBuilder.Entity<MediaFile>().Property(p => p.IsProfilePhoto).HasDefaultValue(false);
             modelBuilder.Entity<MediaFile>().Property(p => p.IsEmployeePhoto).HasDefaultValue(false);
             modelBuilder.Entity<MediaFile>().Property(p => p.IsPromoPhoto).HasDefaultValue(false);
+            modelBuilder.Entity<Order>().Property(c => c.CreatedByClient).HasDefaultValue(false);
+            modelBuilder.Entity<Order>().Property(p => p.ProcessedByAdmimistrator).HasDefaultValue(false);
         }
 
         public DbSet<Client> Clients { get; set; }

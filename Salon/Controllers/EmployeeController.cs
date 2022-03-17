@@ -93,6 +93,7 @@ namespace Salon.Controllers
                 access_token = encodedJwt,
                 employeeEmail = identity.Name,
                 employeeRole = role,
+                employeeId = _employeeServices.GetEmployeeByEmail(employeeEmail).EmployeeId
             };
             return Ok(response);
         }
