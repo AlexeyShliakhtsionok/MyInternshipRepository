@@ -29,7 +29,7 @@ namespace Business_Logic_Layer.Utilities
                 .ForMember(dest => dest.ProcedureType, opt =>
                 opt.MapFrom(src => src.ProcedureType.ProcedureTypeName))
                 .ForMember(dest => dest.Role, opt => opt.MapFrom(src => src.Role.ToString()))
-                .ForMember(dest => dest.Qualification, opt => 
+                .ForMember(dest => dest.Qualification, opt =>
                 opt.MapFrom(src => src.Qualification.ToString()));
 
                 cfg.CreateMap<Employee, EmployeesAuthenticationModel>();
@@ -42,14 +42,15 @@ namespace Business_Logic_Layer.Utilities
                 .ForMember(dest => dest.MediaFiles, opt => opt.Ignore())
                 .ForMember(dest => dest.ProcedureType, opt => opt.Ignore());
 
-                cfg.CreateMap<EmployeeViewModel, Employee>();
+                cfg.CreateMap<EmployeeViewModel, Employee>()
+                .ForMember(dest => dest.Password, opt => opt.Ignore());
 
                 // Client Mapping ===============================================
 
                 cfg.CreateMap<Client, ClientsInformationViewModel>()
                 .ForMember(dest => dest.FullName,
                 opt => opt.MapFrom(src => src.FirstName + " " + src.LastName));
-
+  
                 cfg.CreateMap<Client, ClientViewModel>();
 
                 cfg.CreateMap<ClientViewModel, Client>();
@@ -79,57 +80,52 @@ namespace Business_Logic_Layer.Utilities
                 // Feedback Mapping =============================================
 
                 cfg.CreateMap<Feedback, FeedbackInformationViewModel>()
-                .ForMember(dest => dest.ClientFullName,
+                   .ForMember(dest => dest.ClientFullName,
                 opt => opt.MapFrom(src => src.Client.FirstName + " " + src.Client.LastName));
 
                 cfg.CreateMap<FeedbackViewModel, Feedback>()
-                .ForMember(dest => dest.Client, opt => opt.Ignore());
+                   .ForMember(dest => dest.Client, opt => opt.Ignore());
 
+                cfg.CreateMap<Feedback, FeedbackViewModel>();
 
                 // Material Mapping =============================================  ?????????????????????
 
                 cfg.CreateMap<Material, MaterialsInformationViewModel>()
-                .ForMember(dest => dest.MaterialName, opt => opt.MapFrom(src => src.MaterialName))
-                .ForMember(dest => dest.ProductionDate, opt => opt.MapFrom(src => src.ProductionDate))
-                .ForMember(dest => dest.BestBeforeDate, opt => opt.MapFrom(src => src.BestBeforeDate))
-                .ForMember(dest => dest.MaterialAmount, opt => opt.MapFrom(src => src.MaterialAmount))
-                .ForMember(dest => dest.MaterialManufacturer, opt => opt.MapFrom(src => src.MaterialManufacturer.ManufacturerName));
+                   .ForMember(dest => dest.MaterialName, opt => opt.MapFrom(src => src.MaterialName))
+                   .ForMember(dest => dest.ProductionDate, opt => opt.MapFrom(src => src.ProductionDate))
+                   .ForMember(dest => dest.BestBeforeDate, opt => opt.MapFrom(src => src.BestBeforeDate))
+                   .ForMember(dest => dest.MaterialAmount, opt => opt.MapFrom(src => src.MaterialAmount))
+                   .ForMember(dest => dest.MaterialManufacturer, opt => opt.MapFrom(src => src.MaterialManufacturer.ManufacturerName));
 
                 cfg.CreateMap<Material, MaterialViewModel>()
-                .ForMember(dest => dest.MaterialManufacturer, opt => opt.MapFrom(m => m.MaterialManufacturer.ManufacturerId))
-                .ForMember(dest => dest.Procedures, opt => opt.Ignore());
+                   .ForMember(dest => dest.MaterialManufacturer, opt => opt.MapFrom(m => m.MaterialManufacturer.ManufacturerId))
+                   .ForMember(dest => dest.Procedures, opt => opt.Ignore());
 
                 cfg.CreateMap<MaterialViewModel, Material>()
-                .ForMember(dest => dest.Procedures, opt => opt.Ignore())
-                .ForMember(dest => dest.MaterialManufacturer, opt => opt.Ignore());
-
+                   .ForMember(dest => dest.Procedures, opt => opt.Ignore())
+                   .ForMember(dest => dest.MaterialManufacturer, opt => opt.Ignore());
 
                 // MaterialManufacturer Mapping =================================
 
                 cfg.CreateMap<MaterialManufacturer, MaterialManufacturerViewModel>().ReverseMap();
 
-
                 // Procedure Mapping ============================================
 
                 cfg.CreateMap<Procedure, ProceduresInformationViewModel>()
-                .ForMember(dest => dest.ProcedureType, 
+                   .ForMember(dest => dest.ProcedureType, 
                 opt => opt.MapFrom(src => src.ProcedureType.ProcedureTypeName));
 
-
                 cfg.CreateMap<Procedure, ProcedureViewModel>()
-                .ForMember(dest => dest.ProcedureType, opt =>
-                opt.MapFrom(src => src.ProcedureType.ProcedureTypeId))
-                .ForMember(dest => dest.Materials, opt =>
-                opt.Ignore());
-
+                   .ForMember(dest => dest.ProcedureType, opt =>
+                    opt.MapFrom(src => src.ProcedureType.ProcedureTypeId))
+                   .ForMember(dest => dest.Materials, opt =>
+                    opt.Ignore());
 
                 cfg.CreateMap<ProcedureViewModel, Procedure>()
-                .ForMember(dest => dest.Materials, opt => opt.Ignore())
-                .ForMember(dest => dest.ProcedureType, opt => opt.Ignore());
-
+                   .ForMember(dest => dest.Materials, opt => opt.Ignore())
+                   .ForMember(dest => dest.ProcedureType, opt => opt.Ignore());
 
                 // ProcedureType Mapping ========================================
-
 
                 cfg.CreateMap<ProcedureType, ProcedureTypeViewModel>();
                 
@@ -138,12 +134,11 @@ namespace Business_Logic_Layer.Utilities
                 // Mediafiles Mapping ========================================
 
                 cfg.CreateMap<MediaFile, MediafileViewModel>()
-                .ForMember(dest => dest.EmployeeFullname, opt =>
+                   .ForMember(dest => dest.EmployeeFullname, opt =>
                 opt.MapFrom(src => src.Employee.FirstName + " " + src.Employee.LastName))
-                .ForMember(dest => dest.EmployeeId, opt => opt.MapFrom(src => src.Employee.EmployeeId));
+                   .ForMember(dest => dest.EmployeeId, opt => opt.MapFrom(src => src.Employee.EmployeeId));
 
                 cfg.CreateMap<MediafileViewModel, MediaFile>();
-
             }
         }));
 

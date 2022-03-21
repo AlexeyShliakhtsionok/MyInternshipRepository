@@ -92,7 +92,7 @@ namespace Salon.Controllers
         [HttpPost, Route("UpdateFeedback")]
         public void UpdateFeedbackStatus([FromBody] FeedbackInformationViewModel feedback)
         {
-            _feedbackServices.UpdateFeedback(feedback);
+            _feedbackServices.UpdateFeedbackAproveState(feedback);
         }
 
         [HttpPost, Route("DeleteFeedbackById")]

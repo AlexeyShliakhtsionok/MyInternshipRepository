@@ -19,7 +19,6 @@ namespace Data_Access_Layer.Entities
         public string PhoneNumber { get; set; }
         [EmailAddress]
         public string Email { get; set; }
-
         public virtual ICollection<Feedback>? Feedbacks { get; set; }
         public virtual ICollection<Order>? Orders { get; set; }
     }

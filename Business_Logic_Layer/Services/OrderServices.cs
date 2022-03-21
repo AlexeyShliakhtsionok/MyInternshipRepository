@@ -3,7 +3,6 @@ using Business_Logic_Layer.Services.Interfaces;
 using Business_Logic_Layer.Utilities;
 using Data_Access_Layer.Entities;
 using Data_Access_Layer.RepositoryWithUOW;
-using Microsoft.EntityFrameworkCore;
 
 namespace Business_Logic_Layer.Services
 {
@@ -15,7 +14,7 @@ namespace Business_Logic_Layer.Services
             _UnitOfWork = UnitOfWork;
         }
 
-        public void CreateOrder(OrderViewModel order)
+        public void CreateOrder(OrderViewModel order) //!!!!!!!!!!!!!!!!!!!IsChecked by Administrator
         {
             Order orderEntity = AutoMappers<OrderViewModel, Order>.Map(order);
             orderEntity.Client = _UnitOfWork.Client.GetById(order.Client.ClientId);
@@ -38,10 +37,7 @@ namespace Business_Logic_Layer.Services
 
         public IEnumerable<OrdersInformationViewModel> GetAllOrders()
         {
-            var orders = _UnitOfWork.Order.GetAll()
-                .Include(c => c.Client)
-                .Include(e => e.Employee)
-                .Include(p => p.Procedure);
+            var orders = _UnitOfWork.Order.GetAll();
 
             IEnumerable<OrdersInformationViewModel> orderModels =
                 AutoMappers<Order, OrdersInformationViewModel>.MapIQueryable(orders);
@@ -50,13 +46,7 @@ namespace Business_Logic_Layer.Services
 
         public OrderViewModel GetOrderById(int id)
         {
-            var test = _UnitOfWork.Order.GetById(id);
-
-            var orderEntity = _UnitOfWork.Order.GetAll()
-                .Include(c => c.Client)
-                .Include(e => e.Employee)
-                .Include(p => p.Procedure)
-                .FirstOrDefault(o => o.OrderId == id);
+            var orderEntity = _UnitOfWork.Order.GetById(id);
             OrderViewModel orderModel = AutoMappers<Order, OrderViewModel>.Map(orderEntity);
             return orderModel;
         }
@@ -76,11 +66,7 @@ namespace Business_Logic_Layer.Services
             List<DateTime> dailySchedule = new List<DateTime>();
             List<DateTime> resultSchedule = new List<DateTime>();
 
-            List<Order>orders = _UnitOfWork.Order.GetAll()
-                .Include(c => c.Client)
-                .Include(e => e.Employee)
-                .Include(p => p.Procedure)
-                .Where(o => o.Employee.EmployeeId == id).ToList();
+            List<Order>orders = _UnitOfWork.Order.GetAll().Where(o => o.Employee.EmployeeId == id).ToList();
 
             var openTime = chosenDate.AddHours(open);
             var closeTime = chosenDate.AddHours(close);

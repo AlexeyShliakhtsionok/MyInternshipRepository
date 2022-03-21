@@ -39,19 +39,16 @@ namespace Business_Logic_Layer.Services
 
         public ProcedureViewModel GetProcedureById(int id)
         {
-            var procedure = _UnitOfWork.Procedure.GetAll()
-                .Include(m => m.Materials)
-                .Include(t => t.ProcedureType)
-                .FirstOrDefault(p => p.ProcedureId == id);
+            var procedure = _UnitOfWork.Procedure.GetById(id);
+
             ProcedureViewModel procedureModel = AutoMappers<Procedure, ProcedureViewModel>.Map(procedure);
             return procedureModel;
         }
 
         public IEnumerable<ProceduresInformationViewModel> GetAllProcedures()
         {
-            var procedures = _UnitOfWork.Procedure.GetAll()
-                .Include(p => p.ProcedureType)
-                .Include(m => m.Materials);
+            var procedures = _UnitOfWork.Procedure.GetAll();
+
             IEnumerable<ProceduresInformationViewModel> procedureModels
                 = AutoMappers<Procedure, ProceduresInformationViewModel>.MapIQueryable(procedures);
             return procedureModels;
@@ -59,9 +56,7 @@ namespace Business_Logic_Layer.Services
 
         public void UpdateProcedure(ProcedureViewModel procedure)
         {
-          var procedureEntity = _UnitOfWork.Procedure.GetAll()
-                .Include(m => m.Materials)
-                .FirstOrDefault(i => i.ProcedureId == procedure.ProcedureId);
+          var procedureEntity = _UnitOfWork.Procedure.GetById(procedure.ProcedureId);
 
           procedureEntity.ProcedureType = _UnitOfWork.ProcedureType.GetById(Convert.ToInt32(procedure.ProcedureType));
           procedureEntity.ProcedureDescription = procedure.ProcedureDescription;
@@ -103,9 +98,7 @@ namespace Business_Logic_Layer.Services
 
         public IEnumerable<ProcedureViewModel> GetAllProceduresByType(int id)
         {
-            var procedures = _UnitOfWork.Procedure.GetAll()
-                .Include(p => p.ProcedureType)
-                .Include(m => m.Materials).Where(i => i.ProcedureType.ProcedureTypeId == id);
+            var procedures = _UnitOfWork.Procedure.GetAll().Where(i => i.ProcedureType.ProcedureTypeId == id);
             IEnumerable<ProcedureViewModel> procedureModels = AutoMappers<Procedure, ProcedureViewModel>.MapIQueryable(procedures);
             return procedureModels;
         }

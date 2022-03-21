@@ -9,12 +9,10 @@ namespace Salon.Controllers
     public class ClientController : ControllerBase
     {
         private readonly IClientServices _clientServices;
-        private readonly IOrderServices _orderServices;
 
         public ClientController(IClientServices clientServices, IOrderServices orderServices)
         {
             _clientServices = clientServices;
-            _orderServices = orderServices;
         }
 
         [HttpPost]
@@ -54,7 +52,6 @@ namespace Salon.Controllers
         [Route("GetAllClients")]
         public ActionResult<IEnumerable<ClientsInformationViewModel>> GetClients(int elementsPerPage, int pageNumber, string sortBy)
         {
-
             var allClients = _clientServices.GetAllClients().OrderByDescending(n => n.FullName).ToList();
             if (sortBy == "asc")
             {
@@ -65,6 +62,7 @@ namespace Salon.Controllers
             pagesCount = Math.Ceiling(pagesCount);
 
             List<ClientsInformationViewModel>[] pagedClients = new List<ClientsInformationViewModel>[(int)pagesCount];
+
             for (int j = 0; j < pagedClients.Length; j++)
             {
                 pagedClients[j] = new List<ClientsInformationViewModel>();
@@ -99,7 +97,5 @@ namespace Salon.Controllers
         {
             _clientServices.UpdateClient(clientInput);
         }
-
-
     }
 }

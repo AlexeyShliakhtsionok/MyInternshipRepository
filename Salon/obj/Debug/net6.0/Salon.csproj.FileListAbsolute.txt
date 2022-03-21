@@ -543,3 +543,5 @@ C:\Users\aries\Desktop\MyInternshipRepository\Salon\obj\Debug\net6.0\Salon.genru
 C:\Users\aries\Desktop\MyInternshipRepository\Salon\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
 C:\Users\aries\Desktop\MyInternshipRepository\Salon\bin\Debug\net6.0\Microsoft.DotNet.PlatformAbstractions.dll
 C:\Users\aries\Desktop\MyInternshipRepository\Salon\bin\Debug\net6.0\Microsoft.Extensions.DependencyModel.dll
+C:\Users\aries\Desktop\MyInternshipRepository\Salon\bin\Debug\net6.0\Microsoft.Practices.ServiceLocation.dll
+C:\Users\aries\Desktop\MyInternshipRepository\Salon\bin\Debug\net6.0\XAct.Core.PCL.dll

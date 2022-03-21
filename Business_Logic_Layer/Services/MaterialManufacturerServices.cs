@@ -4,7 +4,6 @@ using Business_Logic_Layer.Utilities;
 using Data_Access_Layer.Entities;
 using Data_Access_Layer.RepositoryWithUOW;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 
 namespace Business_Logic_Layer.Services
 {
@@ -33,27 +32,11 @@ namespace Business_Logic_Layer.Services
 
         public IEnumerable<MaterialManufacturerViewModel> GetAllMaterialManufacturers()
         {
-            var materialManufacturers =  _UnitOfWork.MaterialManufacturer.GetAll()
-                .Include(m => m.Materials);
+            var materialManufacturers = _UnitOfWork.MaterialManufacturer.GetAll();
             IEnumerable<MaterialManufacturerViewModel> materialManufacturersModel =
                 AutoMappers<MaterialManufacturer, MaterialManufacturerViewModel>
                 .MapIQueryable(materialManufacturers);
             return materialManufacturersModel;
-        }
-
-        public MaterialManufacturerViewModel GetMaterialManufacturerById(int id)
-        {
-            var materialManufacturer = _UnitOfWork.MaterialManufacturer.GetById(id);
-            MaterialManufacturerViewModel materialManufacturerModel =
-                AutoMappers<MaterialManufacturer, MaterialManufacturerViewModel>
-                .Map(materialManufacturer);
-            return materialManufacturerModel;
-        }
-
-        public void UpdateMaterialManufacturer()
-        {
-            _UnitOfWork.Complete();
-            throw new NotImplementedException();
         }
 
         public SelectList GetManufacturersSelectList()
@@ -70,8 +53,5 @@ namespace Business_Logic_Layer.Services
             }
             return new SelectList(items, "Value", "Text");
         }
-
-
-
     }
 }

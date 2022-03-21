@@ -16,13 +16,11 @@ namespace Salon.Controllers
     {
         private readonly IEmployeeServices _employeeServices;
         private readonly IProcedureTypeServices _procedureTypeServices;
-        private readonly IOrderServices _orderServices;
 
-        public EmployeeController(IEmployeeServices employeeServices, IProcedureTypeServices procedureTypeServices, IOrderServices orderServices)
+        public EmployeeController(IEmployeeServices employeeServices, IProcedureTypeServices procedureTypeServices)
         {
             _employeeServices = employeeServices;
             _procedureTypeServices = procedureTypeServices;
-            _orderServices = orderServices;
         }
 
         [HttpPost]
@@ -102,7 +100,7 @@ namespace Salon.Controllers
         {
             IEnumerable<EmployeesAuthenticationModel> employees = _employeeServices.GetEmployeesCredentials();
 
-            var employee = employees.FirstOrDefault(e => e.Email == email && e.Password == password);
+            var employee = employees.FirstOrDefault(e => e.Email == email && e.Password == PasswordProcessing.GetPasswordGuid(password));
 
             if (employee != null)
             {
@@ -137,7 +135,7 @@ namespace Salon.Controllers
         [Route("GetAllByProcedureType")]
         public ActionResult<IEnumerable<EmployeeViewModel>> GetAllByProcedureType(int id)
         {
-            var employees = _employeeServices.GetAllByProcedureType(id);
+            var employees = _employeeServices.GetAllEmployeesByProcedureType(id);
             return Ok(employees);
         }
     }

@@ -28,16 +28,6 @@ namespace Business_Logic_Layer.Services
             MediafileViewModel mediaFileModel = AutoMappers<MediaFile, MediafileViewModel>.Map(mediaFileEntity);
             return mediaFileModel;
         }
-
-
-        public MediafileViewModel GetProfilePhotoByEmployeeId(int id)
-        {
-            var employee = _UnitOfWork.Employee.GetAll().Include(m => m.MediaFiles).FirstOrDefault(e => e.EmployeeId == id);
-            var mediaFile = employee.MediaFiles.FirstOrDefault(m => m.IsProfilePhoto == true);
-            var mediaFileEntity = _UnitOfWork.MediaFile.GetById(id);
-            MediafileViewModel mediaFileModel = AutoMappers<MediaFile, MediafileViewModel>.Map(mediaFileEntity);
-            return mediaFileModel;
-        }
         
         public IEnumerable<MediafileViewModel> GetMediaFiles()
         {
@@ -45,11 +35,6 @@ namespace Business_Logic_Layer.Services
             IEnumerable<MediafileViewModel> mediaFileModel =
                 AutoMappers<MediaFile, MediafileViewModel>.MapIQueryable(mediaFiles);
             return mediaFileModel;
-        }
-
-        public void UpdateMediaFile()
-        {
-            throw new NotImplementedException();
         }
 
         public void UpdateProfilePhoto(MediafileViewModel mediaFileModel, int id)

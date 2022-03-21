@@ -9,14 +9,12 @@ using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 builder.Services.AddControllers().AddJsonOptions(x =>
 {
     x.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
 });
 builder.Services.AddControllers().AddNewtonsoftJson(options =>
                             options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
-builder.Services.AddControllersWithViews();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<SalonDBContext>();
@@ -38,22 +36,21 @@ builder.Services.AddCors(options =>
             builder.WithOrigins().AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader(); 
         });
 });
-
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                    .AddJwtBearer(options =>
-                    {
-                        options.RequireHttpsMetadata = false;
-                        options.TokenValidationParameters = new TokenValidationParameters
-                        {
-                            ValidateIssuer = true,
-                            ValidIssuer = AuthOptions.ISSUER,
-                            ValidateAudience = true,
-                            ValidAudience = AuthOptions.AUDIENCE,
-                            ValidateLifetime = true,
-                            IssuerSigningKey = AuthOptions.GetSymmetricSecurityKey(),
-                            ValidateIssuerSigningKey = true,
-                        };
-                    });
+   .AddJwtBearer(options =>
+    {
+        options.RequireHttpsMetadata = false;
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidIssuer = AuthOptions.ISSUER,
+            ValidateAudience = true,
+            ValidAudience = AuthOptions.AUDIENCE,
+            ValidateLifetime = true,
+            IssuerSigningKey = AuthOptions.GetSymmetricSecurityKey(),
+            ValidateIssuerSigningKey = true,
+         };
+   });
 
 var app = builder.Build();
 
@@ -69,10 +66,5 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseRouting();
 app.UseCors();
-
-app.UseAuthentication();
-app.UseAuthorization();
-
 app.MapControllers();
-
 app.Run();

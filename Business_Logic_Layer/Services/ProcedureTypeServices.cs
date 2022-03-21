@@ -4,7 +4,6 @@ using Business_Logic_Layer.Utilities;
 using Data_Access_Layer.Entities;
 using Data_Access_Layer.RepositoryWithUOW;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 
 namespace Business_Logic_Layer.Services
 {
@@ -32,21 +31,15 @@ namespace Business_Logic_Layer.Services
 
         public ProcedureTypeViewModel GetProcedureTypeById(int id)
         {
-            var procedureType = _UnitOfWork.ProcedureType.GetAll()
-                .Include(p => p.Procedures)
-                .Include(e => e.Employees)
-                .Include(m => m.MediaFile)
-                .FirstOrDefault(p => p.ProcedureTypeId == id);
+            var procedureType = _UnitOfWork.ProcedureType.GetById(id);
             ProcedureTypeViewModel procedureTypeModel = AutoMappers<ProcedureType, ProcedureTypeViewModel>.Map(procedureType);
             return procedureTypeModel;
         }
 
         public IEnumerable<ProcedureTypeViewModel> GetProcedureTypes()
         {
-            var proceduresTypes = _UnitOfWork.ProcedureType.GetAll()
-                .Include(p => p.Procedures)
-                .Include(e => e.Employees)
-                .Include(m => m.MediaFile);
+            var proceduresTypes = _UnitOfWork.ProcedureType.GetAll();
+
             IEnumerable<ProcedureTypeViewModel> procedureTypeModels =
                 AutoMappers<ProcedureType, ProcedureTypeViewModel>.MapIQueryable(proceduresTypes);
             return procedureTypeModels;
@@ -75,7 +68,5 @@ namespace Business_Logic_Layer.Services
             }
             return new SelectList(items, "Value", "Text");
         }
-
     }
-
 }

@@ -25,17 +25,14 @@ namespace Data_Access_Layer.Entities
         public string Email { get; set; }
         [Required]
         [JsonIgnore]
-        public string Password { get; set; }
-
+        public Guid Password { get; set; }
         [Required]
         public DateTime HireDate { get; set; }
         [Required]
         public Role Role { get; set; }
         [Required]
         public Qualification Qualification { get; set; }
-        //public bool IsDeleted { get; set; }//!!!!!!!!!!!!!!!НЕ СМИГРИРОВАНО
         public virtual ProcedureType ProcedureType { get; set; }
-
         public virtual ICollection<Order>? Orders { get; set; }
         public virtual ICollection<MediaFile>? MediaFiles { get; set; }
     }

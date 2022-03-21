@@ -19,6 +19,7 @@ namespace Business_Logic_Layer.Services
         public void CreateEmoloyee(EmployeeViewModel employee)
         {
             Employee employeeEntity = AutoMappers<EmployeeViewModel, Employee>.Map(employee);
+            employeeEntity.Password = PasswordProcessing.GetPasswordGuid(employee.Password);
             employeeEntity.ProcedureType = _UnitOfWork.ProcedureType.GetById(employee.ProcedureTypeId);
             _UnitOfWork.Employee.Add(employeeEntity);
             _UnitOfWork.Complete();
@@ -27,15 +28,13 @@ namespace Business_Logic_Layer.Services
         public void DeleteEmoloyee(int id)
         {
             var employeeToDelete =  _UnitOfWork.Employee.GetById(id);
-
              _UnitOfWork.Employee.Delete(employeeToDelete);
             _UnitOfWork.Complete();
         }
 
         public IEnumerable<EmployeesInformationViewModel> GetAllEmployees()
         {
-            var employees = _UnitOfWork.Employee.GetAll()
-                .Include(x => x.MediaFiles);
+            var employees = _UnitOfWork.Employee.GetAll();
            
             IQueryable<EmployeesInformationViewModel> employeesModel =
                 AutoMappers<Employee, EmployeesInformationViewModel>.MapIQueryable(employees);
@@ -45,14 +44,7 @@ namespace Business_Logic_Layer.Services
 
         public EmployeeInformationViewModel GetEmployeeById(int id)
         {
-            var employee = _UnitOfWork.Employee.GetAll()
-                .Include(m => m.MediaFiles)
-                .Include(pt => pt.ProcedureType)
-                .Include(o => o.Orders.Where(c => c.IsCompleted == false).Where(d => d.DateOfService > DateTime.Now))
-                .ThenInclude(c => c.Client)
-                .Include(o => o.Orders)
-                .ThenInclude(p => p.Procedure)
-                .FirstOrDefault(i => i.EmployeeId == id);
+            var employee = _UnitOfWork.Employee.GetById(id);
             EmployeeInformationViewModel employeeModel = AutoMappers<Employee, EmployeeInformationViewModel>.Map(employee);
             return employeeModel;
         }
@@ -76,12 +68,8 @@ namespace Business_Logic_Layer.Services
 
         public void UpdateEmoloyee(EmployeeInformationViewModel employee)
         {
-            Employee employeeEntity = AutoMappers<EmployeeInformationViewModel, Employee>.Map(employee);        
-            var employeeToUpdate = _UnitOfWork.Employee.GetAll()
-                .Include(m => m.MediaFiles)
-                .Include(o => o.Orders)
-                .Include(pr => pr.ProcedureType)
-                .FirstOrDefault(e => e.EmployeeId == employee.EmployeeId);
+            Employee employeeEntity = AutoMappers<EmployeeInformationViewModel, Employee>.Map(employee);
+            var employeeToUpdate = _UnitOfWork.Employee.GetById(employee.EmployeeId);
 
             employeeToUpdate.ProcedureType = _UnitOfWork.ProcedureType.GetAll().FirstOrDefault(n => n.ProcedureTypeName == employee.ProcedureType);
             employeeToUpdate.FirstName = employeeEntity.FirstName;
@@ -95,7 +83,7 @@ namespace Business_Logic_Layer.Services
             _UnitOfWork.Complete();
          }
 
-        public IEnumerable<EmployeeViewModel> GetAllByProcedureType(int id)
+        public IEnumerable<EmployeeViewModel> GetAllEmployeesByProcedureType(int id)
         {
             var employees = _UnitOfWork.Employee.GetAll()
                 .Include(x => x.MediaFiles)

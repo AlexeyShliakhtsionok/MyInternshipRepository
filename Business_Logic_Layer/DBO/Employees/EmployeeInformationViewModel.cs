@@ -10,7 +10,7 @@ namespace Business_Logic_Layer.DBO.Employees
         public string LastName { get; set; }
         public string PhoneNumber { get; set; }
         public string Email { get; set; }
-        public string Password { get; set; }
+        public Guid Password { get; set; }
         public DateTime HireDate { get; set; }
         public string Role { get; set; }
         public string Qualification { get; set; }

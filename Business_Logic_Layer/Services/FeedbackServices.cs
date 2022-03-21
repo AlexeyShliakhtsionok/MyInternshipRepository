@@ -3,7 +3,6 @@ using Business_Logic_Layer.Services.Interfaces;
 using Business_Logic_Layer.Utilities;
 using Data_Access_Layer.Entities;
 using Data_Access_Layer.RepositoryWithUOW;
-using Microsoft.EntityFrameworkCore;
 
 namespace Business_Logic_Layer.Services
 {
@@ -30,20 +29,9 @@ namespace Business_Logic_Layer.Services
             _UnitOfWork.Complete();
         }
 
-
-        public IEnumerable<FeedbackInformationViewModel> GetAllApprovedFeedbacks()
-        {
-            var feedbacks = _UnitOfWork.Feedback.GetAll()
-                .Include(c => c.Client).Where(v => v.IsVerify == true);
-            IEnumerable<FeedbackInformationViewModel> feedbacksModel =
-                AutoMappers<Feedback, FeedbackInformationViewModel>.MapIQueryable(feedbacks);
-            return feedbacksModel;
-        }
-
         public IEnumerable<FeedbackInformationViewModel> GetAllFeedbacks()
         {
-            var feedbacks = _UnitOfWork.Feedback.GetAll()
-                .Include(c => c.Client);
+            var feedbacks = _UnitOfWork.Feedback.GetAll();
             IEnumerable<FeedbackInformationViewModel> feedbacksModel =
                 AutoMappers<Feedback, FeedbackInformationViewModel>.MapIQueryable(feedbacks);
             return feedbacksModel;
@@ -51,14 +39,13 @@ namespace Business_Logic_Layer.Services
 
         public FeedbackViewModel GetFeedbackById(int id)
         {
-            var feedback = _UnitOfWork.Feedback.GetAll()
-                .Include(c => c.Client)
-                .FirstOrDefault(c => c.Client.ClientId == id);
+            var feedback = _UnitOfWork.Feedback.GetById(id);
+              
             FeedbackViewModel feedbackModel = AutoMappers<Feedback, FeedbackViewModel>.Map(feedback);
             return feedbackModel;
         }
 
-        public void UpdateFeedback(FeedbackInformationViewModel feedback)
+        public void UpdateFeedbackAproveState(FeedbackInformationViewModel feedback)
         {
             var feedbackToApprove = _UnitOfWork.Feedback.GetById(feedback.FeedbackId);
             feedbackToApprove.IsVerify = true;

@@ -4,7 +4,6 @@ using Business_Logic_Layer.Utilities;
 using Data_Access_Layer.Entities;
 using Data_Access_Layer.RepositoryWithUOW;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 
 namespace Business_Logic_Layer.Services
 {
@@ -28,9 +27,7 @@ namespace Business_Logic_Layer.Services
 
         public IEnumerable<MaterialsInformationViewModel> GetAllMaterials()
         {
-            var materials = _UnitOfWork.Material.GetAll()
-                .Include(manuf => manuf.MaterialManufacturer)
-                .Include(proc => proc.Procedures);
+            var materials = _UnitOfWork.Material.GetAll();
             IEnumerable<MaterialsInformationViewModel> materialModels =
                 AutoMappers<Material, MaterialsInformationViewModel>.MapIQueryable(materials);
             return materialModels;
@@ -45,10 +42,8 @@ namespace Business_Logic_Layer.Services
 
         public MaterialViewModel GetMaterialById(int id)
         {
-            var materialEntity = _UnitOfWork.Material.GetAll()
-                .Include(m => m.MaterialManufacturer)
-                .Include(p => p.Procedures)
-                .FirstOrDefault(m => m.MaterialId == id);
+            var materialEntity = _UnitOfWork.Material.GetById(id);
+              
             MaterialViewModel materialModel =
                 AutoMappers<Material, MaterialViewModel>.Map(materialEntity);
             return materialModel;
